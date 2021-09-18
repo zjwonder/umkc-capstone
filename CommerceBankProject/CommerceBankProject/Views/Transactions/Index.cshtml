@@ -1,0 +1,81 @@
+﻿@model CommerceBankProject.Models.TIndexViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+<p>@Html.DisplayFor(modelItem => Model.debug)</p>
+<form asp-action="FilterIndex">
+    <label for="actFilter">Select Account</label>
+    <select name="actFilter">
+        <option value="all">All</option>
+        @foreach (var account in Model.actList)
+        {
+            <option value=@account.actID>@account.actType @account.actID</option>
+        }
+    </select>
+    <label for="descFilter">By Description</label>
+    <input type="text" name="descFilter" value=@Model.descSearch>
+    <br />
+    <label for="fromDate">From:</label>
+    <input type="date" name="fromDate" value=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) />
+    <label for="toDate">To:</label>
+    <input type="date" name="toDate" value=@string.Format("{0:yyyy-MM-dd}", Model.toDate) />
+    <input type="submit" value="Filter Results" class="btn btn-primary" />
+
+</form><br />
+@*<p>
+        <a asp-action="Create">Create New</a>
+    </p>*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Account
+            </th>
+            <th>
+                Date
+            </th>
+            <th>
+                Amount
+            </th>
+            <th>
+                Description
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.tList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.actType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.onDate)
+                </td>
+                @if (item.transType == "DR")
+                {
+                    <td>
+                        -$@Html.DisplayFor(modelItem => item.amount)
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        +$@Html.DisplayFor(modelItem => item.amount)
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.description)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
