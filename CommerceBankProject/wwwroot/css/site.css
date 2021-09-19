@@ -1,10 +1,11 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
 }
 
 /* Provide sufficient contrast against white background */
@@ -69,6 +70,22 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+nav {
+    background-image: linear-gradient(#006747, #004727);
+}
+
+button.nav-link,
+a.nav-link {
+    text-shadow: -1px -1px 0px rgba(0,0,0,.3), 1px 1px 0px rgba(0,0,0,.1);
+}
+
+button.nav-link:hover,
+a.nav-link:hover {
+    text-shadow: -1px -1px 0px rgba(13,110,253,.2), 1px 1px 0px rgba(0,0,0,.5);
+    color: #0d6efd !important;
+}
+
 
 tr:nth-child(even) {
     background-color:#ccc;
