@@ -1,0 +1,62 @@
+﻿@model CommerceBankProject.Models.Transaction
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Transaction</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Account
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.actType) (@Html.DisplayFor(model => model.actID))
+        </dd>
+        <dt class = "col-sm-2">
+            Date
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.onDate)
+        </dd>
+        <dt class = "col-sm-2">
+            Balance
+        </dt>
+        <dd class = "col-sm-10">
+            $@Html.DisplayFor(model => model.balance)
+        </dd>
+        <dt class = "col-sm-2">
+            Type
+        </dt>
+        @if (Model.transType == "DR") {
+            <dd class="col-sm-10">
+                Withdrawal
+            </dd>
+        }
+        else {
+            <dd class="col-sm-10">
+                Deposit
+            </dd>
+        }
+        <dt class = "col-sm-2">
+            Amount
+        </dt>
+        <dd class = "col-sm-10">
+            $@Html.DisplayFor(model => model.amount)
+        </dd>
+        <dt class = "col-sm-2">
+            Description
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.description)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
