@@ -8816,11 +8816,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ryanp\\Downloads\\451\\CommerceBankProject\\CommerceBankProject\\CommerceBankProject.csproj",
+      "projectUniqueName": "C:\\Users\\ryanp\\Downloads\\451\\umkc-capstone\\CommerceBankProject\\CommerceBankProject\\CommerceBankProject.csproj",
       "projectName": "CommerceBankProject",
-      "projectPath": "C:\\Users\\ryanp\\Downloads\\451\\CommerceBankProject\\CommerceBankProject\\CommerceBankProject.csproj",
+      "projectPath": "C:\\Users\\ryanp\\Downloads\\451\\umkc-capstone\\CommerceBankProject\\CommerceBankProject\\CommerceBankProject.csproj",
       "packagesPath": "C:\\Users\\ryanp\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ryanp\\Downloads\\451\\CommerceBankProject\\CommerceBankProject\\obj\\",
+      "outputPath": "C:\\Users\\ryanp\\Downloads\\451\\umkc-capstone\\CommerceBankProject\\CommerceBankProject\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ryanp\\AppData\\Roaming\\NuGet\\NuGet.Config",

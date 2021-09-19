@@ -5,8 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
-<p>@Html.DisplayFor(modelItem => Model.debug)</p>
+<h2>View Transactions</h2>
 <form asp-action="FilterIndex">
     <label for="actFilter">Select Account</label>
     <select name="actFilter">
@@ -65,7 +64,7 @@
                 }
                 else
                 {
-                    <td>
+                    <td style ="color:#4FA800">
                         +$@Html.DisplayFor(modelItem => item.amount)
                     </td>
                 }
