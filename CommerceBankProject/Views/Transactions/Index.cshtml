@@ -49,32 +49,41 @@
     <tbody>
         @foreach (var item in Model.tList)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.actType)
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.actType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.onDate)
+            </td>
+            @if (item.transType == "DR")
+            {
+                <td style="text-align: right;">
+                    -$@Html.DisplayFor(modelItem => item.amount)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.onDate)
+            }
+            else
+            {
+                <td style="color:#4FA800; text-align: right;">
+                    +$@Html.DisplayFor(modelItem => item.amount)
                 </td>
-                @if (item.transType == "DR")
-                {
-                    <td>
-                        -$@Html.DisplayFor(modelItem => item.amount)
-                    </td>
-                }
-                else
-                {
-                    <td style ="color:#4FA800">
-                        +$@Html.DisplayFor(modelItem => item.amount)
-                    </td>
-                }
+            }
+            @if (item.description.Length > 25)
+            {
                 <td>
-                    @Html.DisplayFor(modelItem => item.description)
+                    @item.description.Substring(0, 25)
                 </td>
+            }
+            else
+            {
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.ID">Details</a>
+                    @item.description
                 </td>
-            </tr>
+            }
+            <td>
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
