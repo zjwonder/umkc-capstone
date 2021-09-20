@@ -122,6 +122,49 @@ nav a.nav-link:hover {
     color: #0d6efd !important;
 }
 
+#filterBtn {
+    border: none !important;
+    margin: 0px 0px 5px 0px;
+}
+
+.inactive {
+    background-color: #4FA800 !important;
+    transition: 0.3s
+}
+
+.active {
+    background-color: #006747 !important;
+    transition: 0.3s
+}
+
+select,
+input {
+    margin: 5px 20px 5px 0px;
+}
+
+label {
+    margin: 0px 5px 0px 0px;
+}
+
+#filterSubmit {
+    background-color: #4FA800;
+    border: none;
+    margin: 5px 0px 5px 10px;
+}
+
+.closed {
+    visibility: hidden;
+    position: absolute;
+    opacity: 0;
+}
+
+.open {
+    visibility: visible;
+    position: static;
+    opacity: 1;
+    transition: 0.5s;
+}
+
 tr:nth-child(even) {
     background-color:#ccc;
 }

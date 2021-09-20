@@ -6,7 +6,8 @@
 }
 
 <h2>View Transactions</h2>
-<form asp-action="FilterIndex">
+<button type="button" class="btn btn-primary inactive" id="filterBtn" onclick="toggleFilter()">Filter</button>
+<form asp-action="FilterIndex" id="filterForm" class="closed">
     <label for="actFilter">Select Account</label>
     <select name="actFilter">
         <option value="all">All</option>
@@ -15,16 +16,16 @@
             <option value=@account.actID>@account.actType @account.actID</option>
         }
     </select>
-    <label for="descFilter">By Description</label>
+    <label for="descFilter">Search</label>
     <input type="text" name="descFilter" value=@Model.descSearch>
     <br />
     <label for="fromDate">From:</label>
     <input type="date" name="fromDate" value=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) />
     <label for="toDate">To:</label>
     <input type="date" name="toDate" value=@string.Format("{0:yyyy-MM-dd}", Model.toDate) />
-    <input type="submit" value="Filter Results" class="btn btn-primary" />
+    <input type="submit" value="Go" id="filterSubmit" class="btn btn-primary" />
 
-</form><br />
+</form>
 @*<p>
         <a asp-action="Create">Create New</a>
     </p>*@
@@ -87,3 +88,13 @@
         }
     </tbody>
 </table>
+<script>
+    function toggleFilter() {
+        var filterButton = document.getElementById("filterBtn");
+        filterButton.classList.toggle("active");
+        filterButton.classList.toggle("inactive");
+        var filterInputs = document.getElementById("filterForm");
+        filterInputs.classList.toggle("closed");
+        filterInputs.classList.toggle("open");
+    }
+</script>
