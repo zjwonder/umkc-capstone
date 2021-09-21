@@ -1,11 +1,12 @@
 ﻿@model CommerceBankProject.Models.TIndexViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "History";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>View Transactions</h2>
+<div class="text-center">
+    <h2>View Transactions</h2>
+</div>
 <button type="button" class="btn btn-primary inactive" id="filterBtn" onclick="toggleFilter()">Filter</button>
 <form asp-action="FilterIndex" id="filterForm" class="closed">
     <label for="actFilter">Select Account</label>
@@ -20,15 +21,13 @@
     <input type="text" name="descFilter" value=@Model.descSearch>
     <br />
     <label for="fromDate">From:</label>
-    <input type="date" name="fromDate" value=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) />
+    <input type="date" name="fromDate" id="fromDate" value=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) max=@string.Format("{0:yyyy-MM-dd}", Model.toDate) onchange="changeMinTo(this)" />
     <label for="toDate">To:</label>
-    <input type="date" name="toDate" value=@string.Format("{0:yyyy-MM-dd}", Model.toDate) />
+    <input type="date" name="toDate" id="toDate" value=@string.Format("{0:yyyy-MM-dd}", Model.toDate) min=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) onchange="changeMaxFrom(this)"/>
     <input type="submit" value="Go" id="filterSubmit" class="btn btn-primary" />
 
 </form>
-@*<p>
-        <a asp-action="Create">Create New</a>
-    </p>*@
+
 <table class="table">
     <thead>
         <tr>
@@ -88,6 +87,9 @@
         }
     </tbody>
 </table>
+@if (Model.tList.Count == 0) {
+    <p>No transactions were found.</p>
+}
 <script>
     function toggleFilter() {
         var filterButton = document.getElementById("filterBtn");
@@ -96,5 +98,15 @@
         var filterInputs = document.getElementById("filterForm");
         filterInputs.classList.toggle("closed");
         filterInputs.classList.toggle("open");
+    }
+
+    function changeMinTo(date) {
+        var min = date.value;
+        document.getElementById("toDate").min = min;
+    }
+
+    function changeMaxFrom(date) {
+        var max = date.value;
+        document.getElementById("fromDate").max = max;
     }
 </script>
