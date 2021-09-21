@@ -5,6 +5,7 @@ Setup:
 4) In the command prompt enter--> pip install pyodbc
 5) Run insertData.py
 6) Click IIS Express in Visual Studio to run the site
+7) blah blah this is a readme file, are you paying attention?
 
 Notes:
 The registration form will not create an account for you unless the customerID and email matches what is in the database. Check the data when registering a new user.
