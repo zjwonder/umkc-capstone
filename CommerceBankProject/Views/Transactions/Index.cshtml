@@ -1,12 +1,14 @@
 ﻿@model CommerceBankProject.Models.TIndexViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "History";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>View Transactions</h2>
-<form asp-action="FilterIndex">
+<div class="text-center">
+    <h2>View Transactions</h2>
+</div>
+<button type="button" class="btn btn-primary inactive" id="filterBtn" onclick="toggleFilter()">Filter</button>
+<form asp-action="FilterIndex" id="filterForm" class="closed">
     <label for="actFilter">Select Account</label>
     <select name="actFilter">
         <option value="all">All</option>
@@ -15,19 +17,17 @@
             <option value=@account.actID>@account.actType @account.actID</option>
         }
     </select>
-    <label for="descFilter">By Description</label>
+    <label for="descFilter">Search</label>
     <input type="text" name="descFilter" value=@Model.descSearch>
     <br />
     <label for="fromDate">From:</label>
-    <input type="date" name="fromDate" value=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) />
+    <input type="date" name="fromDate" id="fromDate" value=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) max=@string.Format("{0:yyyy-MM-dd}", Model.toDate) onchange="changeMinTo(this)" />
     <label for="toDate">To:</label>
-    <input type="date" name="toDate" value=@string.Format("{0:yyyy-MM-dd}", Model.toDate) />
-    <input type="submit" value="Filter Results" class="btn btn-primary" />
+    <input type="date" name="toDate" id="toDate" value=@string.Format("{0:yyyy-MM-dd}", Model.toDate) min=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) onchange="changeMaxFrom(this)"/>
+    <input type="submit" value="Go" id="filterSubmit" class="btn btn-primary" />
 
-</form><br />
-@*<p>
-        <a asp-action="Create">Create New</a>
-    </p>*@
+</form>
+
 <table class="table">
     <thead>
         <tr>
@@ -49,32 +49,64 @@
     <tbody>
         @foreach (var item in Model.tList)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.actType)
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.actType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.onDate)
+            </td>
+            @if (item.transType == "DR")
+            {
+                <td style="text-align: right;">
+                    -$@Html.DisplayFor(modelItem => item.amount)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.onDate)
+            }
+            else
+            {
+                <td style="color:#4FA800; text-align: right;">
+                    +$@Html.DisplayFor(modelItem => item.amount)
                 </td>
-                @if (item.transType == "DR")
-                {
-                    <td>
-                        -$@Html.DisplayFor(modelItem => item.amount)
-                    </td>
-                }
-                else
-                {
-                    <td style ="color:#4FA800">
-                        +$@Html.DisplayFor(modelItem => item.amount)
-                    </td>
-                }
+            }
+            @if (item.description.Length > 25)
+            {
                 <td>
-                    @Html.DisplayFor(modelItem => item.description)
+                    @item.description.Substring(0, 25)
                 </td>
+            }
+            else
+            {
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.ID">Details</a>
+                    @item.description
                 </td>
-            </tr>
+            }
+            <td>
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
+@if (Model.tList.Count == 0) {
+    <p>No transactions were found.</p>
+}
+<script>
+    function toggleFilter() {
+        var filterButton = document.getElementById("filterBtn");
+        filterButton.classList.toggle("active");
+        filterButton.classList.toggle("inactive");
+        var filterInputs = document.getElementById("filterForm");
+        filterInputs.classList.toggle("closed");
+        filterInputs.classList.toggle("open");
+    }
+
+    function changeMinTo(date) {
+        var min = date.value;
+        document.getElementById("toDate").min = min;
+    }
+
+    function changeMaxFrom(date) {
+        var max = date.value;
+        document.getElementById("fromDate").max = max;
+    }
+</script>
