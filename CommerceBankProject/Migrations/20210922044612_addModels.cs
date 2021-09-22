@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CommerceBankProject.Migrations
 {
-    public partial class addmodel : Migration
+    public partial class addModels : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -64,11 +64,12 @@ namespace CommerceBankProject.Migrations
                 name: "Customer",
                 columns: table => new
                 {
-                    customerID = table.Column<string>(nullable: true),
+                    customerID = table.Column<string>(nullable: false),
                     email = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_Customer", x => x.customerID);
                 });
 
             migrationBuilder.CreateTable(

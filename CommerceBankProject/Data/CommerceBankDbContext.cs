@@ -20,7 +20,6 @@ namespace CommerceBankProject.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<CustomerRecord>().HasNoKey();
             builder.Entity<AccountRecord>().HasNoKey();
             builder.Entity<DateRecord>().HasNoKey();
             // Customize the ASP.NET Identity model and override the defaults if needed.

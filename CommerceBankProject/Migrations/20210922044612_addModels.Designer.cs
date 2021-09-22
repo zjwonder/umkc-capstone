@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CommerceBankProject.Migrations
 {
     [DbContext(typeof(CommerceBankDbContext))]
-    [Migration("20210922015151_addmodel")]
-    partial class addmodel
+    [Migration("20210922044612_addModels")]
+    partial class addModels
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -109,10 +109,12 @@ namespace CommerceBankProject.Migrations
             modelBuilder.Entity("CommerceBankProject.Models.CustomerRecord", b =>
                 {
                     b.Property<string>("customerID")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("email")
                         .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("customerID");
 
                     b.ToTable("Customer");
                 });

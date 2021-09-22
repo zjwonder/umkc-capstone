@@ -28,7 +28,7 @@ namespace CommerceBankProject.Controllers
             var claim = User.FindFirst(ClaimTypes.NameIdentifier);
             string userID = claim.Value;
             var user = await _context.Users.Where(u => u.Id == userID).FirstOrDefaultAsync();
-            string tQuery = "Select * from [Transaction] where customerID = {0} order by ID desc;";
+            string tQuery = "Select * from [Transaction] where customerID = {0} order by onDate desc;";
             List<Transaction> tList = await _context.Transaction.FromSqlRaw(tQuery, user.customerID).ToListAsync();
             string actQuery = "Select distinct actID, actType from [Transaction] where customerID = {0}";
             List<AccountRecord> actList = await _context.Account.FromSqlRaw(actQuery, user.customerID).ToListAsync();
@@ -48,8 +48,11 @@ namespace CommerceBankProject.Controllers
             var claim = User.FindFirst(ClaimTypes.NameIdentifier);
             string userID = claim.Value;
             var user = await _context.Users.Where(u => u.Id == userID).FirstOrDefaultAsync();
+            string[] splitDate = toDate.Split('-');
+            DateTime tDate = new DateTime(int.Parse(splitDate[0]), int.Parse(splitDate[1]), int.Parse(splitDate[2]));
+            toDate = string.Format("{0:yyyy-MM-dd}", tDate.AddDays(1));
             string tQuery = "Select * from [Transaction] where customerID = {0}";
-            tQuery += " and onDate >= {1} and onDate <= {2}";
+            tQuery += " and onDate >= {1} and onDate < {2}";
             if (!string.IsNullOrEmpty(descFilter))
             {
                 tQuery += " and description like '%' + {3} + '%'";
@@ -57,19 +60,17 @@ namespace CommerceBankProject.Controllers
             List<Transaction> tList;
             if (actFilter == "all")
             {
-                tQuery += " order by ID desc";
+                tQuery += " order by onDate desc";
                 tList = await _context.Transaction.FromSqlRaw(tQuery, user.customerID, fromDate, toDate, descFilter).ToListAsync();
             }
             else
             {
-                tQuery += " and actID = {4} order by ID desc";
+                tQuery += " and actID = {4} order by onDate desc";
                 tList = await _context.Transaction.FromSqlRaw(tQuery, user.customerID, fromDate, toDate, descFilter, actFilter).ToListAsync();
             }
             string actQuery = "Select distinct actID, actType from [Transaction] where customerID = {0}";
-            string[] splitDate = fromDate.Split('-');
+            splitDate = fromDate.Split('-');
             DateTime fDate = new DateTime(int.Parse(splitDate[0]), int.Parse(splitDate[1]), int.Parse(splitDate[2]));
-            splitDate = toDate.Split('-');
-            DateTime tDate = new DateTime(int.Parse(splitDate[0]), int.Parse(splitDate[1]), int.Parse(splitDate[2]));
             List<AccountRecord> actList = await _context.Account.FromSqlRaw(actQuery, user.customerID).ToListAsync();
             TIndexViewModel vmod = new TIndexViewModel(tList, actList, fDate, tDate, descFilter);
             

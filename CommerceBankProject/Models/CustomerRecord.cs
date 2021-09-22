@@ -8,6 +8,7 @@ namespace CommerceBankProject.Models
 {
     public class CustomerRecord
     {
+        [Key]
         public string customerID { get; set; }
         public string email { get; set; }
     }

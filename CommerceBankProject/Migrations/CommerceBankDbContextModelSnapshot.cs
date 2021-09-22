@@ -107,10 +107,12 @@ namespace CommerceBankProject.Migrations
             modelBuilder.Entity("CommerceBankProject.Models.CustomerRecord", b =>
                 {
                     b.Property<string>("customerID")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("email")
                         .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("customerID");
 
                     b.ToTable("Customer");
                 });
