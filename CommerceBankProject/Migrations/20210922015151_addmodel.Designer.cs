@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CommerceBankProject.Migrations
 {
     [DbContext(typeof(CommerceBankDbContext))]
-    [Migration("20210916215301_setup")]
-    partial class setup
+    [Migration("20210922015151_addmodel")]
+    partial class addmodel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -95,6 +95,66 @@ namespace CommerceBankProject.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("CommerceBankProject.Models.AccountRecord", b =>
+                {
+                    b.Property<string>("actID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("actType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("Account");
+                });
+
+            modelBuilder.Entity("CommerceBankProject.Models.CustomerRecord", b =>
+                {
+                    b.Property<string>("customerID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("Customer");
+                });
+
+            modelBuilder.Entity("CommerceBankProject.Models.DateRecord", b =>
+                {
+                    b.Property<DateTime>("onDate")
+                        .HasColumnType("datetime2");
+
+                    b.ToTable("Date");
+                });
+
+            modelBuilder.Entity("CommerceBankProject.Models.Notification", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("customerID")
+                        .HasColumnType("nvarchar(9)");
+
+                    b.Property<string>("description")
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<DateTime>("onDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("read")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("saved")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("type")
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Notification");
+                });
+
             modelBuilder.Entity("CommerceBankProject.Models.Transaction", b =>
                 {
                     b.Property<int>("ID")
@@ -125,6 +185,9 @@ namespace CommerceBankProject.Migrations
 
                     b.Property<string>("transType")
                         .HasColumnType("nvarchar(2)");
+
+                    b.Property<bool>("userEntered")
+                        .HasColumnType("bit");
 
                     b.HasKey("ID");
 

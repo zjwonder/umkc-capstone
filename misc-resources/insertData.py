@@ -19,7 +19,7 @@ if __name__ == '__main__':
     count = 100000000
     for line in data:
         count += 1
-        query += "INSERT INTO [Transaction](ID, customerID, actID, actType, onDate, balance, transType, amount, description) VALUES ("
+        query += "INSERT INTO [Transaction](ID, customerID, actID, actType, onDate, balance, transType, amount, description, userEntered) VALUES ("
         fields = line.split(",")
         cust = fields[7]
         if cust not in customers:
@@ -29,11 +29,11 @@ if __name__ == '__main__':
         date = fields[2].split("/")
         query += "'%s-%s-%s', " % (date[2], date[0], date[1])
         query += fields[3] + ", '" + fields[4] + "', " + fields[5][1:-1] + ", "
-        query += "'" + fields[6].replace("'", "''") + "');\n"
+        query += "'" + fields[6].replace("'", "''") + "', 0);\n"
     query += "SET IDENTITY_INSERT [Transaction] OFF;"
-    querydb(query)
-    query = "CREATE TABLE [Customer](customerID nvarchar(9), email nvarchar(100));"
-    querydb(query)
+    #querydb(query)
+    query = "Drop table [Date]; Drop table [Account];"
+    #querydb(query)
     query = ""
     for i in range(len(customers)):
         query += "INSERT INTO [Customer](customerID, email) VALUES ('"

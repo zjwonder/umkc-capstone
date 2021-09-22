@@ -3,10 +3,21 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CommerceBankProject.Migrations
 {
-    public partial class setup : Migration
+    public partial class addmodel : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Account",
+                columns: table => new
+                {
+                    actID = table.Column<string>(nullable: true),
+                    actType = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -50,6 +61,45 @@ namespace CommerceBankProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Customer",
+                columns: table => new
+                {
+                    customerID = table.Column<string>(nullable: true),
+                    email = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Date",
+                columns: table => new
+                {
+                    onDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Notification",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    customerID = table.Column<string>(type: "nvarchar(9)", nullable: true),
+                    type = table.Column<string>(type: "nvarchar(30)", nullable: true),
+                    description = table.Column<string>(type: "nvarchar(300)", nullable: true),
+                    onDate = table.Column<DateTime>(nullable: false),
+                    read = table.Column<bool>(nullable: false),
+                    saved = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notification", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Transaction",
                 columns: table => new
                 {
@@ -62,7 +112,8 @@ namespace CommerceBankProject.Migrations
                     balance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     transType = table.Column<string>(type: "nvarchar(2)", nullable: true),
                     amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    description = table.Column<string>(type: "nvarchar(100)", nullable: true)
+                    description = table.Column<string>(type: "nvarchar(100)", nullable: true),
+                    userEntered = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -218,6 +269,9 @@ namespace CommerceBankProject.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Account");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -231,6 +285,15 @@ namespace CommerceBankProject.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Customer");
+
+            migrationBuilder.DropTable(
+                name: "Date");
+
+            migrationBuilder.DropTable(
+                name: "Notification");
 
             migrationBuilder.DropTable(
                 name: "Transaction");
