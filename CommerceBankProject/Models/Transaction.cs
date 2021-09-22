@@ -26,5 +26,6 @@ namespace CommerceBankProject.Models
         public decimal amount { get; set; }
         [Column(TypeName = "nvarchar(100)")]
         public string description { get; set; }
+        public bool userEntered { get; set; }
     }
 }

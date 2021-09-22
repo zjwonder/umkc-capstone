@@ -12,6 +12,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20210916215301_setup.cs" />
+    <Compile Remove="Migrations\20210916215301_setup.Designer.cs" />
+    <Compile Remove="Migrations\20210922012928_addmodel.cs" />
+    <Compile Remove="Migrations\20210922012928_addmodel.Designer.cs" />
+    <Compile Remove="Migrations\20210922015151_addmodel.cs" />
+    <Compile Remove="Migrations\20210922015151_addmodel.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.18" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.18" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.18" />
@@ -20,6 +29,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>
