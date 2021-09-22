@@ -1,11 +1,22 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    @if (HttpContextAccessor.HttpContext.Session.GetString("UserStyle") == "dark")
+    {
+        <link rel="stylesheet" href="~/css/darksite.css" />
+    }
+    else
+    {
+        <link rel="stylesheet" href="~/css/site.css" />
+    }
+
 </head>
 <body>
     <header>
