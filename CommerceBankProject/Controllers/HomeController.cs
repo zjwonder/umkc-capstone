@@ -1,4 +1,5 @@
 ﻿using CommerceBankProject.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -32,6 +33,12 @@ namespace CommerceBankProject.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpPost]
+        public void SetStyle(string style)
+        {
+            HttpContext.Session.SetString("UserStyle", style);
         }
     }
 }

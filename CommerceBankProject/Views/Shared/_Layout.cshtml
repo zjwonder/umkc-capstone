@@ -10,11 +10,13 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     @if (HttpContextAccessor.HttpContext.Session.GetString("UserStyle") == "dark")
     {
-        <link rel="stylesheet" href="~/css/darksite.css" />
+        <link id="css" rel="stylesheet" href="~/css/site.css" asp-append-version="true" disabled="true"/>
+        <link id="darkcss" rel="stylesheet" href="~/css/darksite.css" asp-append-version="true" />
     }
     else
     {
-        <link rel="stylesheet" href="~/css/site.css" />
+        <link id="css" rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+        <link id="darkcss" rel="stylesheet" href="~/css/darksite.css" asp-append-version="true" disabled="true" />
     }
 
 </head>
@@ -34,6 +36,19 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-primary font-weight-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <form class="form-inline">
+                                <label class="form-check-label nav-link btn-link" for="darkMode">Display</label>
+                                @if (HttpContextAccessor.HttpContext.Session.GetString("UserStyle") == "dark")
+                                {
+                                    <input type="checkbox" id="darkMode" onchange="changeCss(this)" checked />
+                                }
+                                else
+                                {
+                                    <input type="checkbox" id="darkMode" onchange="changeCss(this)" />
+                                }
+                            </form>
                         </li>
                     </ul>
                 </div>
@@ -55,6 +70,27 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        function setSessionStyle(style) {
+            $.ajax({
+                type: "POST",
+                url: "/Home/SetStyle",
+                data: { style: style }
+            });
+        }
+        function changeCss(btn) {
+            if (btn.checked) {
+                document.getElementById("css").disabled = true;
+                document.getElementById("darkcss").disabled = false;
+                setSessionStyle("dark");
+            }
+            else {
+                document.getElementById("css").disabled = false;
+                document.getElementById("darkcss").disabled = true;
+                setSessionStyle("light");
+            }
+        }
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
