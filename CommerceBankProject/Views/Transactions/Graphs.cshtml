@@ -1,0 +1,41 @@
+﻿@model CommerceBankProject.Models.TIndexViewModel
+
+@{
+    ViewData["Title"] = "Graph";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Graph</h1>
+</div>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['onDate', 'balance'],
+            @foreach (var item in Model.tList) {
+            <text>['@item.onDate', @item.balance],</text>
+        }]);
+
+    var options = {
+        title: 'Account Balance over Time',
+        curveType: 'function',
+        pointsVisible: true,
+        lineWidth: 3,
+        legend: 'none',
+        hAxis: {title: 'Time'},
+        vAxis: {title: 'Balance'},
+        width: '100%',
+        height: '100%',
+        chartArea: {width: '85%', height: '75%'}
+        };
+
+    var chart = new google.visualization.LineChart(document.getElementById('line_chart'));
+    chart.draw(data, options);
+    }
+</script>
+<div class="container-fluid lead">
+    <div id="line_chart" style="width: 800px; height: 600px"></div>
+</div>
