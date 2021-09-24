@@ -49,7 +49,9 @@ namespace CommerceBankProject.Areas.Identity.Pages.Account
             }
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
-            HttpContext.Session.SetString("UserStyle", style);
+            if (style != null) { 
+                HttpContext.Session.SetString("UserStyle", style);
+            }
             if (returnUrl != null)
             {
                 return LocalRedirect(returnUrl);

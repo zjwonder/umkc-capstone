@@ -39,7 +39,7 @@
                         </li>
                         <li class="nav-item">
                             <form class="form-inline">
-                                <label class="form-check-label nav-link btn-link" for="darkMode">Display</label>
+                                <label class="form-check-label nav-link btn-link" for="darkMode">Theme</label>
                                 @if (HttpContextAccessor.HttpContext.Session.GetString("UserStyle") == "dark")
                                 {
                                     <input type="checkbox" id="darkMode" onchange="changeCss(this)" checked />

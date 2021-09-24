@@ -93,6 +93,9 @@ body {
 
 body {
     font-family: OpenSans;
+    color: #000;
+    background-color: #fff;
+    transition: 0.5s;
 }
 
 h1, h2, h3 {
@@ -113,6 +116,27 @@ a.navbar-brand {
     white-space: normal;
     text-align: center;
     word-break: break-all;
+}
+
+#darkMode {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    width: 30px !important;
+    height: 30px !important;
+}
+
+#darkMode::after {
+    content: "•";
+    color: #555;
+    text-align: center;
+    font-size: 24pt;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 50%;
+    box-shadow: -1px -1px 3px rgba(255,255,255,0.2), 2px 2px 6px rgba(0,0,0,0.8);
+    display: inline-block;
 }
 
 nav button.nav-link,

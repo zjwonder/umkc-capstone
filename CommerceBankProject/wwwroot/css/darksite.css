@@ -98,6 +98,7 @@ body {
     background-color: #333;
     color: #fff;
     font-family: OpenSans;
+    transition:.5s;
 }
 
 h1, h2, h3 {
@@ -118,6 +119,28 @@ a.navbar-brand {
     white-space: normal;
     text-align: center;
     word-break: break-all;
+}
+
+#darkMode {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    width: 30px !important;
+    height: 30px !important;
+}
+
+#darkMode::after {
+    content: "•";
+    color: #09e;
+    text-shadow: 0px 0px 5px #09e;
+    text-align: center;
+    font-size: 24pt;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 50%;
+    box-shadow: inset -1px -1px 3px rgba(255,255,255,0.2), inset 2px 2px 6px rgba(0,0,0,0.8);
+    display: inline-block;
 }
 
 nav button.nav-link,
@@ -173,8 +196,13 @@ label {
     transition: 0.5s;
 }
 
+th,
 tr:nth-child(even) {
-    background-color: #ccc;
+    background-color: #999;
+}
+
+tr:nth-child(odd) {
+    background-color: #555;
 }
 
 table tbody tr td a {
