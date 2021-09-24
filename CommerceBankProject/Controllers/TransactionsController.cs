@@ -42,6 +42,27 @@ namespace CommerceBankProject.Controllers
             return View(vmod);
         }
 
+        // GET: Graphs
+        [Authorize]
+        public async Task<IActionResult> Graphs()
+        {
+            var claim = User.FindFirst(ClaimTypes.NameIdentifier);
+            string userID = claim.Value;
+            var user = await _context.Users.Where(u => u.Id == userID).FirstOrDefaultAsync();
+            string tQuery = "Select * from [Transaction] where customerID = {0} order by onDate desc;";
+            List<Transaction> tList = await _context.Transaction.FromSqlRaw(tQuery, user.customerID).ToListAsync();
+            string actQuery = "Select distinct actID, actType from [Transaction] where customerID = {0}";
+            List<AccountRecord> actList = await _context.Account.FromSqlRaw(actQuery, user.customerID).ToListAsync();
+            string dateQuery = "Select top 1 onDate from [Transaction] where customerID = {0} order by ID";
+            DateRecord record = await _context.Date.FromSqlRaw(dateQuery, user.customerID).FirstOrDefaultAsync();
+            DateTime fromDate = record.onDate;
+            record = await _context.Date.FromSqlRaw(dateQuery + " desc", user.customerID).FirstOrDefaultAsync();
+            DateTime toDate = record.onDate;
+            TIndexViewModel vmod = new TIndexViewModel(tList, actList, fromDate, toDate);
+
+            return View(vmod);
+        }
+
         [Authorize]
         public async Task<IActionResult> FilterIndex(string actFilter, string descFilter, string fromDate, string toDate)
         {
