@@ -161,12 +161,66 @@ nav a.nav-link:hover {
 #filterForm select,
 #filterForm input {
     margin: 5px 20px 5px 0px;
-    background-color: #999;
+}
+
+select {
+    background-color: #333;
+    color: #fff !important;
+}
+
+::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+#filterForm input,
+#filterForm input:-webkit-autofill,
+#register input:-webkit-autofill,
+#account input:-webkit-autofill,
+#register input,
+#account input {
+    background-color: #333;
+    color: #fff !important;
+    border-color: #fff !important;
+    -webkit-box-shadow: 0 0 0 30px #333 inset;
+    -webkit-text-fill-color: #fff;
+    caret-color: #fff;
+}
+
+#register input:-webkit-autofill:focus,
+#account input:-webkit-autofill:focus,
+#register input:focus,
+#account input:focus,
+#register input:-webkit-autofill:hover,
+#account input:-webkit-autofill:hover,
+#register input:hover,
+#account input:hover,
+#register input:-webkit-autofill:active,
+#account input:-webkit-autofill:active,
+#register input:active,
+#account input:active {
+    background-color: #555;
+    -webkit-box-shadow: 0 0 0 30px #555 inset;
+}
+
+#register input:invalid,
+#account input:invalid {
+    box-shadow: 0px 0px 5px #E30000;
+}
+
+label {
+    margin: 0px 5px 0px 0px;
 }
 
 #filterBtn {
     border: none !important;
     margin: 0px 0px 5px 0px;
+}
+
+#filterSubmit {
+    background-color: #4FA800 !important;
+    -webkit-box-shadow: none !important;
+    border: none;
+    margin: 5px 0px 5px 10px;
 }
 
 .inactive {
@@ -177,16 +231,6 @@ nav a.nav-link:hover {
 .active {
     background-color: #006747 !important;
     transition: 0.3s
-}
-
-label {
-    margin: 0px 5px 0px 0px;
-}
-
-#filterSubmit {
-    background-color: #4FA800 !important;
-    border: none;
-    margin: 5px 0px 5px 10px;
 }
 
 .closed {
