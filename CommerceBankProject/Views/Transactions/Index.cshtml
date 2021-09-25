@@ -25,7 +25,9 @@
     <label for="toDate">To:</label>
     <input type="date" name="toDate" id="toDate" value=@string.Format("{0:yyyy-MM-dd}", Model.toDate) min=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) onchange="changeMaxFrom(this)" />
     <label for="pageNumber">Page</label>
-    <input type="number" min=1 max=@((Model.tList.Count() +1)/10) name="pageNumber" id="pageNumber" value=@Model.pageNumber />
+    <button type="button" class="btn btn-primary inactive" id="decrementPageButton" onclick="decrementPage()">Previous</button>
+    <input type="number" min=1 max=@((Model.tList.Count() +1)/10) name="pageNumber" id="pageNumber" value=@Model.pageNumber required />
+    <button type="button" class="btn btn-primary inactive" id="incrementPageButton" onclick="incrementPage()">Next</button>
     <input type="submit" value="Go" id="filterSubmit" class="btn btn-primary" />
 
 </form>
@@ -112,9 +114,15 @@
         document.getElementById("fromDate").max = max;
     }
 
+    function decrementPage() {
+        var pageNum = document.getElementById("pageNumber").stepDown();
+
+
+    }
+
     function incrementPage() {
-        var pageNum = document.getElementById("pageNumber").value;
-        pageNum += 1;
+        var pageNum = document.getElementById("pageNumber").stepUp();
+     
 
     }
 </script>
