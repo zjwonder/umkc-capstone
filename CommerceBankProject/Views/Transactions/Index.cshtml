@@ -23,7 +23,9 @@
     <label for="fromDate">From:</label>
     <input type="date" name="fromDate" id="fromDate" value=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) max=@string.Format("{0:yyyy-MM-dd}", Model.toDate) onchange="changeMinTo(this)" />
     <label for="toDate">To:</label>
-    <input type="date" name="toDate" id="toDate" value=@string.Format("{0:yyyy-MM-dd}", Model.toDate) min=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) onchange="changeMaxFrom(this)"/>
+    <input type="date" name="toDate" id="toDate" value=@string.Format("{0:yyyy-MM-dd}", Model.toDate) min=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) onchange="changeMaxFrom(this)" />
+    <label for="pageNumber">Page</label>
+    <input type="number" min=1 max=@((Model.tList.Count() +1)/10) name="pageNumber" id="pageNumber" value=@Model.pageNumber />
     <input type="submit" value="Go" id="filterSubmit" class="btn btn-primary" />
 
 </form>
@@ -47,41 +49,41 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.tList)
+        @for (int i = (Model.pageNumber - 1) * 10; i < (Model.pageNumber) * 10 && i < Model.tList.Count(); i++)
         {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.actType)
+                @Html.DisplayFor(modelItem => Model.tList[i].actType)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.onDate)
+                @Html.DisplayFor(modelItem => Model.tList[i].onDate)
             </td>
-            @if (item.transType == "DR")
+            @if (Model.tList[i].transType == "DR")
             {
                 <td style="text-align: right;">
-                    -$@Html.DisplayFor(modelItem => item.amount)
+                    -$@Html.DisplayFor(modelItem => Model.tList[i].amount)
                 </td>
             }
             else
             {
                 <td style="color:#4FA800; text-align: right;">
-                    +$@Html.DisplayFor(modelItem => item.amount)
+                    +$@Html.DisplayFor(modelItem => Model.tList[i].amount)
                 </td>
             }
-            @if (item.description.Length > 25)
+            @if (Model.tList[i].description.Length > 25)
             {
                 <td>
-                    @item.description.Substring(0, 25)
+                    @Model.tList[i].description.Substring(0, 25)
                 </td>
             }
             else
             {
                 <td>
-                    @item.description
+                    @Model.tList[i].description
                 </td>
             }
             <td>
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a>
+                <a asp-action="Details" asp-route-id="@Model.tList[i].ID">Details</a>
             </td>
         </tr>
         }
@@ -108,5 +110,11 @@
     function changeMaxFrom(date) {
         var max = date.value;
         document.getElementById("fromDate").max = max;
+    }
+
+    function incrementPage() {
+        var pageNum = document.getElementById("pageNumber").value;
+        pageNum += 1;
+
     }
 </script>
