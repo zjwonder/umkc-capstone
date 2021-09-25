@@ -17,6 +17,12 @@
 }
 
 @font-face {
+    font-family: Poppins;
+    font-weight: bold;
+    src: url("../Fonts/Poppins/Poppins-Bold.ttf");
+}
+
+@font-face {
     font-family: OpenSans;
     font-weight: lighter;
     src: url("../Fonts/OpenSans/OpenSans-Light.ttf");
@@ -122,8 +128,6 @@ a.navbar-brand {
     appearance: none;
     -moz-appearance: none;
     -webkit-appearance: none;
-    width: 30px !important;
-    height: 30px !important;
 }
 
 #darkMode::after {
@@ -190,6 +194,17 @@ label {
     visibility: visible;
     position: static;
     transition: 0.5s;
+}
+
+.trans-dr {
+    text-align: right;
+}
+
+.trans-cr {
+    color: #4FA800;
+    text-align: right;
+    text-shadow: 0px 0px 1px rgba(0,0,0,.3);
+    font-weight: normal;
 }
 
 tr:nth-child(even) {

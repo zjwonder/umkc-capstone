@@ -17,6 +17,12 @@
 }
 
 @font-face {
+    font-family: Poppins;
+    font-weight: bold;
+    src: url("../Fonts/Poppins/Poppins-Bold.ttf");
+}
+
+@font-face {
     font-family: OpenSans;
     font-weight: lighter;
     src: url("../Fonts/OpenSans/OpenSans-Light.ttf");
@@ -125,8 +131,6 @@ a.navbar-brand {
     appearance: none;
     -moz-appearance: none;
     -webkit-appearance: none;
-    width: 30px !important;
-    height: 30px !important;
 }
 
 #darkMode::after {
@@ -148,11 +152,17 @@ nav a.nav-link {
     text-shadow: -1px -1px 0px rgba(0,0,0,.3), 1px 1px 0px rgba(0,0,0,.1);
 }
 
-    nav button.nav-link:hover,
-    nav a.nav-link:hover {
-        text-shadow: -1px -1px 0px rgba(13,110,253,.2), 1px 1px 0px rgba(0,0,0,.5);
-        color: #0d6efd !important;
-    }
+nav button.nav-link:hover,
+nav a.nav-link:hover {
+    text-shadow: -1px -1px 0px rgba(13,110,253,.2), 1px 1px 0px rgba(0,0,0,.5);
+    color: #0d6efd !important;
+}
+
+#filterForm select,
+#filterForm input {
+    margin: 5px 20px 5px 0px;
+    background-color: #999;
+}
 
 #filterBtn {
     border: none !important;
@@ -169,17 +179,12 @@ nav a.nav-link {
     transition: 0.3s
 }
 
-select,
-input {
-    margin: 5px 20px 5px 0px;
-}
-
 label {
     margin: 0px 5px 0px 0px;
 }
 
 #filterSubmit {
-    background-color: #4FA800;
+    background-color: #4FA800 !important;
     border: none;
     margin: 5px 0px 5px 10px;
 }
@@ -196,9 +201,27 @@ label {
     transition: 0.5s;
 }
 
+.trans-dr {
+    text-align: right;
+}
+
+.trans-cr {
+    color: #4FA800;
+    text-align: right;
+    text-shadow: -1px -1px 1px rgba(0,0,0,0.5), 0px 0px 1px rgba(0,0,0,.5);
+    font-weight: normal;
+}
+th {
+    border-color: #444 !important;
+}
+
+td {
+    border: none !important;
+}
+
 th,
 tr:nth-child(even) {
-    background-color: #999;
+    background-color: #777;
 }
 
 tr:nth-child(odd) {

@@ -22,7 +22,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Commerce Bank</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -39,7 +39,7 @@
                         </li>
                         <li class="nav-item">
                             <form class="form-inline">
-                                <label class="form-check-label nav-link btn-link" for="darkMode">Theme</label>
+                                <label class="form-check-label nav-link btn-link">Theme</label>
                                 @if (HttpContextAccessor.HttpContext.Session.GetString("UserStyle") == "dark")
                                 {
                                     <input type="checkbox" id="darkMode" onchange="changeCss(this)" checked />
@@ -71,6 +71,29 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script type="text/javascript">
+        var loggedIn = @User.Identity.IsAuthenticated.ToString().ToLower();
+        var idleTime = 0;
+
+        $(document).ready(function () {
+            if (loggedIn) {
+                setInterval(timerIncrement, 60000);
+                $(this).mousemove(function () {
+                    idleTime = 0;
+                });
+                $(this).keypress(function () {
+                    idleTime = 0;
+                });
+            }
+        });
+        function timerIncrement() {
+            idleTime = idleTime + 1;
+            if (idleTime > 9) {
+                document.getElementById("logoutForm").submit();
+            }
+        }
+        function refreshStyle() {
+            '<%= Session["UserStyle"] %>';
+        }
         function setSessionStyle(style) {
             $.ajax({
                 type: "POST",
@@ -85,8 +108,8 @@
                 setSessionStyle("dark");
             }
             else {
-                document.getElementById("css").disabled = false;
                 document.getElementById("darkcss").disabled = true;
+                document.getElementById("css").disabled = false;
                 setSessionStyle("light");
             }
         }

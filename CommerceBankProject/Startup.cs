@@ -29,7 +29,8 @@ namespace CommerceBankProject
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.Name = ".CommerceBankProject.Session";
+                options.IdleTimeout = TimeSpan.FromSeconds(600);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
