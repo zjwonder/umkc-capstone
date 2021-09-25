@@ -75,8 +75,8 @@
         var idleTime = 0;
 
         $(document).ready(function () {
+            setInterval(timerIncrement, 300000);
             if (loggedIn) {
-                setInterval(timerIncrement, 60000);
                 $(this).mousemove(function () {
                     idleTime = 0;
                 });
@@ -86,13 +86,19 @@
             }
         });
         function timerIncrement() {
-            idleTime = idleTime + 1;
-            if (idleTime > 9) {
+            idleTime = idleTime + 5;
+            refreshStyle();
+            if (idleTime >= 10 && loggedIn) {
                 document.getElementById("logoutForm").submit();
             }
         }
         function refreshStyle() {
-            '<%= Session["UserStyle"] %>';
+            if (document.getElementById("css").disabled) {
+                setSessionStyle("dark");
+            }
+            else {
+                setSessionStyle("light");
+            }
         }
         function setSessionStyle(style) {
             $.ajax({
