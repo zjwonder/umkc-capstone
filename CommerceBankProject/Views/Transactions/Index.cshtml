@@ -58,13 +58,13 @@
             </td>
             @if (item.transType == "DR")
             {
-                <td style="text-align: right;">
+                <td class="trans-dr">
                     -$@Html.DisplayFor(modelItem => item.amount)
                 </td>
             }
             else
             {
-                <td style="color:#4FA800; text-align: right;">
+                <td class="trans-cr">
                     +$@Html.DisplayFor(modelItem => item.amount)
                 </td>
             }

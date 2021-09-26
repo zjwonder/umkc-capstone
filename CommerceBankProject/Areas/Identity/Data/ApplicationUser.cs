@@ -21,5 +21,6 @@ namespace CommerceBankProject.Areas.Identity.Data
         [PersonalData]
         [Column(TypeName = "nvarchar(100)")]
         public string lastName { get; set; }
+        public bool darkMode { get; set; }
     }
 }

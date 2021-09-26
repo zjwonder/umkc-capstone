@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CommerceBankProject.Migrations
 {
-    public partial class addModels : Migration
+    public partial class reconfigure : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,7 +53,8 @@ namespace CommerceBankProject.Migrations
                     AccessFailedCount = table.Column<int>(nullable: false),
                     customerID = table.Column<string>(type: "nvarchar(9)", nullable: true),
                     firstName = table.Column<string>(type: "nvarchar(100)", nullable: true),
-                    lastName = table.Column<string>(type: "nvarchar(100)", nullable: true)
+                    lastName = table.Column<string>(type: "nvarchar(100)", nullable: true),
+                    darkMode = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
