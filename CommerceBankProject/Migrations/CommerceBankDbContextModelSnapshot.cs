@@ -74,6 +74,9 @@ namespace CommerceBankProject.Migrations
                     b.Property<string>("customerID")
                         .HasColumnType("nvarchar(9)");
 
+                    b.Property<bool>("darkMode")
+                        .HasColumnType("bit");
+
                     b.Property<string>("firstName")
                         .HasColumnType("nvarchar(100)");
 

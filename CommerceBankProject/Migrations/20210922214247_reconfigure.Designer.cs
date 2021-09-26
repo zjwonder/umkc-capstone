@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CommerceBankProject.Migrations
 {
     [DbContext(typeof(CommerceBankDbContext))]
-    [Migration("20210922044612_addModels")]
-    partial class addModels
+    [Migration("20210922214247_reconfigure")]
+    partial class reconfigure
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -75,6 +75,9 @@ namespace CommerceBankProject.Migrations
 
                     b.Property<string>("customerID")
                         .HasColumnType("nvarchar(9)");
+
+                    b.Property<bool>("darkMode")
+                        .HasColumnType("bit");
 
                     b.Property<string>("firstName")
                         .HasColumnType("nvarchar(100)");
