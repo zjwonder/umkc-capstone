@@ -49,16 +49,57 @@ namespace CommerceBankProject.Controllers
             var claim = User.FindFirst(ClaimTypes.NameIdentifier);
             string userID = claim.Value;
             var user = await _context.Users.Where(u => u.Id == userID).FirstOrDefaultAsync();
-            string tQuery = "Select * from [Transaction] where customerID = {0} order by onDate desc;";
-            List<Transaction> tList = await _context.Transaction.FromSqlRaw(tQuery, user.customerID).ToListAsync();
+            //string tQuery = "Select * from [Transaction] where customerID = {0} order by onDate desc;";
+            string tQuery = @"SELECT
+                                    CAST( DENSE_RANK() OVER (ORDER BY DATEADD(MONTH, DATEDIFF(MONTH, 0, trans.onDate),0)
+		, trans.customerID, trans.actID) AS INT) [ID]
+                                    ,DATEADD(
+                                        MONTH
+                                        , DATEDIFF(MONTH, 0, trans.onDate)
+                                        , 0) [MonthYearDate]
+	                                ,trans.customerID
+	                                ,trans.actID
+	                                ,trans.actType
+	                                ,COUNT(trans.ID) [NumTransactions]
+	                                ,SUM(
+                                        CASE
+
+                                            WHEN trans.transType = 'CR' THEN trans.amount
+
+                                            WHEN trans.transType = 'DR' THEN (trans.amount * -1)
+
+                                            ELSE NULL END
+                                    ) [NetAmount]
+                                FROM[CommerceBankProject].[dbo].[Transaction] trans
+                                WHERE 1 = 1
+                                    AND trans.customerID = {0}
+                                GROUP BY
+                                    DATEADD(MONTH, DATEDIFF(MONTH, 0, trans.onDate), 0)
+	                                ,trans.customerID
+	                                ,trans.actID
+	                                ,trans.actType
+                                ORDER BY
+                                    DATEADD(MONTH, DATEDIFF(MONTH, 0, trans.onDate), 0)
+	                                ,trans.customerID
+	                                ,trans.actID
+	                                ,trans.actType";
+            List<YearMonthAggregated_Transaction> tList = await _context.YearMonthAggregated_Transaction.FromSqlRaw(tQuery, user.customerID).ToListAsync();
             string actQuery = "Select distinct actID, actType from [Transaction] where customerID = {0}";
             List<AccountRecord> actList = await _context.Account.FromSqlRaw(actQuery, user.customerID).ToListAsync();
-            string dateQuery = "Select top 1 onDate from [Transaction] where customerID = {0} order by ID";
+            //string dateQuery = "Select top 1 onDate from [Transaction] where customerID = {0} order by ID";
+            string dateQuery = @"SELECT 
+	                                TOP 1 DATEADD(
+		                                MONTH
+		                                , DATEDIFF(MONTH, 0, trans.onDate)
+		                                ,0) [onDate]
+                                FROM [Transaction] trans
+                                WHERE customerID = {0} 
+                                ORDER BY ID";
             DateRecord record = await _context.Date.FromSqlRaw(dateQuery, user.customerID).FirstOrDefaultAsync();
             DateTime fromDate = record.onDate;
-            record = await _context.Date.FromSqlRaw(dateQuery + " desc", user.customerID).FirstOrDefaultAsync();
+            record = await _context.Date.FromSqlRaw(dateQuery + " DESC", user.customerID).FirstOrDefaultAsync();
             DateTime toDate = record.onDate;
-            TIndexViewModel vmod = new TIndexViewModel(tList, actList, fromDate, toDate);
+            TAggregatedIndexViewModel vmod = new TAggregatedIndexViewModel(tList, actList, fromDate, toDate);
 
             return View(vmod);
         }
