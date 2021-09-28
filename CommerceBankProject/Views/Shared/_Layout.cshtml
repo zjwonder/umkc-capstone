@@ -1,15 +1,28 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    @if (HttpContextAccessor.HttpContext.Session.GetString("UserStyle") == "dark")
+    {
+        <link id="css" rel="stylesheet" href="~/css/site.css" asp-append-version="true" disabled="true"/>
+        <link id="darkcss" rel="stylesheet" href="~/css/darksite.css" asp-append-version="true" />
+    }
+    else
+    {
+        <link id="css" rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+        <link id="darkcss" rel="stylesheet" href="~/css/darksite.css" asp-append-version="true" disabled="true" />
+    }
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Commerce Bank</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -23,6 +36,19 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-primary font-weight-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <form class="form-inline">
+                                <label class="form-check-label nav-link btn-link">Theme</label>
+                                @if (HttpContextAccessor.HttpContext.Session.GetString("UserStyle") == "dark")
+                                {
+                                    <input type="checkbox" id="darkMode" onchange="changeCss(this)" checked />
+                                }
+                                else
+                                {
+                                    <input type="checkbox" id="darkMode" onchange="changeCss(this)" />
+                                }
+                            </form>
                         </li>
                     </ul>
                 </div>
@@ -44,6 +70,56 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        var loggedIn = @User.Identity.IsAuthenticated.ToString().ToLower();
+        var idleTime = 0;
+
+        $(document).ready(function () {
+            setInterval(timerIncrement, 300000);
+            if (loggedIn) {
+                $(this).mousemove(function () {
+                    idleTime = 0;
+                });
+                $(this).keypress(function () {
+                    idleTime = 0;
+                });
+            }
+        });
+        function timerIncrement() {
+            idleTime = idleTime + 5;
+            refreshStyle();
+            if (idleTime >= 10 && loggedIn) {
+                document.getElementById("logoutForm").submit();
+            }
+        }
+        function refreshStyle() {
+            if (document.getElementById("css").disabled) {
+                setSessionStyle("dark");
+            }
+            else {
+                setSessionStyle("light");
+            }
+        }
+        function setSessionStyle(style) {
+            $.ajax({
+                type: "POST",
+                url: "/Home/SetStyle",
+                data: { style: style }
+            });
+        }
+        function changeCss(btn) {
+            if (btn.checked) {
+                document.getElementById("css").disabled = true;
+                document.getElementById("darkcss").disabled = false;
+                setSessionStyle("dark");
+            }
+            else {
+                document.getElementById("darkcss").disabled = true;
+                document.getElementById("css").disabled = false;
+                setSessionStyle("light");
+            }
+        }
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
