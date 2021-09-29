@@ -36,36 +36,33 @@
     <input type ="hidden" name="pageNumber" value= "1" id="pageNumber"/>
 </form>
 
-<form asp-action="FilterIndex" id="pageChanged">
-    <input type="hidden" name="actFilter" value=@Model.account />
-    <input type="hidden" name="descFilter" value=@Model.descSearch>
-    <input type="hidden" name="fromDate" value=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) />
-    <input type="hidden" name="toDate" value=@string.Format("{0:yyyy-MM-dd}", Model.toDate) />
-    <label for="pageNumber">Page</label>
-    @if (Model.pageNumber == 1)
-    {
-        <button type="button" class="btn btn-primary inactive" id="decrementPageButton" onclick="decrementPage()" disabled>Previous </button>
-    }
-    else
-    {
-        <button type="button" class="btn btn-primary inactive" id="decrementPageButton" onclick="decrementPage()">Previous </button>
-    }
+<div class="row justify-content-center">
+    <form asp-action="FilterIndex" id="pageChanged">
+        <input type="hidden" name="actFilter" value=@Model.account />
+        <input type="hidden" name="descFilter" value=@Model.descSearch>
+        <input type="hidden" name="fromDate" value=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) />
+        <input type="hidden" name="toDate" value=@string.Format("{0:yyyy-MM-dd}", Model.toDate) />
+        @if (Model.pageNumber == 1)
+        {
+            <button type="button" class="btn btn-primary" id="decrementPageButton" onclick="decrementPage()" disabled>Back</button>
+        }
+        else
+        {
+            <button type="button" class="btn btn-primary" id="decrementPageButton" onclick="decrementPage()">Back</button>
+        }
+        <label for="pageNumber">Page</label>
+        <input type="number" min=1 max=@((Model.tList.Count() +1)/Model.pageSize) name="pageNumber" id="changePageNumber" value=@Model.pageNumber readonly />
 
-    <input type="number" min=1 max=@((Model.tList.Count() +1)/Model.pageSize) name="pageNumber" id="changePageNumber" value=@Model.pageNumber readonly />
-
-    @if (Model.pageNumber == (Model.tList.Count() + 1)/ Model.pageSize)
-    {
-        <button type="button" class="btn btn-primary inactive" id="incrementPageButton" onclick="incrementPage()" disabled>Next</button>
-    }
-    else
-    {
-        <button type="button" class="btn btn-primary inactive" id="incrementPageButton" onclick="incrementPage()">Next</button>
-    }
-
-
-
-
-</form>
+        @if (Model.pageNumber == (Model.tList.Count() + 1) / Model.pageSize)
+        {
+            <button type="button" class="btn btn-primary" id="incrementPageButton" onclick="incrementPage()" disabled>Next</button>
+        }
+        else
+        {
+            <button type="button" class="btn btn-primary" id="incrementPageButton" onclick="incrementPage()">Next</button>
+        }
+    </form>
+</div><br />
 
 <table class="table">
     <thead>
@@ -150,23 +147,12 @@
     }
 
     function decrementPage() {
-        document.getElementById("changePageNumber").stepDown();
+        document.getElementById("changePageNumber").value = parseInt(document.getElementById("changePageNumber").value) - 1;
         document.getElementById("pageChanged").submit()
-
-
     }
 
     function incrementPage() {
-        document.getElementById("changePageNumber").stepUp();
+        document.getElementById("changePageNumber").value = parseInt(document.getElementById("changePageNumber").value) + 1;
         document.getElementById("pageChanged").submit()
-        
-     
-
     }
-    function filterSubmit(page) {
-        document.getElementById("pageNumber").value = page.value.toString();
-
-    }
-
-    
 </script>
