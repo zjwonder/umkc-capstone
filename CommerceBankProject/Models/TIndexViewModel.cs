@@ -15,10 +15,11 @@ namespace CommerceBankProject.Models
         public string descSearch { get; set; }
         public string debug { get; set; }
         public int pageNumber { get; set; }
+        public string account { get; set;  }
 
         public int pageSize { get; set; } = 10;
 
-        public TIndexViewModel(List<Transaction> transactions, List<AccountRecord> accounts, DateTime start, DateTime end, string desc="", int PageNumber = 1)
+        public TIndexViewModel(List<Transaction> transactions, List<AccountRecord> accounts, DateTime start, DateTime end, string desc="", int PageNumber = 1, string acct = "all")
         {
             tList = transactions;
             actList = accounts;
@@ -26,6 +27,7 @@ namespace CommerceBankProject.Models
             fromDate = start;
             toDate = end;
             pageNumber = PageNumber;
+            account = acct;
 
         }
     }

@@ -10,25 +10,60 @@
 <button type="button" class="btn btn-primary inactive" id="filterBtn" onclick="toggleFilter()">Filter</button>
 <form asp-action="FilterIndex" id="filterForm" class="closed">
     <label for="actFilter">Select Account</label>
-    <select name="actFilter">
+    <select name="actFilter" onchange="resetPageValue()">
         <option value="all">All</option>
         @foreach (var account in Model.actList)
         {
-            <option value=@account.actID>@account.actType @account.actID</option>
+            if (account.actID == Model.account)
+            {
+                <option selected value=@account.actID>@account.actType @account.actID</option>
+            }
+            else
+            {
+                <option value=@account.actID>@account.actType @account.actID</option>
+            }
+
         }
     </select>
     <label for="descFilter">Search</label>
-    <input type="text" name="descFilter" value=@Model.descSearch>
+    <input type="text" name="descFilter" onchange="resetPageValue()" value=@Model.descSearch>
     <br />
     <label for="fromDate">From:</label>
-    <input type="date" name="fromDate" id="fromDate" value=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) max=@string.Format("{0:yyyy-MM-dd}", Model.toDate) onchange="changeMinTo(this)" />
+    <input type="date" name="fromDate" id="fromDate"  value=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) max=@string.Format("{0:yyyy-MM-dd}", Model.toDate) onchange="changeMinTo(this)" />
     <label for="toDate">To:</label>
     <input type="date" name="toDate" id="toDate" value=@string.Format("{0:yyyy-MM-dd}", Model.toDate) min=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) onchange="changeMaxFrom(this)" />
-    <label for="pageNumber">Page</label>
-    <button type="button" class="btn btn-primary inactive" id="decrementPageButton" onclick="decrementPage()">Previous</button>
-    <input type="number" min=1 max=@((Model.tList.Count() +1)/10) name="pageNumber" id="pageNumber" value=@Model.pageNumber required />
-    <button type="button" class="btn btn-primary inactive" id="incrementPageButton" onclick="incrementPage()">Next</button>
     <input type="submit" value="Go" id="filterSubmit" class="btn btn-primary" />
+    <input type ="hidden" name="pageNumber" value= "1" id="pageNumber"/>
+</form>
+
+<form asp-action="FilterIndex" id="pageChanged">
+    <input type="hidden" name="actFilter" value=@Model.account />
+    <input type="hidden" name="descFilter" value=@Model.descSearch>
+    <input type="hidden" name="fromDate" value=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) />
+    <input type="hidden" name="toDate" value=@string.Format("{0:yyyy-MM-dd}", Model.toDate) />
+    <label for="pageNumber">Page</label>
+    @if (Model.pageNumber == 1)
+    {
+        <button type="button" class="btn btn-primary inactive" id="decrementPageButton" onclick="decrementPage()" disabled>Previous </button>
+    }
+    else
+    {
+        <button type="button" class="btn btn-primary inactive" id="decrementPageButton" onclick="decrementPage()">Previous </button>
+    }
+
+    <input type="number" min=1 max=@((Model.tList.Count() +1)/Model.pageSize) name="pageNumber" id="changePageNumber" value=@Model.pageNumber readonly />
+
+    @if (Model.pageNumber == (Model.tList.Count() + 1)/ Model.pageSize)
+    {
+        <button type="button" class="btn btn-primary inactive" id="incrementPageButton" onclick="incrementPage()" disabled>Next</button>
+    }
+    else
+    {
+        <button type="button" class="btn btn-primary inactive" id="incrementPageButton" onclick="incrementPage()">Next</button>
+    }
+
+
+
 
 </form>
 
@@ -115,14 +150,23 @@
     }
 
     function decrementPage() {
-        var pageNum = document.getElementById("pageNumber").stepDown();
+        document.getElementById("changePageNumber").stepDown();
+        document.getElementById("pageChanged").submit()
 
 
     }
 
     function incrementPage() {
-        var pageNum = document.getElementById("pageNumber").stepUp();
+        document.getElementById("changePageNumber").stepUp();
+        document.getElementById("pageChanged").submit()
+        
      
 
     }
+    function filterSubmit(page) {
+        document.getElementById("pageNumber").value = page.value.toString();
+
+    }
+
+    
 </script>
