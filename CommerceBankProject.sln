@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommerceBankProject", "CommerceBankProject\CommerceBankProject.csproj", "{D7D4EEC4-67E0-4553-A654-D882A5A71498}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectUnitTests", "ProjectUnitTests\ProjectUnitTests.csproj", "{87919064-840B-4652-96AD-7D4419C14E06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectUnitTests", "ProjectUnitTests\ProjectUnitTests.csproj", "{87919064-840B-4652-96AD-7D4419C14E06}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceBankProjectTests", "CommerceBankProjectTests\CommerceBankProjectTests.csproj", "{47133D86-3687-4966-848A-50747C51CECA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{87919064-840B-4652-96AD-7D4419C14E06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87919064-840B-4652-96AD-7D4419C14E06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87919064-840B-4652-96AD-7D4419C14E06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47133D86-3687-4966-848A-50747C51CECA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47133D86-3687-4966-848A-50747C51CECA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47133D86-3687-4966-848A-50747C51CECA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47133D86-3687-4966-848A-50747C51CECA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
