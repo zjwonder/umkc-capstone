@@ -186,7 +186,6 @@ select,
     filter: invert(1);
 }
 
-#changePageNumber,
 #filterForm input,
 #filterForm input:-webkit-autofill,
 #register input:-webkit-autofill,

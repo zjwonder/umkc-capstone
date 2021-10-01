@@ -26,10 +26,10 @@
         }
     </select>
     <label for="descFilter">Search</label>
-    <input type="text" name="descFilter" onchange="resetPageValue()" value=@Model.descSearch>
+    <input type="text" name="descFilter" value=@Model.descSearch>
     <br />
     <label for="fromDate">From:</label>
-    <input type="date" name="fromDate" id="fromDate"  value=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) max=@string.Format("{0:yyyy-MM-dd}", Model.toDate) onchange="changeMinTo(this)" />
+    <input type="date" name="fromDate" id="fromDate" value=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) max=@string.Format("{0:yyyy-MM-dd}", Model.toDate) onchange="changeMinTo(this)" />
     <label for="toDate">To:</label>
     <input type="date" name="toDate" id="toDate" value=@string.Format("{0:yyyy-MM-dd}", Model.toDate) min=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) onchange="changeMaxFrom(this)" />
     <input type="submit" value="Go" id="filterSubmit" class="btn btn-primary" />
@@ -83,7 +83,7 @@
         </tr>
     </thead>
     <tbody>
-        @for (int i = (Model.pageNumber - 1) * 10; i < (Model.pageNumber) * 10 && i < Model.tList.Count(); i++)
+        @for (int i = (Model.pageNumber - 1) * Model.pageSize; i < (Model.pageNumber) * Model.pageSize && i < Model.tList.Count(); i++)
         {
         <tr>
             <td>
