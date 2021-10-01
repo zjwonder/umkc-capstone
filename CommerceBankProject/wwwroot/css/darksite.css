@@ -36,72 +36,75 @@
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #0366d6;
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
+
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
 }
+
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
 button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+    font-size: 1rem;
+    line-height: inherit;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
 }
+
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
 }
 
 body {
+    background-color: #333;
+    color: #fff;
     font-family: OpenSans;
-    color: #000;
-    background-color: #fff;
-    transition: 0.5s;
+    transition:.5s;
 }
 
 h1, h2, h3 {
@@ -132,14 +135,15 @@ a.navbar-brand {
 
 #darkMode::after {
     content: "•";
-    color: #555;
+    color: #09e;
+    text-shadow: 0px 0px 5px #09e;
     text-align: center;
     font-size: 24pt;
     width: 30px;
     height: 30px;
     line-height: 30px;
     border-radius: 50%;
-    box-shadow: -1px -1px 3px rgba(255,255,255,0.2), 2px 2px 6px rgba(0,0,0,0.8);
+    box-shadow: inset -1px -1px 3px rgba(255,255,255,0.2), inset 2px 2px 6px rgba(0,0,0,0.8);
     display: inline-block;
 }
 
@@ -154,24 +158,18 @@ nav a.nav-link:hover {
     color: #0d6efd !important;
 }
 
-#filterBtn {
-    border: none !important;
-    margin: 0px 0px 5px 0px;
-}
-
-.inactive {
-    background-color: #4FA800 !important;
-    transition: 0.3s
-}
-
-.active {
-    background-color: #006747 !important;
-    transition: 0.3s
-}
-
 #filterForm select,
 #filterForm input {
     margin: 5px 20px 5px 0px;
+}
+
+select {
+    background-color: #333;
+    color: #fff !important;
+}
+
+::-webkit-calendar-picker-indicator {
+    filter: invert(1);
 }
 
 #filterForm input,
@@ -180,9 +178,12 @@ nav a.nav-link:hover {
 #account input:-webkit-autofill,
 #register input,
 #account input {
-    background: #fff;
-    -webkit-box-shadow: 0 0 0 30px #fff inset;
-    border-color: #999 !important;
+    background-color: #333;
+    color: #fff !important;
+    border-color: #fff !important;
+    -webkit-box-shadow: 0 0 0 30px #333 inset;
+    -webkit-text-fill-color: #fff;
+    caret-color: #fff;
 }
 
 #register input:-webkit-autofill:focus,
@@ -197,8 +198,8 @@ nav a.nav-link:hover {
 #account input:-webkit-autofill:active,
 #register input:active,
 #account input:active {
-    background: #ccc;
-    -webkit-box-shadow: 0 0 0 30px #ccc inset;
+    background-color: #555;
+    -webkit-box-shadow: 0 0 0 30px #555 inset;
 }
 
 #register input:invalid,
@@ -210,11 +211,26 @@ label {
     margin: 0px 5px 0px 0px;
 }
 
+#filterBtn {
+    border: none !important;
+    margin: 0px 0px 5px 0px;
+}
+
 #filterSubmit {
     background-color: #4FA800 !important;
     -webkit-box-shadow: none !important;
     border: none;
     margin: 5px 0px 5px 10px;
+}
+
+.inactive {
+    background-color: #4FA800 !important;
+    transition: 0.3s
+}
+
+.active {
+    background-color: #006747 !important;
+    transition: 0.3s
 }
 
 .closed {
@@ -236,12 +252,24 @@ label {
 .trans-cr {
     color: #4FA800;
     text-align: right;
-    text-shadow: 0px 0px 1px rgba(0,0,0,.3);
+    text-shadow: -1px -1px 1px rgba(0,0,0,0.5), 0px 0px 1px rgba(0,0,0,.5);
     font-weight: normal;
 }
+th {
+    border-color: #444 !important;
+}
 
+td {
+    border: none !important;
+}
+
+th,
 tr:nth-child(even) {
-    background-color:#ccc;
+    background-color: #777;
+}
+
+tr:nth-child(odd) {
+    background-color: #555;
 }
 
 table tbody tr td a {

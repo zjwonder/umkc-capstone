@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 namespace CommerceBankProject.Areas.Identity.Pages.Account
@@ -101,7 +102,16 @@ namespace CommerceBankProject.Areas.Identity.Pages.Account
                 IdentityResult result = new IdentityResult();
 
                 if (existing.Any()) {
-                    user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, customerID = Input.customerID, firstName = Input.firstName, lastName = Input.lastName };
+                    bool dark;
+                    if (HttpContext.Session.GetString("UserStyle") == "dark")
+                    {
+                        dark = true;
+                    }
+                    else
+                    {
+                        dark = false;
+                    }
+                    user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, customerID = Input.customerID, firstName = Input.firstName, lastName = Input.lastName, darkMode=dark };
                     result = await _userManager.CreateAsync(user, Input.Password);
                     success = result.Succeeded;
                 }
