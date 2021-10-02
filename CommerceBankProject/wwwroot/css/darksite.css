@@ -163,7 +163,21 @@ nav a.nav-link:hover {
     margin: 5px 20px 5px 0px;
 }
 
-select {
+#pageChanged label {
+    margin-left: 20px;
+}
+
+#changePageNumber,
+#changePageNumber:focus,
+#changePageNumber:active {
+    width: 40px;
+    border: none;
+    cursor: auto !important;
+}
+
+select,
+#filterForm input,
+#pageChanged input {
     background-color: #333;
     color: #fff !important;
 }
@@ -178,8 +192,6 @@ select {
 #account input:-webkit-autofill,
 #register input,
 #account input {
-    background-color: #333;
-    color: #fff !important;
     border-color: #fff !important;
     -webkit-box-shadow: 0 0 0 30px #333 inset;
     -webkit-text-fill-color: #fff;
@@ -223,9 +235,21 @@ label {
     margin: 5px 0px 5px 10px;
 }
 
+#incrementPageButton,
+#decrementPageButton {
+    border: none !important;
+}
+
+#incrementPageButton:enabled,
+#decrementPageButton:enabled,
 .inactive {
     background-color: #4FA800 !important;
     transition: 0.3s
+}
+
+#incrementPageButton:disabled,
+#decrementPageButton:disabled {
+    background-color: #777;
 }
 
 .active {

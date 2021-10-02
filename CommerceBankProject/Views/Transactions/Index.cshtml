@@ -14,7 +14,15 @@
         <option value="all">All</option>
         @foreach (var account in Model.actList)
         {
-            <option value=@account.actID>@account.actType @account.actID</option>
+            if (account.actID == Model.account)
+            {
+                <option selected value=@account.actID>@account.actType @account.actID</option>
+            }
+            else
+            {
+                <option value=@account.actID>@account.actType @account.actID</option>
+            }
+
         }
     </select>
     <label for="descFilter">Search</label>
@@ -23,10 +31,38 @@
     <label for="fromDate">From:</label>
     <input type="date" name="fromDate" id="fromDate" value=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) max=@string.Format("{0:yyyy-MM-dd}", Model.toDate) onchange="changeMinTo(this)" />
     <label for="toDate">To:</label>
-    <input type="date" name="toDate" id="toDate" value=@string.Format("{0:yyyy-MM-dd}", Model.toDate) min=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) onchange="changeMaxFrom(this)"/>
+    <input type="date" name="toDate" id="toDate" value=@string.Format("{0:yyyy-MM-dd}", Model.toDate) min=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) onchange="changeMaxFrom(this)" />
     <input type="submit" value="Go" id="filterSubmit" class="btn btn-primary" />
-
+    <input type ="hidden" name="pageNumber" value= "1" id="pageNumber"/>
 </form>
+
+<div class="row justify-content-center">
+    <form asp-action="FilterIndex" id="pageChanged">
+        <input type="hidden" name="actFilter" value=@Model.account />
+        <input type="hidden" name="descFilter" value=@Model.descSearch>
+        <input type="hidden" name="fromDate" value=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) />
+        <input type="hidden" name="toDate" value=@string.Format("{0:yyyy-MM-dd}", Model.toDate) />
+        @if (Model.pageNumber == 1)
+        {
+            <button type="button" class="btn btn-primary" id="decrementPageButton" onclick="decrementPage()" disabled>Back</button>
+        }
+        else
+        {
+            <button type="button" class="btn btn-primary" id="decrementPageButton" onclick="decrementPage()">Back</button>
+        }
+        <label for="pageNumber">Page</label>
+        <input type="number" min=1 max=@((Model.tList.Count() +1)/Model.pageSize) name="pageNumber" id="changePageNumber" value=@Model.pageNumber readonly />
+
+        @if (Model.pageNumber == (Model.tList.Count() + 1) / Model.pageSize)
+        {
+            <button type="button" class="btn btn-primary" id="incrementPageButton" onclick="incrementPage()" disabled>Next</button>
+        }
+        else
+        {
+            <button type="button" class="btn btn-primary" id="incrementPageButton" onclick="incrementPage()">Next</button>
+        }
+    </form>
+</div><br />
 
 <table class="table">
     <thead>
@@ -47,41 +83,41 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.tList)
+        @for (int i = (Model.pageNumber - 1) * Model.pageSize; i < (Model.pageNumber) * Model.pageSize && i < Model.tList.Count(); i++)
         {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.actType)
+                @Html.DisplayFor(modelItem => Model.tList[i].actType)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.onDate)
+                @Html.DisplayFor(modelItem => Model.tList[i].onDate)
             </td>
-            @if (item.transType == "DR")
+            @if (Model.tList[i].transType == "DR")
             {
                 <td class="trans-dr">
-                    -$@Html.DisplayFor(modelItem => item.amount)
+                    -$@Html.DisplayFor(modelItem => Model.tList[i].amount)
                 </td>
             }
             else
             {
                 <td class="trans-cr">
-                    +$@Html.DisplayFor(modelItem => item.amount)
+                    +$@Html.DisplayFor(modelItem => Model.tList[i].amount)
                 </td>
             }
-            @if (item.description.Length > 25)
+            @if (Model.tList[i].description.Length > 25)
             {
                 <td>
-                    @item.description.Substring(0, 25)
+                    @Model.tList[i].description.Substring(0, 25)
                 </td>
             }
             else
             {
                 <td>
-                    @item.description
+                    @Model.tList[i].description
                 </td>
             }
             <td>
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a>
+                <a asp-action="Details" asp-route-id="@Model.tList[i].ID">Details</a>
             </td>
         </tr>
         }
@@ -108,5 +144,15 @@
     function changeMaxFrom(date) {
         var max = date.value;
         document.getElementById("fromDate").max = max;
+    }
+
+    function decrementPage() {
+        document.getElementById("changePageNumber").value = parseInt(document.getElementById("changePageNumber").value) - 1;
+        document.getElementById("pageChanged").submit()
+    }
+
+    function incrementPage() {
+        document.getElementById("changePageNumber").value = parseInt(document.getElementById("changePageNumber").value) + 1;
+        document.getElementById("pageChanged").submit()
     }
 </script>
