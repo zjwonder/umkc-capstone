@@ -10,7 +10,7 @@
 <button type="button" class="btn btn-primary inactive" id="filterBtn" onclick="toggleFilter()">Filter</button>
 <form asp-action="FilterIndex" id="filterForm" class="closed">
     <label for="actFilter">Select Account</label>
-    <select name="actFilter" onchange="resetPageValue()">
+    <select name="actFilter">
         <option value="all">All</option>
         @foreach (var account in Model.actList)
         {
