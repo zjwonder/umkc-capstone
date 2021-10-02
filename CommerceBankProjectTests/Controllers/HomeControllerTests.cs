@@ -1,40 +1,38 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CommerceBankProject.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Mvc;
+﻿//using Microsoft.VisualStudio.TestTools.UnitTesting;
+//using CommerceBankProject.Controllers;
+//using System;
+//using System.Collections.Generic;
+//using System.Text;
+//using Microsoft.Extensions.Logging;
+//using Microsoft.AspNetCore.Mvc;
 
-namespace CommerceBankProject.Controllers.Tests
-{
-    [TestClass()]
-    public class HomeControllerTests
-    {
-        //private readonly ILogger<HomeController> _logger;
+//namespace CommerceBankProject.Controllers.Tests
+//{
+//    [TestClass()]
+//    public class HomeControllerTests
+//    {
+//        private readonly ILogger<HomeController> _logger;
 
-        //public HomeControllerTests(ILogger<HomeController> logger)
-        //{
-        //    _logger = logger;
-        //}
+//        public HomeControllerTests()
+//        {
+//        }
 
-        //[TestInitialize]
-        //public void Initialize()
-        //{
-        //    //ILogger<HomeController> _logger = new ILogger<HomeController>;
-        //}
+//        public HomeControllerTests(ILogger<HomeController> logger)
+//        {
+//            _logger = logger;
+//        }
 
-        //[TestMethod()]
-        //public void Test1()
-        //{
-        //    //var controller = new HomeController(_logger);
-        //    var result = controller.Index() as ViewResult;
-        //    Assert.AreEqual("Index", result.ViewName);
-        //}
-        //[TestMethod()]
-        //public void IndexTest()
-        //{
-        //    Assert.Fail();
-        //}
-    }
-}
+//        [TestMethod()]
+//        public void Test1()
+//        {
+//            var controller = new HomeController(_logger);
+//            var result = controller.Index() as ViewResult;
+//            Assert.AreEqual("Index", result.ViewName);
+//        }
+//        [TestMethod()]
+//        public void IndexTest()
+//        {
+//            Assert.Fail();
+//        }
+//    }
+//}
