@@ -159,9 +159,29 @@ nav a.nav-link:hover {
     margin: 0px 0px 5px 0px;
 }
 
+#changePageNumber,
+#changePageNumber:focus,
+#changePageNumber:active {
+    width: 40px;
+    border: none;
+    cursor: auto !important;
+}
+
+#incrementPageButton,
+#decrementPageButton {
+    border: none !important;
+}
+
+#incrementPageButton:enabled,
+#decrementPageButton:enabled,
 .inactive {
     background-color: #4FA800 !important;
     transition: 0.3s
+}
+
+#incrementPageButton:disabled,
+#decrementPageButton:disabled {
+    background-color: #777;
 }
 
 .active {
@@ -172,6 +192,10 @@ nav a.nav-link:hover {
 #filterForm select,
 #filterForm input {
     margin: 5px 20px 5px 0px;
+}
+
+#pageChanged label {
+    margin-left: 20px;
 }
 
 #filterForm input,

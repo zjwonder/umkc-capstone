@@ -43,7 +43,7 @@ namespace CommerceBankProject.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> FilterIndex(string actFilter, string descFilter, string fromDate, string toDate)
+        public async Task<IActionResult> FilterIndex(string actFilter, string descFilter, string fromDate, string toDate, string pageNumber)
         {
             var claim = User.FindFirst(ClaimTypes.NameIdentifier);
             string userID = claim.Value;
@@ -72,7 +72,7 @@ namespace CommerceBankProject.Controllers
             splitDate = fromDate.Split('-');
             DateTime fDate = new DateTime(int.Parse(splitDate[0]), int.Parse(splitDate[1]), int.Parse(splitDate[2]));
             List<AccountRecord> actList = await _context.Account.FromSqlRaw(actQuery, user.customerID).ToListAsync();
-            TIndexViewModel vmod = new TIndexViewModel(tList, actList, fDate, tDate, descFilter);
+            TIndexViewModel vmod = new TIndexViewModel(tList, actList, fDate, tDate, descFilter, int.Parse(pageNumber),actFilter);
             
             return View("Index", vmod);
         }
