@@ -49,7 +49,6 @@ namespace CommerceBankProject.Controllers
             var claim = User.FindFirst(ClaimTypes.NameIdentifier);
             string userID = claim.Value;
             var user = await _context.Users.Where(u => u.Id == userID).FirstOrDefaultAsync();
-            //string tQuery = "Select * from [Transaction] where customerID = {0} order by onDate desc;";
             string tQuery = @"SELECT
                                     CAST( DENSE_RANK() OVER (ORDER BY DATEADD(MONTH, DATEDIFF(MONTH, 0, trans.onDate),0)
 		, trans.customerID, trans.actID) AS INT) [ID]
@@ -86,7 +85,6 @@ namespace CommerceBankProject.Controllers
             List<YearMonthAggregated_Transaction> tList = await _context.YearMonthAggregated_Transaction.FromSqlRaw(tQuery, user.customerID).ToListAsync();
             string actQuery = "Select distinct actID, actType from [Transaction] where customerID = {0}";
             List<AccountRecord> actList = await _context.Account.FromSqlRaw(actQuery, user.customerID).ToListAsync();
-            //string dateQuery = "Select top 1 onDate from [Transaction] where customerID = {0} order by ID";
             string dateQuery = @"SELECT 
 	                                TOP 1 DATEADD(
 		                                MONTH
