@@ -8,6 +8,9 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
+            <a id="transactions" class="nav-link text-primary font-weight-light" asp-area="" asp-controller="Transactions" asp-action="Donut">Donut</a>
+        </li>
+        <li class="nav-item">
             <a id="transactions" class="nav-link text-primary font-weight-light" asp-area="" asp-controller="Transactions" asp-action="Graphs">Graphs</a>
         </li>
         <li class="nav-item">

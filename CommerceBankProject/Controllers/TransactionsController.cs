@@ -102,6 +102,214 @@ namespace CommerceBankProject.Controllers
             return View(vmod);
         }
 
+        // GET: Graphs
+        [Authorize]
+        public async Task<IActionResult> Donut()
+        {
+            var claim = User.FindFirst(ClaimTypes.NameIdentifier);
+            string userID = claim.Value;
+            var user = await _context.Users.Where(u => u.Id == userID).FirstOrDefaultAsync();
+            string tQuery = @"
+                        SELECT
+	                        CAST( DENSE_RANK() OVER (ORDER BY DATEADD(MONTH, DATEDIFF(MONTH, 0, trans_cat.onDate),0)
+		                        , trans_cat.customerID, trans_cat.actID, trans_cat.actType, trans_cat.Category) AS INT) [ID]
+	                        ,trans_cat.customerID
+	                        ,trans_cat.actID
+	                        ,trans_cat.actType
+	                        ,trans_cat.Category
+	                        ,DATEADD(
+                                MONTH
+                                , DATEDIFF(MONTH, 0, trans_cat.onDate)
+                                , 0) [MonthYearDate]
+	                        ,ABS(SUM(
+		                        CASE
+			                        WHEN trans_cat.transType = 'CR' THEN trans_cat.amount
+			                        WHEN trans_cat.transType = 'DR' THEN (trans_cat.amount * -1)
+			                        ELSE NULL END
+	                        )) [NetAmount]
+                        FROM
+                        (
+	                        SELECT
+		                        trans.*
+		                        , CASE
+			                        WHEN
+				                        trans.[description] IN 
+					                        ('ATM'
+					                        ,'Car wash'
+					                        ,'CVS'
+					                        ,'Dollar General'
+					                        ,'Ford Service'
+					                        ,'Home Depot'
+					                        ,'Jiffy Lube'
+					                        ,'KC Police - Speeding Ticket'
+					                        ,'Nebraska Furniture Mart'
+					                        ,'Petsmart'
+					                        ,'Starbucks gift card')
+			                        THEN
+				                        'Chores'
+			                        WHEN 
+				                        trans.[description] IN ('Maurices')
+			                        THEN
+				                        'Clothing'
+			                        WHEN 
+				                        trans.[description] IN 
+					                        ('Bravos'
+					                        ,'Bristol'
+					                        ,'Buffalo Wild Wings'
+					                        ,'Burger King'
+					                        ,'Cheesecake Factory'
+					                        ,'Chipotle'
+					                        ,'Denny''s'
+					                        ,'Hoolihans'
+					                        ,'Jose Peppers'
+					                        ,'KFC'
+					                        ,'Lucky''s'
+					                        ,'Manny''s'
+					                        ,'McFaddens'
+					                        ,'MOD Pizza'
+					                        ,'O''Charley''s'
+					                        ,'Olive Garden'
+					                        ,'O''Reilly''s'
+					                        ,'Panda Express'
+					                        ,'Panera Bread'
+					                        ,'Pizza Hut'
+					                        ,'Pizza Ranch'
+					                        ,'Red Lobster'
+					                        ,'Red Robin'
+					                        ,'Scooters'
+					                        ,'Starbucks'
+					                        ,'Taco Bell'
+					                        ,'Tanners')
+			                        THEN
+				                        'Eating Out'
+			                        WHEN 
+				                        trans.[description] IN 
+					                        ('Airline Ticket'
+					                        ,'AT&T'
+					                        ,'ATM'
+					                        ,'Bank of America Credit Card Payment'
+					                        ,'BoA Credit Card Payment'
+					                        ,'Check to Brother'
+					                        ,'Check to Sister'
+					                        ,'Commerce Bank Credit Card Payment'
+					                        ,'Doctor'
+					                        ,'Doctor Visit'
+					                        ,'Google Fiber'
+					                        ,'KCPL'
+					                        ,'Nationwide'
+					                        ,'Nebraska Furniture Mart'
+					                        ,'Rent'
+					                        ,'State Farm'
+					                        ,'Student Loans'
+					                        ,'Target'
+					                        ,'Taxes'
+					                        ,'Walmart')
+			                        THEN
+				                        'Essentials'
+			                        WHEN 
+				                        trans.[description] IN 
+					                        ('Hyvee'
+					                        ,'Price Chopper')
+			                        THEN
+				                        'Food'
+			                        WHEN 
+				                        trans.[description] IN 
+					                        ('7 Eleven'
+					                        ,'Amazon'
+					                        ,'Best Buy'
+					                        ,'Bowling'
+					                        ,'Brew Top'
+					                        ,'Bristol'
+					                        ,'CVS'
+					                        ,'Dave and Busters'
+					                        ,'Famous Footwear'
+					                        ,'Hallmark'
+					                        ,'Hobby Lobby'
+					                        ,'Joy Wok'
+					                        ,'Laser Rock'
+					                        ,'Neo''s'
+					                        ,'Netflix'
+					                        ,'Pottery Barn'
+					                        ,'Red box'
+					                        ,'Redbox'
+					                        ,'Sears'
+					                        ,'The Loft'
+					                        ,'Toys R Us'
+					                        ,'Uber')
+			                        THEN
+				                        'Fun'
+			                        WHEN 
+				                        trans.[description] IN ('QuikTrip')
+			                        THEN
+				                        'Gas'
+			                        WHEN 
+				                        trans.[description] IN 
+					                        ('Cash Deposit'
+					                        ,'Check Deposit'
+					                        ,'Check from friend'
+					                        ,'Check from grandma'
+					                        ,'Check from mom'
+					                        ,'Christmas check from Grandma'
+					                        ,'Interest'
+					                        ,'Payday'
+					                        ,'Payroll')
+			                        THEN
+				                        'Income'
+			                        WHEN 
+				                        trans.[description] IN ('Verizon')
+			                        THEN
+				                        'Phone'
+			                        WHEN 
+				                        trans.[description] LIKE 'Transfer%'
+			                        THEN
+				                        'Income'
+			                        ELSE 'Other' END [Category]
+	                        FROM
+		                        [CommerceBankProject].[dbo].[Transaction] trans
+	                        WHERE 1=1
+		                        AND YEAR(trans.onDate) = 2019
+		                        AND MONTH(trans.onDate) = 12
+                        ) trans_cat
+                        GROUP BY
+	                        trans_cat.customerID
+	                        ,trans_cat.actID
+	                        ,trans_cat.actType
+	                        ,trans_cat.Category
+	                        ,DATEADD(
+                                MONTH
+                                , DATEDIFF(MONTH, 0, trans_cat.onDate)
+                                , 0)
+                        ORDER BY
+	                        DATEADD(
+                                MONTH
+                                , DATEDIFF(MONTH, 0, trans_cat.onDate)
+                                , 0) DESC
+	                        ,SUM(
+		                        CASE
+			                        WHEN trans_cat.transType = 'CR' THEN trans_cat.amount
+			                        WHEN trans_cat.transType = 'DR' THEN (trans_cat.amount * -1)
+			                        ELSE NULL END
+	                        ) DESC";
+            List<YearMonthAggregated_CategoryTransactions> tList = await _context.YearMonthAggregated_CategoryTransactions.FromSqlRaw(tQuery, user.customerID).ToListAsync();
+            string actQuery = "Select distinct actID, actType from [Transaction] where customerID = {0}";
+            List<AccountRecord> actList = await _context.Account.FromSqlRaw(actQuery, user.customerID).ToListAsync();
+            string dateQuery = @"SELECT 
+	                                TOP 1 DATEADD(
+		                                MONTH
+		                                , DATEDIFF(MONTH, 0, trans.onDate)
+		                                ,0) [onDate]
+                                FROM [Transaction] trans
+                                WHERE customerID = {0} 
+                                ORDER BY ID";
+            DateRecord record = await _context.Date.FromSqlRaw(dateQuery, user.customerID).FirstOrDefaultAsync();
+            DateTime fromDate = record.onDate;
+            record = await _context.Date.FromSqlRaw(dateQuery + " DESC", user.customerID).FirstOrDefaultAsync();
+            DateTime toDate = record.onDate;
+            TCategoryAggregatedIndexViewModel vmod = new TCategoryAggregatedIndexViewModel(tList, actList, fromDate, toDate);
+
+            return View(vmod);
+        }
+
         [Authorize]
         public async Task<IActionResult> FilterIndex(string actFilter, string descFilter, string fromDate, string toDate, string pageNumber)
         {
