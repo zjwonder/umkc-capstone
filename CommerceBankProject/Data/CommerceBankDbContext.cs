@@ -33,5 +33,6 @@ namespace CommerceBankProject.Data
         public DbSet<DateRecord> Date { get; set; }
         public DbSet<Notification> Notification { get; set; }
         public DbSet<YearMonthAggregated_Transaction> YearMonthAggregated_Transaction { get; set; }
+        public DbSet<YearMonthAggregated_CategoryTransactions> YearMonthAggregated_CategoryTransactions { get; set; }
     }
 }
