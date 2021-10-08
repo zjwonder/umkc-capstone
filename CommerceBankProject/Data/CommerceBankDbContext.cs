@@ -22,6 +22,7 @@ namespace CommerceBankProject.Data
             base.OnModelCreating(builder);
             builder.Entity<AccountRecord>().HasNoKey();
             builder.Entity<DateRecord>().HasNoKey();
+            builder.Entity<MonthlyResult>().HasNoKey();
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
@@ -32,5 +33,6 @@ namespace CommerceBankProject.Data
         public DbSet<CustomerRecord> Customer { get; set; }
         public DbSet<DateRecord> Date { get; set; }
         public DbSet<Notification> Notification { get; set; }
+        public DbSet<MonthlyResult> MonthlyResult { get; set; }
     }
 }
