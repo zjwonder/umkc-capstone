@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CommerceBankProject.Migrations
 {
-    public partial class reconfigure : Migration
+    public partial class cat_config : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -115,11 +115,48 @@ namespace CommerceBankProject.Migrations
                     transType = table.Column<string>(type: "nvarchar(2)", nullable: true),
                     amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     description = table.Column<string>(type: "nvarchar(100)", nullable: true),
-                    userEntered = table.Column<bool>(nullable: false)
+                    userEntered = table.Column<bool>(nullable: false),
+                    category = table.Column<string>(type: "nvarchar(30)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Transaction", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "YearMonthAggregated_CategoryTransactions",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    customerID = table.Column<string>(type: "nvarchar(9)", nullable: true),
+                    actID = table.Column<string>(type: "nvarchar(30)", nullable: true),
+                    actType = table.Column<string>(type: "nvarchar(30)", nullable: true),
+                    category = table.Column<string>(type: "nvarchar(30)", nullable: true),
+                    MonthYearDate = table.Column<DateTime>(nullable: false),
+                    NetAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_YearMonthAggregated_CategoryTransactions", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "YearMonthAggregated_Transaction",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MonthYearDate = table.Column<DateTime>(nullable: false),
+                    customerID = table.Column<string>(type: "nvarchar(9)", nullable: true),
+                    actID = table.Column<string>(type: "nvarchar(30)", nullable: true),
+                    actType = table.Column<string>(type: "nvarchar(30)", nullable: true),
+                    NumTransactions = table.Column<int>(nullable: false),
+                    NetAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_YearMonthAggregated_Transaction", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -299,6 +336,12 @@ namespace CommerceBankProject.Migrations
 
             migrationBuilder.DropTable(
                 name: "Transaction");
+
+            migrationBuilder.DropTable(
+                name: "YearMonthAggregated_CategoryTransactions");
+
+            migrationBuilder.DropTable(
+                name: "YearMonthAggregated_Transaction");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
