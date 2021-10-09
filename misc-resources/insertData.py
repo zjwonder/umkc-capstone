@@ -30,10 +30,8 @@ if __name__ == '__main__':
             query = "SET IDENTITY_INSERT [Transaction] ON;\n"
             for line in data:
                 count += 1
-                #print(count)
                 query += "INSERT INTO [Transaction](ID, customerID, actID, actType, onDate, balance, transType, amount, description, userEntered, category) VALUES ("
                 fields = line.split(",")
-                #print(fields)
                 cust = fields[7]
                 if cust not in customers:
                     customers.append(cust)
@@ -65,7 +63,6 @@ if __name__ == '__main__':
                 query += fields[3] + ", '" + fields[4] + "', " + fields[5][1:-1] + ", "
                 query += "'" + fields[6].replace("'", "''") + "', 0,"
                 query += "'" + fields[9][:-1] + "'" + ");\n" 
-               # print(query)
                 previous = current
             create = False
         except Exception as e:
