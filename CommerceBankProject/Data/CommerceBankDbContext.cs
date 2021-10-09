@@ -12,6 +12,9 @@ namespace CommerceBankProject.Data
 {
     public class CommerceBankDbContext : IdentityDbContext<ApplicationUser>
     {
+        public CommerceBankDbContext()
+        {
+        }
         public CommerceBankDbContext(DbContextOptions<CommerceBankDbContext> options)
             : base(options)
         {
