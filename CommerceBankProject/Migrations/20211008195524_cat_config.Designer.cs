@@ -4,14 +4,16 @@ using CommerceBankProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CommerceBankProject.Migrations
 {
     [DbContext(typeof(CommerceBankDbContext))]
-    partial class CommerceBankDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211008195524_cat_config")]
+    partial class cat_config
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,9 +113,6 @@ namespace CommerceBankProject.Migrations
                 {
                     b.Property<string>("customerID")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("claimed")
-                        .HasColumnType("bit");
 
                     b.Property<string>("email")
                         .HasColumnType("nvarchar(max)");

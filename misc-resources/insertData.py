@@ -66,7 +66,7 @@ if __name__ == '__main__':
         except Exception as e:
             print(e)
     querydb(query)
-    query = "Drop table [Date]; Drop table [Account];"
+    query = "Drop table [Date]; Drop table [Account]; DROP TABLE [YearMonthAggregated_Transaction]; DROP TABLE [YearMonthAggregated_CategoryTransactions]"
     querydb(query)
     query = ""
     for i in range(len(customers)):

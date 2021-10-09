@@ -12,7 +12,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    
+    <Compile Remove="Migrations\20210916215301_setup.cs" />
+    <Compile Remove="Migrations\20210916215301_setup.Designer.cs" />
+    <Compile Remove="Migrations\20210922012928_addmodel.cs" />
+    <Compile Remove="Migrations\20210922012928_addmodel.Designer.cs" />
+    <Compile Remove="Migrations\20210922015151_addmodel.cs" />
+    <Compile Remove="Migrations\20210922015151_addmodel.Designer.cs" />
+    <Compile Remove="Migrations\20210922044612_addModels.cs" />
+    <Compile Remove="Migrations\20210922044612_addModels.Designer.cs" />
+    <Compile Remove="Migrations\20210922214247_reconfigure.cs" />
+    <Compile Remove="Migrations\20210922214247_reconfigure.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
