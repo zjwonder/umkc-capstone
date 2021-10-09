@@ -14,15 +14,16 @@ namespace ProjectUnitTests
     public class TestTransactionsController
     {
         private readonly Mock<CommerceBankDbContext> mockDbContext = new Mock<CommerceBankDbContext>();
+        private readonly Mock<TransactionsController> mockTransactionsController = new Mock<TransactionsController>();
         TransactionsController controller;
 
         public TestTransactionsController()
         {
-            CommerceBankProject.Models.AccountRecord tempRecord = new CommerceBankProject.Models.AccountRecord();
-            tempRecord.actID = "123456789";
-            tempRecord.actType = "Customer";
-            mockDbContext.Object.Account.Add(tempRecord);
-
+            //AccountRecord tempRecord = new CommerceBankProject.Models.AccountRecord();
+            //tempRecord.actID = "123456789";
+            //tempRecord.actType = "Customer";
+            //mockDbContext.Object.Account.Add(tempRecord);
+            
             var tempTransaction = new Transaction
             {
                 ID = 123456789,
@@ -37,7 +38,7 @@ namespace ProjectUnitTests
                 userEntered = true
             };
 
-            mockDbContext.Object.Transaction.Add(tempTransaction);
+            //mockDbContext.Object.Transaction.Add(tempTransaction);
 
             //mockDbContext.SetupAllProperties();
 
