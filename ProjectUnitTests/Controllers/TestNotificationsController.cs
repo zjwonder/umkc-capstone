@@ -10,6 +10,8 @@ using CommerceBankProject.Data;
 using Microsoft.EntityFrameworkCore;
 using CommerceBankProject.Models;
 using System.Linq;
+using static ProjectUnitTests.Utilities.Utilities;
+using System.Collections.Generic;
 
 namespace ProjectUnitTests
 {
@@ -72,27 +74,51 @@ namespace ProjectUnitTests
         [Fact]
         public async void TestGetIndexView()
         {
-            Notification tempNotif = new Notification()
+            using (var context = new CommerceBankDbContext(TestDbContextOptions()))
             {
-                ID = 123456789,
-                customerID = "123456789",
-                type = "test",
-                description = "test description",
-                onDate = new DateTime(2008, 1, 20),
-                read = false,
-                saved = false
-            };
-            
-            mockDbContext.Object.Notification.Add(tempNotif);
-            //mockDbContext.Object.SaveChanges();
-            //await mockDbContext.SaveChangesAsync();
+                // Given
 
-            mockDbContext.Setup(x => x.Notification.FirstOrDefault()).Returns(tempNotif);
+                List<Notification> notifications = new List<Notification>
+                {
+                    new Notification()
+                    {
+                        ID = 987654321,
+                        customerID = "987654321",
+                        type = "test2",
+                        description = "test description 2",
+                        onDate = new DateTime(2021, 1, 20),
+                        read = false,
+                        saved = false
+                    },
+                    new Notification()
+                    {
+                        ID = 123456789,
+                        customerID = "123456789",
+                        type = "test",
+                        description = "test description",
+                        onDate = new DateTime(2008, 1, 20),
+                        read = false,
+                        saved = false
+                    }
+                };
 
-            controller = new NotificationsController(mockDbContext.Object);
+                // When
 
-            var result = await controller.Index() as ViewResult;
-            Assert.IsType<ViewResult>(result);
+                foreach (Notification n in notifications)
+                {
+                    context.Notification.Add(n);
+                }
+                context.SaveChanges();
+                controller = new NotificationsController(context);
+
+
+                // Then
+
+                var result = await controller.Index();
+                var viewResult = result as ViewResult;
+                Assert.IsType<ViewResult>(viewResult);
+                Assert.Equal(viewResult.Model, notifications );
+            }
         }
     }
 }

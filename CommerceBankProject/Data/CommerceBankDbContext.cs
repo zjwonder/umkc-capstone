@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using CommerceBankProject.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CommerceBankProject.Data
 {
