@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CommerceBankProject.Data;
 using CommerceBankProject.Areas.Identity.Data;
+using CommerceBankProject.Services;
 
 namespace CommerceBankProject
 {
@@ -39,8 +40,12 @@ namespace CommerceBankProject
             services.AddDbContext<CommerceBankDbContext>(options =>
                     options.UseSqlServer(
                         Configuration.GetConnectionString("CommerceBankDbContextConnection")));
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddEntityFrameworkStores<CommerceBankDbContext>();
+            services.AddDefaultIdentity<ApplicationUser>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.User.RequireUniqueEmail = true;
+            }).AddEntityFrameworkStores<CommerceBankDbContext>();
+            services.AddTransient<IMailService, CommerceBankMailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
