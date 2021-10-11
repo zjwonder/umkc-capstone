@@ -27,7 +27,6 @@ namespace CommerceBankProject.Areas.Identity.Pages.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
         private readonly IMailService _mailService;
         private readonly CommerceBankDbContext _context;
 
@@ -35,14 +34,12 @@ namespace CommerceBankProject.Areas.Identity.Pages.Account
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender,
             IMailService mailService,
             CommerceBankDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            _emailSender = emailSender;
             _mailService = mailService;
             _context = context;
         }
@@ -106,18 +103,20 @@ namespace CommerceBankProject.Areas.Identity.Pages.Account
                 IdentityResult result = new IdentityResult();
 
                 if (existing.Any()) {
-                    bool dark;
-                    if (HttpContext.Session.GetString("UserStyle") == "dark")
-                    {
-                        dark = true;
+                    bool claimed = false;
+                    foreach (var customer in existing) {
+                        if (customer.claimed)
+                        {
+                            claimed = true;
+                        }
                     }
-                    else
+                    if (!claimed)
                     {
-                        dark = false;
+                        bool dark = HttpContext.Session.GetString("UserStyle") == "dark" ? true : false;
+                        user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, customerID = Input.customerID, firstName = Input.firstName, lastName = Input.lastName, darkMode = dark };
+                        result = await _userManager.CreateAsync(user, Input.Password);
+                        success = result.Succeeded;
                     }
-                    user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, customerID = Input.customerID, firstName = Input.firstName, lastName = Input.lastName, darkMode=dark };
-                    result = await _userManager.CreateAsync(user, Input.Password);
-                    success = result.Succeeded;
                 }
                 else
                 {
@@ -127,6 +126,8 @@ namespace CommerceBankProject.Areas.Identity.Pages.Account
                 if (success)
                 {
                     _logger.LogInformation("User created a new account with password.");
+                    string claimquery = "Update [Customer] set claimed = 1 where customerID = {0}";
+                    await _context.Database.ExecuteSqlRawAsync(claimquery, Input.customerID);
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -136,8 +137,6 @@ namespace CommerceBankProject.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    /*await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");*/
                     try { 
                         await _mailService.SendEmailAsync(
                             Input.Email,

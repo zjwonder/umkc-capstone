@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CommerceBankProject.Migrations
 {
-    public partial class category_reconfigure : Migration
+    public partial class reconfig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -66,7 +66,8 @@ namespace CommerceBankProject.Migrations
                 columns: table => new
                 {
                     customerID = table.Column<string>(nullable: false),
-                    email = table.Column<string>(nullable: true)
+                    email = table.Column<string>(nullable: true),
+                    claimed = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

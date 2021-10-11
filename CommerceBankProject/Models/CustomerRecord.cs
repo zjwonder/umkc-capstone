@@ -11,5 +11,6 @@ namespace CommerceBankProject.Models
         [Key]
         public string customerID { get; set; }
         public string email { get; set; }
+        public bool claimed { get; set; }
     }
 }
