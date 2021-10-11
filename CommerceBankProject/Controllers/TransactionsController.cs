@@ -109,7 +109,7 @@ namespace CommerceBankProject.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,customerID,actID,actType,onDate,balance,transType,amount,description,userEntered")] Transaction transaction)
+        public async Task<IActionResult> Create([Bind("ID,customerID,actID,actType,onDate,balance,transType,amount,description,userEntered,category")] Transaction transaction)
         {
             if (ModelState.IsValid)
             {
