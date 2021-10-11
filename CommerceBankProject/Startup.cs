@@ -42,7 +42,7 @@ namespace CommerceBankProject
                         Configuration.GetConnectionString("CommerceBankDbContextConnection")));
             services.AddDefaultIdentity<ApplicationUser>(options =>
             {
-                options.SignIn.RequireConfirmedAccount = false;
+                options.SignIn.RequireConfirmedAccount = true;
                 options.User.RequireUniqueEmail = true;
             }).AddEntityFrameworkStores<CommerceBankDbContext>();
             services.AddTransient<IMailService, CommerceBankMailService>();
