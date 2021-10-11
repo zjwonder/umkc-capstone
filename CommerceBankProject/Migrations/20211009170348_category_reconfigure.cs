@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CommerceBankProject.Migrations
 {
-    public partial class reconfigure : Migration
+    public partial class category_reconfigure : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -115,7 +115,8 @@ namespace CommerceBankProject.Migrations
                     transType = table.Column<string>(type: "nvarchar(2)", nullable: true),
                     amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     description = table.Column<string>(type: "nvarchar(100)", nullable: true),
-                    userEntered = table.Column<bool>(nullable: false)
+                    userEntered = table.Column<bool>(nullable: false),
+                    category = table.Column<string>(type: "nvarchar(30)", nullable: true)
                 },
                 constraints: table =>
                 {
