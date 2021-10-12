@@ -228,16 +228,44 @@ label {
     margin: 5px 0px 5px 10px;
 }
 
+a.btn-primary,
+#change-password-form .btn-primary,
+#download-data .btn-primary,
+#email-form .btn-primary,
+#profile-form .btn-primary,
 #incrementPageButton,
 #decrementPageButton {
     border: none !important;
 }
 
+.selected,
+.avail {
+    border-radius: 10% / 50% !important;
+    margin: 0px 0px 10px 0px;
+    text-align: center;
+}
+
+a.btn-primary,
+#change-password-form .btn-primary,
+#download-data .btn-primary,
+#email-form .btn-primary,
+#profile-form .btn-primary,
 #incrementPageButton:enabled,
 #decrementPageButton:enabled,
+.avail:hover,
+.selected {
+    background-color: #4FA800 !important;
+    color: #000 !important;
+}
+
+.avail {
+    background-color: #006747 !important;
+    color: #aaa !important;
+}
+
 .inactive {
     background-color: #4FA800 !important;
-    transition: 0.3s
+    transition: 0.3s;
 }
 
 #incrementPageButton:disabled,

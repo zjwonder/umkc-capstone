@@ -44,6 +44,8 @@ namespace CommerceBankProject
             {
                 options.SignIn.RequireConfirmedAccount = true;
                 options.User.RequireUniqueEmail = true;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 3;
             }).AddEntityFrameworkStores<CommerceBankDbContext>();
             services.AddTransient<IMailService, CommerceBankMailService>();
         }

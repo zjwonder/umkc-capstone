@@ -22,14 +22,11 @@ if __name__ == '__main__':
         try:
             customers = []
             emails = []
-            #count = 100000000
             previous = False
             hour = 0
             minute = 0
             second = 0
-            #query = "SET IDENTITY_INSERT [Transaction] ON;\n"
             for line in data:
-                #count += 1
                 query += "INSERT INTO [Transaction](customerID, actID, actType, onDate, balance, transType, amount, description, userEntered, category) VALUES ("
                 fields = line.split(",")
                 cust = fields[7]
