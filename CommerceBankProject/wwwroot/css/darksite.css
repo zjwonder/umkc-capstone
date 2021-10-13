@@ -229,10 +229,7 @@ label {
 }
 
 a.btn-primary,
-#change-password-form .btn-primary,
-#download-data .btn-primary,
-#email-form .btn-primary,
-#profile-form .btn-primary,
+button[type=submit].btn-primary,
 #incrementPageButton,
 #decrementPageButton {
     border: none !important;
@@ -246,10 +243,7 @@ a.btn-primary,
 }
 
 a.btn-primary,
-#change-password-form .btn-primary,
-#download-data .btn-primary,
-#email-form .btn-primary,
-#profile-form .btn-primary,
+button[type=submit].btn-primary,
 #incrementPageButton:enabled,
 #decrementPageButton:enabled,
 .avail:hover,
