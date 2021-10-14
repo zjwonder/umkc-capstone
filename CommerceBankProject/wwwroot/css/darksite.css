@@ -127,26 +127,6 @@ a.navbar-brand {
     word-break: break-all;
 }
 
-#darkMode {
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-}
-
-#darkMode::after {
-    content: "•";
-    color: #09e;
-    text-shadow: 0px 0px 5px #09e;
-    text-align: center;
-    font-size: 24pt;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    border-radius: 50%;
-    box-shadow: inset -1px -1px 3px rgba(255,255,255,0.2), inset 2px 2px 6px rgba(0,0,0,0.8);
-    display: inline-block;
-}
-
 nav button.nav-link,
 nav a.nav-link {
     text-shadow: -1px -1px 0px rgba(0,0,0,.3), 1px 1px 0px rgba(0,0,0,.1);
@@ -176,8 +156,7 @@ nav a.nav-link:hover {
 }
 
 select,
-#filterForm input,
-#pageChanged input {
+input {
     background-color: #333;
     color: #fff !important;
 }
@@ -186,30 +165,22 @@ select,
     filter: invert(1);
 }
 
-#filterForm input,
-#filterForm input:-webkit-autofill,
-#register input:-webkit-autofill,
-#account input:-webkit-autofill,
-#register input,
-#account input {
+input:-webkit-autofill,
+input {
     border-color: #fff !important;
     -webkit-box-shadow: 0 0 0 30px #333 inset;
     -webkit-text-fill-color: #fff;
     caret-color: #fff;
 }
 
-#register input:-webkit-autofill:focus,
-#account input:-webkit-autofill:focus,
-#register input:focus,
-#account input:focus,
-#register input:-webkit-autofill:hover,
-#account input:-webkit-autofill:hover,
-#register input:hover,
-#account input:hover,
-#register input:-webkit-autofill:active,
-#account input:-webkit-autofill:active,
-#register input:active,
-#account input:active {
+.form-group input:hover,
+.form-group input:focus,
+input:-webkit-autofill:focus,
+input:focus,
+input:-webkit-autofill:hover,
+input:hover,
+input:-webkit-autofill:active,
+input:active {
     background-color: #555;
     -webkit-box-shadow: 0 0 0 30px #555 inset;
 }
@@ -217,6 +188,28 @@ select,
 #register input:invalid,
 #account input:invalid {
     box-shadow: 0px 0px 5px #E30000;
+}
+
+.input-group-append span {
+    background-color: #555;
+}
+
+#darkMode {
+    display: none;
+}
+
+#darkModeAfter {
+    color: #09e;
+    text-shadow: 0px 0px 5px #09e;
+    text-align: center;
+    font-size: 24pt;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 50%;
+    box-shadow: inset -1px -1px 3px rgba(255,255,255,0.2), inset 2px 2px 6px rgba(0,0,0,0.8);
+    display: inline-block;
+    background-color: none !important;
 }
 
 label {
@@ -235,16 +228,38 @@ label {
     margin: 5px 0px 5px 10px;
 }
 
+a.btn-primary,
+button[type=submit].btn-primary,
 #incrementPageButton,
 #decrementPageButton {
     border: none !important;
 }
 
+.selected,
+.avail {
+    border-radius: 10% / 50% !important;
+    margin: 0px 0px 10px 0px;
+    text-align: center;
+}
+
+a.btn-primary,
+button[type=submit].btn-primary,
 #incrementPageButton:enabled,
 #decrementPageButton:enabled,
+.avail:hover,
+.selected {
+    background-color: #4FA800 !important;
+    color: #000 !important;
+}
+
+.avail {
+    background-color: #006747 !important;
+    color: #aaa !important;
+}
+
 .inactive {
     background-color: #4FA800 !important;
-    transition: 0.3s
+    transition: 0.3s;
 }
 
 #incrementPageButton:disabled,
