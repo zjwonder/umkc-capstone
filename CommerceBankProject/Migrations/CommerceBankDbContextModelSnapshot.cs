@@ -112,6 +112,9 @@ namespace CommerceBankProject.Migrations
                     b.Property<string>("customerID")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<bool>("claimed")
+                        .HasColumnType("bit");
+
                     b.Property<string>("email")
                         .HasColumnType("nvarchar(max)");
 
@@ -176,6 +179,9 @@ namespace CommerceBankProject.Migrations
 
                     b.Property<decimal>("balance")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("category")
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("customerID")
                         .HasColumnType("nvarchar(9)");

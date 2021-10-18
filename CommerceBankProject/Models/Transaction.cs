@@ -27,5 +27,7 @@ namespace CommerceBankProject.Models
         [Column(TypeName = "nvarchar(100)")]
         public string description { get; set; }
         public bool userEntered { get; set; }
+        [Column(TypeName = "nvarchar(30)")]
+        public string category { get; set; }
     }
 }

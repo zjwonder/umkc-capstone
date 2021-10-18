@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CommerceBankProject.Migrations
 {
     [DbContext(typeof(CommerceBankDbContext))]
-    [Migration("20210922214247_reconfigure")]
-    partial class reconfigure
+    [Migration("20211011204101_reconfig")]
+    partial class reconfig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -114,6 +114,9 @@ namespace CommerceBankProject.Migrations
                     b.Property<string>("customerID")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<bool>("claimed")
+                        .HasColumnType("bit");
+
                     b.Property<string>("email")
                         .HasColumnType("nvarchar(max)");
 
@@ -178,6 +181,9 @@ namespace CommerceBankProject.Migrations
 
                     b.Property<decimal>("balance")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("category")
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("customerID")
                         .HasColumnType("nvarchar(9)");
