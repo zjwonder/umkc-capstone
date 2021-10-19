@@ -108,8 +108,61 @@ nav a.nav-link:hover {
     color: #0d6efd !important;
 }
 
-/**/
+/*Spacing and display settings*/
+
+label {
+    margin: 0px 5px 0px 0px;
+}
 
 #darkMode {
     display: none;
+}
+
+#filterBtn {
+    border: none !important;
+    margin: 0px 0px 5px 0px;
+}
+
+#filterForm select,
+#filterForm input {
+    margin: 5px 20px 5px 0px;
+}
+
+#filterSubmit {
+    background-color: #4FA800 !important;
+    -webkit-box-shadow: none !important;
+    border: none;
+    margin: 5px 0px 5px 10px;
+}
+
+#pageChanged label {
+    margin-left: 20px;
+}
+
+#changePageNumber,
+#changePageNumber:focus,
+#changePageNumber:active {
+    width: 40px;
+    border: none;
+    cursor: auto !important;
+}
+
+.trans-cr,
+.trans-dr {
+    text-align: right;
+}
+
+/*Toggling appearance*/
+
+.closed {
+    visibility: hidden;
+    position: absolute;
+    opacity: 0;
+}
+
+.open {
+    visibility: visible;
+    position: static;
+    transition-property: opacity;
+    transition-duration: 0.5s;
 }

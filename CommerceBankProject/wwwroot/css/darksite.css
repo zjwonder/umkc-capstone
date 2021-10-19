@@ -44,26 +44,7 @@ body {
     transition-duration: 0.5s;
 }
 
-
-
 /**/
-
-#filterForm select,
-#filterForm input {
-    margin: 5px 20px 5px 0px;
-}
-
-#pageChanged label {
-    margin-left: 20px;
-}
-
-#changePageNumber,
-#changePageNumber:focus,
-#changePageNumber:active {
-    width: 40px;
-    border: none;
-    cursor: auto !important;
-}
 
 select,
 input {
@@ -120,22 +101,6 @@ input:active {
     background-color: none !important;
 }
 
-label {
-    margin: 0px 5px 0px 0px;
-}
-
-#filterBtn {
-    border: none !important;
-    margin: 0px 0px 5px 0px;
-}
-
-#filterSubmit {
-    background-color: #4FA800 !important;
-    -webkit-box-shadow: none !important;
-    border: none;
-    margin: 5px 0px 5px 10px;
-}
-
 a.btn-primary,
 button[type=submit].btn-primary,
 #incrementPageButton,
@@ -180,25 +145,8 @@ button[type=submit].btn-primary,
     transition: 0.3s
 }
 
-.closed {
-    visibility: hidden;
-    position: absolute;
-    opacity: 0;
-}
-
-.open {
-    visibility: visible;
-    position: static;
-    transition: 0.5s;
-}
-
-.trans-dr {
-    text-align: right;
-}
-
 .trans-cr {
     color: #4FA800;
-    text-align: right;
     text-shadow: -1px -1px 1px rgba(0,0,0,0.5), 0px 0px 1px rgba(0,0,0,.5);
     font-weight: normal;
 }
