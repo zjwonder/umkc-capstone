@@ -26,6 +26,7 @@ if __name__ == '__main__':
             hour = 0
             minute = 0
             second = 0
+            query = ""
             for line in data:
                 query += "INSERT INTO [Transaction](customerID, actID, actType, onDate, balance, transType, amount, description, userEntered, category) VALUES ("
                 fields = line.split(",")
@@ -64,7 +65,6 @@ if __name__ == '__main__':
             create = False
         except Exception as e:
             print(e)
-    query += query[:-1]
     querydb(query)
     query = "Drop table [Date]; Drop table [Account];"
     querydb(query)

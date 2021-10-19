@@ -18,7 +18,7 @@ namespace CommerceBankProject.Services
         }
         public async Task SendEmailAsync(string toEmail, string subject, string content)
         {
-            var apiKey = _configuration["CommerceBankEmailKey"];
+            var apiKey = Environment.GetEnvironmentVariable("SENDGRID_MAIL_KEY");
             var client = new SendGridClient(new SendGridClientOptions { ApiKey = apiKey, HttpErrorAsException = true });
             var from = new EmailAddress("cbwebdesk@gmail.com", "Commerce Bank Web Desk");
             var to = new EmailAddress(toEmail);
