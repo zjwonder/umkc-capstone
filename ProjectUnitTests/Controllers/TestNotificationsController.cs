@@ -60,15 +60,36 @@ namespace ProjectUnitTests
         }
 
         [Theory]
-        [InlineData(123456789, null)]
-        public void TestGetEditView(int? id, int? badID)
+        [InlineData(987654321, null)]
+        public async void TestGetEditView(int? id, int? badID)
         {
-            controller = new NotificationsController(mockDbContext.Object);
-            var result = controller.Edit(id);
-            Assert.NotNull(result);
+            using (var context = new CommerceBankDbContext(TestDbContextOptions()))
+            {
+                Notification tempNotif = new Notification()
+                {
+                    ID = 987654321,
+                    customerID = "987654321",
+                    type = "test2",
+                    description = "test description 2",
+                    onDate = new DateTime(2021, 1, 20),
+                    read = false,
+                    saved = false
+                };
 
-            var notFoundResult = controller.Edit(badID);
-            Assert.IsType<NotFoundResult>(notFoundResult.Result);
+                // When
+
+                context.Add(tempNotif);
+                context.SaveChanges();
+                controller = new NotificationsController(context);
+
+                var result = await controller.Edit(id);
+                var viewResult = result as ViewResult;
+                Assert.IsType<ViewResult>(result);
+                Assert.Equal(viewResult.Model, tempNotif);
+
+                var notFoundResult = controller.Edit(badID);
+                Assert.IsType<NotFoundResult>(notFoundResult.Result);
+            }
         }
 
         [Fact]
@@ -118,6 +139,157 @@ namespace ProjectUnitTests
                 var viewResult = result as ViewResult;
                 Assert.IsType<ViewResult>(viewResult);
                 Assert.Equal(viewResult.Model, notifications );
+            }
+        }
+
+        [Theory]
+        [InlineData(987654321, null)]
+        public async void TestGetDeleteView(int id, int? badID)
+        {
+            using (var context = new CommerceBankDbContext(TestDbContextOptions()))
+            {
+                Notification tempNotif = new Notification()
+                {
+                    ID = 987654321,
+                    customerID = "987654321",
+                    type = "test2",
+                    description = "test description 2",
+                    onDate = new DateTime(2021, 1, 20),
+                    read = false,
+                    saved = false
+                };
+
+                // When
+
+                context.Add(tempNotif);
+                context.SaveChanges();
+                controller = new NotificationsController(context);
+
+                var result = await controller.Delete(id);
+                var viewResult = result as ViewResult;
+                Assert.IsType<ViewResult>(result);
+                Assert.Equal(viewResult.Model, tempNotif);
+
+                var notFoundResult = controller.Delete(badID);
+                Assert.IsType<NotFoundResult>(notFoundResult.Result);
+            }
+        }
+
+        [Fact]
+        public async void TestCreatePOSTWithValidModelState()
+        {
+            using (var context = new CommerceBankDbContext(TestDbContextOptions()))
+            {
+                Notification tempNotif = new Notification()
+                {
+                    ID = 987654321,
+                    customerID = "987654321",
+                    type = "test2",
+                    description = "test description 2",
+                    onDate = new DateTime(2021, 1, 20),
+                    read = false,
+                    saved = false
+                };
+
+                //Notification badNotif = new Notification()
+                //{
+                    
+                //}
+
+                controller = new NotificationsController(context);
+
+                var result = await controller.Create(notification: tempNotif);
+                Assert.IsType<RedirectToActionResult>(result);
+
+                var viewRes = result as RedirectToActionResult;
+                Assert.Equal("Index", viewRes.ActionName);
+            }
+        }
+
+        [Fact]
+        public async void TestDeleteConfirmed()
+        {
+            using (var context = new CommerceBankDbContext(TestDbContextOptions()))
+            {
+                Notification tempNotif = new Notification()
+                {
+                    ID = 987654321,
+                    customerID = "987654321",
+                    type = "test2",
+                    description = "test description 2",
+                    onDate = new DateTime(2021, 1, 20),
+                    read = false,
+                    saved = false
+                };
+
+                context.Add(tempNotif);
+
+                Assert.Equal(tempNotif, context.Notification.Find(987654321));
+
+                controller = new NotificationsController(context);
+
+                var result = await controller.DeleteConfirmed(987654321);
+                Assert.IsType<RedirectToActionResult>(result);
+
+                Assert.Null(context.Notification.Find(987654321));
+
+                var viewRes = result as RedirectToActionResult;
+                Assert.Equal("Index", viewRes.ActionName);
+            }
+        }
+
+        [Fact]
+        public async void TestEditPOSTWithValidModelState()
+        {
+            using (var context = new CommerceBankDbContext(TestDbContextOptions()))
+            {
+                Notification tempNotif = new Notification()
+                {
+                    ID = 987654321,
+                    customerID = "987654321",
+                    type = "test2",
+                    description = "test description 2",
+                    onDate = new DateTime(2021, 1, 20),
+                    read = false,
+                    saved = false
+                };
+
+                context.Add(tempNotif);
+                context.SaveChanges();
+
+                controller = new NotificationsController(context);
+
+                var result = await controller.Edit(987654321, tempNotif);
+                Assert.IsType<RedirectToActionResult>(result);
+
+                var viewRes = result as RedirectToActionResult;
+                Assert.Equal("Index", viewRes.ActionName);
+            }
+        }
+
+        [Fact]
+        public async void TestEditPOSTWithInvalidID()
+        {
+            using (var context = new CommerceBankDbContext(TestDbContextOptions()))
+            {
+                Notification tempNotif = new Notification()
+                {
+                    ID = 987654321,
+                    customerID = "987654321",
+                    type = "test2",
+                    description = "test description 2",
+                    onDate = new DateTime(2021, 1, 20),
+                    read = false,
+                    saved = false
+                };
+
+                context.Add(tempNotif);
+                context.SaveChanges();
+
+                controller = new NotificationsController(context);
+
+                var result = await controller.Edit(123456789, tempNotif);
+                Assert.IsType<NotFoundResult>(result);
             }
         }
     }
