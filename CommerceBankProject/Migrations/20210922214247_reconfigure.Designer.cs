@@ -10,13 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CommerceBankProject.Migrations
 {
     [DbContext(typeof(CommerceBankDbContext))]
-<<<<<<< HEAD:CommerceBankProject/Migrations/20211011204101_reconfig.Designer.cs
-    [Migration("20211011204101_reconfig")]
-    partial class reconfig
-=======
-    [Migration("20211008195524_cat_config")]
-    partial class cat_config
->>>>>>> 97fbaeeb2db5261b758f78a86e0c7305c2b61942:CommerceBankProject/Migrations/20211008195524_cat_config.Designer.cs
+    [Migration("20210922214247_reconfigure")]
+    partial class reconfigure
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -119,9 +114,6 @@ namespace CommerceBankProject.Migrations
                     b.Property<string>("customerID")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<bool>("claimed")
-                        .HasColumnType("bit");
-
                     b.Property<string>("email")
                         .HasColumnType("nvarchar(max)");
 
@@ -187,9 +179,6 @@ namespace CommerceBankProject.Migrations
                     b.Property<decimal>("balance")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("category")
-                        .HasColumnType("nvarchar(30)");
-
                     b.Property<string>("customerID")
                         .HasColumnType("nvarchar(9)");
 
@@ -208,66 +197,6 @@ namespace CommerceBankProject.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Transaction");
-                });
-
-            modelBuilder.Entity("CommerceBankProject.Models.YearMonthAggregated_CategoryTransactions", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("MonthYearDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("NetAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("actID")
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("actType")
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("category")
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("customerID")
-                        .HasColumnType("nvarchar(9)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("YearMonthAggregated_CategoryTransactions");
-                });
-
-            modelBuilder.Entity("CommerceBankProject.Models.YearMonthAggregated_Transaction", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("MonthYearDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("NetAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("NumTransactions")
-                        .HasColumnType("int");
-
-                    b.Property<string>("actID")
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("actType")
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("customerID")
-                        .HasColumnType("nvarchar(9)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("YearMonthAggregated_Transaction");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
