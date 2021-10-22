@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CommerceBankProject.Data;
 using CommerceBankProject.Areas.Identity.Data;
+using CommerceBankProject.Services;
 
 namespace CommerceBankProject
 {
@@ -38,9 +39,15 @@ namespace CommerceBankProject
             services.AddRazorPages();
             services.AddDbContext<CommerceBankDbContext>(options =>
                     options.UseSqlServer(
-                        Configuration.GetConnectionString("CommerceBankDbContextConnection")));
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddEntityFrameworkStores<CommerceBankDbContext>();
+                        Environment.GetEnvironmentVariable("AZURE_CONN_STRING")));
+            services.AddDefaultIdentity<ApplicationUser>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = true;
+                options.User.RequireUniqueEmail = true;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 3;
+            }).AddEntityFrameworkStores<CommerceBankDbContext>();
+            services.AddTransient<IMailService, CommerceBankMailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
