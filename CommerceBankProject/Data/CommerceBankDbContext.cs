@@ -34,5 +34,6 @@ namespace CommerceBankProject.Data
         public DbSet<DateRecord> Date { get; set; }
         public DbSet<Notification> Notification { get; set; }
         public DbSet<MonthlyResult> MonthlyResult { get; set; }
+        public DbSet<NotificationSettings> NotificationSettings { get; set; }
     }
 }

@@ -28,7 +28,7 @@ namespace CommerceBankProject.Controllers
             
 
             //return View(vmod);
-            return View(await _context.Notification.ToListAsync());
+            return View(await _context.Notification.OrderByDescending(n => n.onDate).ToListAsync());
         }
 
 
@@ -57,10 +57,86 @@ namespace CommerceBankProject.Controllers
                 await _context.AddAsync(notification);
                 await _context.SaveChangesAsync();
             }
-        
-            
-            return View("Index", await _context.Notification.ToListAsync());
 
+
+
+            decimal balance = 4000;
+            
+
+            query = @"select *
+                    from[Transaction]
+                    where transType = 'DR' and balance < {0} and customerID = {1}
+                    order by onDate; ";
+
+            var balanceList = await _context.Transaction.FromSqlRaw(query, balance,customerID).ToListAsync();
+
+
+            foreach (var trans in balanceList)
+            {
+
+                string desc = "Your account is low ... :)";
+                Notification notification = new Notification { customerID = customerID, type = "Low balance", description = desc, onDate = trans.onDate, read = false, saved = false };
+                await _context.AddAsync(notification);
+                await _context.SaveChangesAsync();
+            }
+
+
+
+
+
+            // return View("Index", await _context.Notification.ToListAsync());
+            return RedirectToAction(nameof(Index));
+
+        }
+
+
+        public async Task<IActionResult> Settings()
+        {
+            return View(new NotificationSettings
+            {
+                customerID = "999999999",
+                monthlyBudgetRule = 50,
+                monthlyBudgetRuleActive = false,
+                balanceRule = 50,
+                balanceRuleActive = true, 
+                choresRule = 50,
+                choresRuleActive = false,
+                clothingRule = 50,
+                clothingRuleActive = false,
+                eatingOutRule = 50,
+                eatingOutRuleActive = false,
+                essentialsRule = 50,
+                essentialsRuleActive = false,
+                foodRule = 50,
+                foodRuleActive = false,
+                funRule = 50,
+                funRuleActive = false,
+                gasRule = 50,
+                gasRuleActive = false,
+                otherRule = 50,
+                otherRuleActive = false,
+                phoneRule = 50,
+                phoneRuleActive = false
+            });
+        }
+
+        public async Task<IActionResult> SettingsChange(bool monthlyBudgetActive, decimal monthlyBudget,bool balanceActive, decimal balance)
+        {
+            return RedirectToAction(nameof(Settings));
+        }
+
+
+        public async Task<IActionResult> DeleteAll()
+        {
+            var claim = User.FindFirst(ClaimTypes.NameIdentifier);
+            string userID = claim.Value;
+            var user = await _context.Users.Where(u => u.Id == userID).FirstOrDefaultAsync();
+            string query = "delete from Notification where customerID = {0};";
+            await _context.Database.ExecuteSqlRawAsync(query, user.customerID);
+
+
+            return RedirectToAction(nameof(Index));
+            
         }
 
         // GET: Notifications/Details/5

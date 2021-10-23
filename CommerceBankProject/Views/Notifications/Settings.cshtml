@@ -1,0 +1,89 @@
+﻿
+@model CommerceBankProject.Models.NotificationSettings
+@{
+    ViewData["Title"] = "Settings";
+}
+
+
+
+<h1>Settings</h1>
+
+
+
+<form>
+
+    <div class="form-check">
+        @if (Model.monthlyBudgetRuleActive)
+        {
+            <input class="form-check-input" type="checkbox" name="monthlyBudgetActive" value="" id="monthlyBudgetCheck" onchange="toggleEnabled('monthlyBudget')" checked>
+        }
+        else
+        {
+            <input class="form-check-input" type="checkbox" name="monthlyBudgetActive" value="" id="monthlyBudgetCheck" onchange="toggleEnabled('monthlyBudget')">
+
+        }
+        <label class="form-check-label" for="monthlyBudgetCheck">
+            active?
+        </label>
+    </div>
+
+    <label for="monthlyBudget" class="form-label">Monthly Budget</label>
+    @if (Model.monthlyBudgetRuleActive)
+    {
+        <input type="range" class="form-range" min="50" max="3000" step="10" name="monthlyBudget" value=@Model.monthlyBudgetRule id="monthlyBudget" oninput="trackSlider(this,'monthlyBudgetReadOut')">
+    }
+    else
+    {
+        <input type="range" class="form-range" min="50" max="3000" step="10" name="monthlyBudget" value=@Model.monthlyBudgetRule id="monthlyBudget" oninput="trackSlider(this,'monthlyBudgetReadOut')" disabled>
+
+    }
+    <input type="number" value=@Model.monthlyBudgetRule id="monthlyBudgetReadOut" readonly />
+
+
+    <div class="form-check">
+        @if (Model.balanceRuleActive)
+        {
+            <input class="form-check-input" type="checkbox" name="balanceActive" value="" id="balanceCheck" onchange="toggleEnabled('balance')" checked>
+        }
+
+        else
+        {
+            <input class="form-check-input" type="checkbox" name="balanceActive" value="" id="balanceCheck" onchange="toggleEnabled('balance')">
+        }
+        <label class="form-check-label" for="balanceCheck">
+            active?
+        </label>
+    </div>
+
+    <label for="balance" class="form-label">balance</label>
+    @if (Model.balanceRuleActive)
+    {
+    <input type="range" class="form-range" min="50" max="3000" step="10" id="balance" value=@Model.balanceRule name="balance" oninput="trackSlider(this,'balanceReadOut')">
+    }
+    else
+      {
+        <input type="range" class="form-range" min="50" max="3000" step="10" id="balance" value=@Model.balanceRule name="balance" oninput="trackSlider(this,'balanceReadOut')" disabled>
+      }
+    <input type="number" value=@Model.balanceRule id="balanceReadOut" readonly />
+
+
+
+
+</form>
+
+<script>
+
+    function toggleEnabled(rangeName) {
+        var ele = document.getElementById(rangeName);
+        if (ele.disabled) {
+            ele.disabled = false;
+
+        }
+        else {
+            ele.disabled = true;
+        }
+    }
+
+
+</script>
+
