@@ -39,7 +39,9 @@ namespace CommerceBankProject
             services.AddRazorPages();
             services.AddDbContext<CommerceBankDbContext>(options =>
                     options.UseSqlServer(
-                        Environment.GetEnvironmentVariable("AZURE_CONN_STRING")));
+                        // FUTURE WES: REMEMBER TO UNDO THIS K THX
+                        // Environment.GetEnvironmentVariable("AZURE_CONN_STRING")
+                        Configuration.GetConnectionString("CommerceBankDbContextConnection")));
             services.AddDefaultIdentity<ApplicationUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = true;

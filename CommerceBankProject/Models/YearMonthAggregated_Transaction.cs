@@ -2,13 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using CommerceBankProject.Data;
+using CommerceBankProject.Models;
+using System.Security.Claims;
 
 namespace CommerceBankProject.Models
 {
     public class YearMonthAggregated_Transaction
     {
+
         public int ID { get; set; }
         [DataType(DataType.Date)]
         public DateTime MonthYearDate { get; set; }
@@ -21,5 +29,8 @@ namespace CommerceBankProject.Models
         public int NumTransactions { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal NetAmount { get; set; }
+
     }
+
+    
 }

@@ -33,8 +33,14 @@
     <label for="toDate">To:</label>
     <input type="date" name="toDate" id="toDate" value=@string.Format("{0:yyyy-MM-dd}", Model.toDate) min=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) onchange="changeMaxFrom(this)" />
     <input type="submit" value="Go" id="filterSubmit" class="btn btn-primary" />
-    <input type ="hidden" name="pageNumber" value= "1" id="pageNumber"/>
+    <input type="hidden" name="pageNumber" value="1" id="pageNumber" />
 </form>
+
+<div class="row justify-content-center">
+
+    @(await Component.InvokeAsync("TransactionSummaryGraph", new { context = Context }))
+
+</div>
 
 <div class="row justify-content-center">
     <form asp-action="FilterIndex" id="pageChanged">
@@ -62,7 +68,8 @@
             <button type="button" class="btn btn-primary" id="incrementPageButton" onclick="incrementPage()">Next</button>
         }
     </form>
-</div><br />
+</div>
+<br />
 
 <table class="table">
     <thead>
@@ -85,45 +92,46 @@
     <tbody>
         @for (int i = (Model.pageNumber - 1) * Model.pageSize; i < (Model.pageNumber) * Model.pageSize && i < Model.tList.Count(); i++)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => Model.tList[i].actType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => Model.tList[i].onDate)
-            </td>
-            @if (Model.tList[i].transType == "DR")
-            {
-                <td class="trans-dr">
-                    -$@Html.DisplayFor(modelItem => Model.tList[i].amount)
-                </td>
-            }
-            else
-            {
-                <td class="trans-cr">
-                    +$@Html.DisplayFor(modelItem => Model.tList[i].amount)
-                </td>
-            }
-            @if (Model.tList[i].description.Length > 25)
-            {
+            <tr>
                 <td>
-                    @Model.tList[i].description.Substring(0, 25)
+                    @Html.DisplayFor(modelItem => Model.tList[i].actType)
                 </td>
-            }
-            else
-            {
                 <td>
-                    @Model.tList[i].description
+                    @Html.DisplayFor(modelItem => Model.tList[i].onDate)
                 </td>
-            }
-            <td>
-                <a asp-action="Details" asp-route-id="@Model.tList[i].ID">Details</a>
-            </td>
-        </tr>
+                @if (Model.tList[i].transType == "DR")
+                {
+                    <td class="trans-dr">
+                        -$@Html.DisplayFor(modelItem => Model.tList[i].amount)
+                    </td>
+                }
+                else
+                {
+                    <td class="trans-cr">
+                        +$@Html.DisplayFor(modelItem => Model.tList[i].amount)
+                    </td>
+                }
+                @if (Model.tList[i].description.Length > 25)
+                {
+                    <td>
+                        @Model.tList[i].description.Substring(0, 25)
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Model.tList[i].description
+                    </td>
+                }
+                <td>
+                    <a asp-action="Details" asp-route-id="@Model.tList[i].ID">Details</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
-@if (Model.tList.Count == 0) {
+@if (Model.tList.Count == 0)
+{
     <p>No transactions were found.</p>
 }
 <script>
