@@ -85,6 +85,18 @@ namespace CommerceBankProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MonthlyResult",
+                columns: table => new
+                {
+                    tyear = table.Column<int>(nullable: false),
+                    tmonth = table.Column<int>(nullable: false),
+                    amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Notification",
                 columns: table => new
                 {
@@ -100,6 +112,39 @@ namespace CommerceBankProject.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Notification", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NotificationSettings",
+                columns: table => new
+                {
+                    customerID = table.Column<string>(nullable: false),
+                    monthlyBudgetRule = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    monthlyBudgetRuleActive = table.Column<bool>(nullable: false),
+                    balanceRule = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    balanceRuleActive = table.Column<bool>(nullable: false),
+                    choresRule = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    choresRuleActive = table.Column<bool>(nullable: false),
+                    clothingRule = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    clothingRuleActive = table.Column<bool>(nullable: false),
+                    eatingOutRule = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    eatingOutRuleActive = table.Column<bool>(nullable: false),
+                    essentialsRule = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    essentialsRuleActive = table.Column<bool>(nullable: false),
+                    foodRule = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    foodRuleActive = table.Column<bool>(nullable: false),
+                    funRule = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    funRuleActive = table.Column<bool>(nullable: false),
+                    gasRule = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    gasRuleActive = table.Column<bool>(nullable: false),
+                    phoneRule = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    phoneRuleActive = table.Column<bool>(nullable: false),
+                    otherRule = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    otherRuleActive = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NotificationSettings", x => x.customerID);
                 });
 
             migrationBuilder.CreateTable(
@@ -297,7 +342,13 @@ namespace CommerceBankProject.Migrations
                 name: "Date");
 
             migrationBuilder.DropTable(
+                name: "MonthlyResult");
+
+            migrationBuilder.DropTable(
                 name: "Notification");
+
+            migrationBuilder.DropTable(
+                name: "NotificationSettings");
 
             migrationBuilder.DropTable(
                 name: "Transaction");

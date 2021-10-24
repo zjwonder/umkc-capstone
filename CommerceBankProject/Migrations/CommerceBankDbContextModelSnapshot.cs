@@ -131,6 +131,20 @@ namespace CommerceBankProject.Migrations
                     b.ToTable("Date");
                 });
 
+            modelBuilder.Entity("CommerceBankProject.Models.MonthlyResult", b =>
+                {
+                    b.Property<decimal>("amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("tmonth")
+                        .HasColumnType("int");
+
+                    b.Property<int>("tyear")
+                        .HasColumnType("int");
+
+                    b.ToTable("MonthlyResult");
+                });
+
             modelBuilder.Entity("CommerceBankProject.Models.Notification", b =>
                 {
                     b.Property<int>("ID")
@@ -159,6 +173,82 @@ namespace CommerceBankProject.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Notification");
+                });
+
+            modelBuilder.Entity("CommerceBankProject.Models.NotificationSettings", b =>
+                {
+                    b.Property<string>("customerID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("balanceRule")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("balanceRuleActive")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("choresRule")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("choresRuleActive")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("clothingRule")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("clothingRuleActive")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("eatingOutRule")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("eatingOutRuleActive")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("essentialsRule")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("essentialsRuleActive")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("foodRule")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("foodRuleActive")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("funRule")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("funRuleActive")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("gasRule")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("gasRuleActive")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("monthlyBudgetRule")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("monthlyBudgetRuleActive")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("otherRule")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("otherRuleActive")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("phoneRule")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("phoneRuleActive")
+                        .HasColumnType("bit");
+
+                    b.HasKey("customerID");
+
+                    b.ToTable("NotificationSettings");
                 });
 
             modelBuilder.Entity("CommerceBankProject.Models.Transaction", b =>

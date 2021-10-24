@@ -65,11 +65,36 @@ if __name__ == '__main__':
             create = False
         except Exception as e:
             print(e)
-    querydb(query)
-    query = "Drop table [Date]; Drop table [Account];"
-    querydb(query)
+    #querydb(query)
+    query = "Drop table [Date]; Drop table [Account]; Drop table [MonthlyResult];"
+    #querydb(query)
     query = ""
     for i in range(len(customers)):
         query += "INSERT INTO [Customer](customerID, email, claimed) VALUES ('"
         query += customers[i] + "', '" + emails[i] + "', 0);\n"
+        query += """INSERT INTO [NotificationSettings] (customerID,
+                monthlyBudgetRule,
+                monthlyBudgetRuleActive,
+                balanceRule,
+                balanceRuleActive, 
+                choresRule,
+                choresRuleActive,
+                clothingRule,
+                clothingRuleActive,
+                eatingOutRule,
+                eatingOutRuleActive,
+                essentialsRule,
+                essentialsRuleActive,
+                foodRule,
+                foodRuleActive,
+                funRule,
+                funRuleActive,
+                gasRule,
+                gasRuleActive,
+                otherRule,
+                otherRuleActive,
+                phoneRule,
+                phoneRuleActive)
+                VALUES ("""
+        query += customers[i] + ", 1000, 1, 1000, 1, 50, 0, 50, 0, 50, 0, 50, 0, 50, 0, 50, 0, 50, 0, 50, 0, 50, 0);"
     querydb(query)

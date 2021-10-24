@@ -8,3 +8,14 @@ function trackSlider(slide, output) {
     document.getElementById(output).value = slide.value;
 
 }
+
+function toggleEnabled(rangeName) {
+    var ele = document.getElementById(rangeName);
+    if (ele.disabled) {
+        ele.disabled = false;
+
+    }
+    else {
+        ele.disabled = true;
+    }
+}
