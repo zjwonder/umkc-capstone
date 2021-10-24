@@ -37,12 +37,6 @@
 </form>
 
 <div class="row justify-content-center">
-
-    @(await Component.InvokeAsync("TransactionSummaryGraph", new { context = Context }))
-
-</div>
-
-<div class="row justify-content-center">
     <form asp-action="FilterIndex" id="pageChanged">
         <input type="hidden" name="actFilter" value=@Model.account />
         <input type="hidden" name="descFilter" value=@Model.descSearch>

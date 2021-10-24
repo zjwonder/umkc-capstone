@@ -1,0 +1,19 @@
+﻿@{
+    //ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<div class="text-center">
+    <h1 class="display-4">Dashboard</h1>
+</div>
+
+<div class="row">
+    <div class="column">
+        @(await Component.InvokeAsync("CategoryGraph", new { context = Context }))
+    </div>
+    <div class="column">
+        @(await Component.InvokeAsync("TransactionSummaryGraph", new { context = Context }))
+    </div>
+</div>

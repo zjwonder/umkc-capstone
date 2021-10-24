@@ -42,8 +42,14 @@ namespace CommerceBankProject.Controllers
             return View(vmod);
         }
 
-        // GET: Graphs
         [Authorize]
+        public async Task<IActionResult> Dashboard()
+        {
+            return View();
+        }
+
+            // GET: Graphs
+            [Authorize]
         public async Task<IActionResult> Graphs()
         {
             var claim = User.FindFirst(ClaimTypes.NameIdentifier);

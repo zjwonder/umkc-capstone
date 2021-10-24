@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using CommerceBankProject.Models;
 using CommerceBankProject.Data;
 
-
 namespace CommerceBankProject.View_Components
 {
     public class TransactionSummaryGraphViewComponent : ViewComponent
@@ -21,17 +20,6 @@ namespace CommerceBankProject.View_Components
             _context = context;
         }
 
-        public struct TestUser
-        {
-            public string Value;
-            public string customerID;
-            public TestUser(string _Value, string _customerID)
-            {
-                Value = _Value;
-                customerID = _customerID;
-            }
-        }
-
         [Authorize]
         public async Task<IViewComponentResult> InvokeAsync()
         {
@@ -41,10 +29,6 @@ namespace CommerceBankProject.View_Components
 
             //var claim = User.FindFirst(ClaimTypes.NameIdentifier);
 
-            TestUser claim = new TestUser("777777777", "777777777");
-
-            string userID = claim.Value;
-            var user = await _context.Users.Where(u => u.Id == userID).FirstOrDefaultAsync();
             string tQuery = @"SELECT
                                     CAST( DENSE_RANK() OVER (ORDER BY DATEADD(MONTH, DATEDIFF(MONTH, 0, trans.onDate),0)
 		, trans.customerID, trans.actID) AS INT) [ID]
