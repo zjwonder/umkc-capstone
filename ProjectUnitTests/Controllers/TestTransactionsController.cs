@@ -20,153 +20,117 @@ namespace ProjectUnitTests
 {
     public class TestTransactionsController
     {
-        private readonly Mock<CommerceBankDbContext> mockDbContext = new Mock<CommerceBankDbContext>();
-        private readonly Mock<TransactionsController> mockTransactionsController = new Mock<TransactionsController>();
         TransactionsController controller;
 
         List<Transaction> transactions = new List<Transaction>
-            {
-                new Transaction()
-                {
-                    ID = 789456123,
-                    customerID = "123789456",
-                    actID = "456123789",
-                    actType = "Customer",
-                    onDate = new DateTime(2008, 6, 1),
-                    balance = 1000.04m,
-                    transType = "Fun",
-                    description = "test desc",
-                    userEntered = false
-                },
-                new Transaction()
-                {
-                    ID = 456789123,
-                    customerID = "111111111",
-                    actID = "222222222",
-                    actType = "Customer",
-                    onDate = new DateTime(2021, 7, 2),
-                    balance = 978.04m,
-                    transType = "Gas",
-                    description = "second description",
-                    userEntered = false
-                }
-            };
-
-        public TestTransactionsController()
         {
-            //AccountRecord tempRecord = new CommerceBankProject.Models.AccountRecord();
-            //tempRecord.actID = "123456789";
-            //tempRecord.actType = "Customer";
-            //mockDbContext.Object.Account.Add(tempRecord);
-
-            var tempTransaction = new Transaction
+            new Transaction()
             {
-                ID = 123456789,
-                customerID = "123456789",
-                actID = "123456789",
-                actType = "Temp",
-                onDate = new DateTime(2008, 1, 20),
-                balance = 1234.56m,
+                ID = 789456123,
+                customerID = "123789456",
+                actID = "456123789",
+                actType = "Customer",
+                onDate = new DateTime(2008, 6, 1),
+                balance = 1000.04m,
                 transType = "Fun",
-                amount = 12.34m,
-                description = "For fun",
-                userEntered = true
-            };
-
-
-
-            //mockDbContext.Object.Transaction.Add(tempTransaction);
-
-            //mockDbContext.SetupAllProperties();
-
-            //mockDbContext.Setup(x => x.Account=tempRecord);
-            //controller = new TransactionsController(mockDbContext.Object);
-        }
-
-
-        [Fact]
-        public async void TestIndex()
-        {
-            List<Transaction> transactions = new List<Transaction>
+                description = "test desc",
+                userEntered = false
+            },
+            new Transaction()
             {
-                new Transaction()
-                {
-                    ID = 789456123,
-                    customerID = "123789456",
-                    actID = "456123789",
-                    actType = "Customer",
-                    onDate = new DateTime(2008, 6, 1),
-                    balance = 1000.04m,
-                    transType = "Fun",
-                    description = "test desc",
-                    userEntered = false
-                },
-                new Transaction()
-                {
-                    ID = 456789123,
-                    customerID = "111111111",
-                    actID = "222222222",
-                    actType = "Customer",
-                    onDate = new DateTime(2021, 7, 2),
-                    balance = 978.04m,
-                    transType = "Gas",
-                    description = "second description",
-                    userEntered = false
-                }
-            };
-
-            
-
-            using (var context = new CommerceBankDbContext(TestDbContextOptions()))
-            {
-                foreach (Transaction t in transactions)
-                {
-                    context.Transaction.Add(t);
-                }
-
-                ApplicationUser savedUser = new ApplicationUser();
-
-                var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-                    {new Claim(ClaimTypes.NameIdentifier, savedUser.Id)}, "TestAuthentication"));
-
-
-                context.Users.Add(savedUser);
-                context.SaveChanges();
-                controller = new TransactionsController(context);
-
-                controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
-                var result = await controller.Index();
-                Assert.IsType<ViewResult>(result);
+                ID = 456789123,
+                customerID = "111111111",
+                actID = "222222222",
+                actType = "Customer",
+                onDate = new DateTime(2021, 7, 2),
+                balance = 978.04m,
+                transType = "Gas",
+                description = "second description",
+                userEntered = false
             }
-            //var result = await controller.Index() as ViewResult;
-            //Assert.IsType<ViewResult>(result);
-        }
+        };
 
-        [Fact]
-        public async void TestFilterIndex()
-        {
-            using (var context = new CommerceBankDbContext(TestDbContextOptions()))
-            {
-                foreach (Transaction t in transactions)
-                {
-                    context.Transaction.Add(t);
-                }
+        //[Fact]
+        //public async void TestIndex()
+        //{
+        //    List<Transaction> transactions = new List<Transaction>
+        //    {
+        //        new Transaction()
+        //        {
+        //            ID = 789456123,
+        //            customerID = "123789456",
+        //            actID = "456123789",
+        //            actType = "Customer",
+        //            onDate = new DateTime(2008, 6, 1),
+        //            balance = 1000.04m,
+        //            transType = "Fun",
+        //            description = "test desc",
+        //            userEntered = false
+        //        },
+        //        new Transaction()
+        //        {
+        //            ID = 456789123,
+        //            customerID = "111111111",
+        //            actID = "222222222",
+        //            actType = "Customer",
+        //            onDate = new DateTime(2021, 7, 2),
+        //            balance = 978.04m,
+        //            transType = "Gas",
+        //            description = "second description",
+        //            userEntered = false
+        //        }
+        //    };
 
-                ApplicationUser savedUser = new ApplicationUser();
+        //    using (var context = new CommerceBankDbContext(TestDbContextOptions()))
+        //    {
+        //        foreach (Transaction t in transactions)
+        //        {
+        //            context.Transaction.Add(t);
+        //        }
 
-                var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-                    {new Claim(ClaimTypes.NameIdentifier, savedUser.Id)}, "TestAuthentication"));
+        //        ApplicationUser savedUser = new ApplicationUser();
 
-                context.Users.Add(savedUser);
-                context.SaveChanges();
+        //        var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+        //            {new Claim(ClaimTypes.NameIdentifier, savedUser.Id)}, "TestAuthentication"));
 
-                controller = new TransactionsController(context);
 
-                controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
-                var result = await controller.FilterIndex("all", "test", "2006-1-1", "2021-1-1", "20");
-                Assert.IsType<ViewResult>(result);
-            }
-        }
+        //        context.Users.Add(savedUser);
+        //        context.SaveChanges();
+        //        controller = new TransactionsController(context);
+
+        //        controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
+        //        var result = await controller.Index();
+        //        Assert.IsType<ViewResult>(result);
+        //    }
+        //    //var result = await controller.Index() as ViewResult;
+        //    //Assert.IsType<ViewResult>(result);
+        //}
+
+        //[Fact]
+        //public async void TestFilterIndex()
+        //{
+        //    using (var context = new CommerceBankDbContext(TestDbContextOptions()))
+        //    {
+        //        foreach (Transaction t in transactions)
+        //        {
+        //            context.Transaction.Add(t);
+        //        }
+
+        //        ApplicationUser savedUser = new ApplicationUser();
+
+        //        var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+        //            {new Claim(ClaimTypes.NameIdentifier, savedUser.Id)}, "TestAuthentication"));
+
+        //        context.Users.Add(savedUser);
+        //        context.SaveChanges();
+
+        //        controller = new TransactionsController(context);
+
+        //        controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
+        //        var result = await controller.FilterIndex("all", "test", "2006-1-1", "2021-1-1", "20");
+        //        Assert.IsType<ViewResult>(result);
+        //    }
+        //}
 
         [Fact]
         public async void TestGetDetailsView()
@@ -203,7 +167,6 @@ namespace ProjectUnitTests
                 Assert.IsType<ViewResult>(result);
                 Assert.Equal(viewResult.Model, testTransaction);
             }
-
         }
 
         [Fact]

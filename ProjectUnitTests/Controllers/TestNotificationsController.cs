@@ -17,40 +17,24 @@ namespace ProjectUnitTests
 {
     public class TestNotificationsController
     {
-        //this statement is presumably where the error is, need to pass DbContextOptions as a parameter in the creation of the mock
         private readonly Mock<CommerceBankDbContext> mockDbContext = new Mock<CommerceBankDbContext>();
         NotificationsController controller;
 
-        public TestNotificationsController()
+        [Fact]
+        public void TestGetCreateView()
         {
-            
-            //tempRecord.actID = "123456789";
-            //tempRecord.actType = "Customer";
-            //mockDbContext.Object.Account.Add(tempRecord);
-
-            
-
-            //mockDbContext.SetupAllProperties();
-
-            //mockDbContext.Setup(x => x.Account=tempRecord);
-            //mockDbContext.Setup(x => x.Notification.Add(tempNotif));
-            
-        }
-
-        [Theory]
-        [InlineData("Create", "create")]
-        public void TestGetCreateView(string viewNameString, string wrongViewNameString)
-        {
+            string viewNameString = "Create", wrongViewNameString = "create";
             controller = new NotificationsController(mockDbContext.Object);
             var result = controller.Create() as ViewResult;
             Assert.Equal(viewNameString, result.ViewName);
             Assert.NotEqual(wrongViewNameString, result.ViewName);
         }
 
-        [Theory]
-        [InlineData(123456789, null)]
-        public void TestGetDetailsView(int id, int? badID)
+        [Fact]
+        public void TestGetDetailsView()
         {
+            int id = 123456789;
+            int? badID = null;
             controller = new NotificationsController(mockDbContext.Object);
             var result = controller.Details(id);
             Assert.NotNull(result);
@@ -59,10 +43,11 @@ namespace ProjectUnitTests
             Assert.IsType<NotFoundResult>(notFoundResult.Result);
         }
 
-        [Theory]
-        [InlineData(987654321, null)]
-        public async void TestGetEditView(int? id, int? badID)
+        [Fact]
+        public async void TestGetEditView()
         {
+            int id = 987654321;
+            int? badID = null;
             using (var context = new CommerceBankDbContext(TestDbContextOptions()))
             {
                 Notification tempNotif = new Notification()
@@ -132,7 +117,6 @@ namespace ProjectUnitTests
                 context.SaveChanges();
                 controller = new NotificationsController(context);
 
-
                 // Then
 
                 var result = await controller.Index();
@@ -142,10 +126,11 @@ namespace ProjectUnitTests
             }
         }
 
-        [Theory]
-        [InlineData(987654321, null)]
-        public async void TestGetDeleteView(int id, int? badID)
+        [Fact]
+        public async void TestGetDeleteView()
         {
+            int id = 987654321;
+            int? badID = null;
             using (var context = new CommerceBankDbContext(TestDbContextOptions()))
             {
                 Notification tempNotif = new Notification()
@@ -190,11 +175,6 @@ namespace ProjectUnitTests
                     read = false,
                     saved = false
                 };
-
-                //Notification badNotif = new Notification()
-                //{
-                    
-                //}
 
                 controller = new NotificationsController(context);
 

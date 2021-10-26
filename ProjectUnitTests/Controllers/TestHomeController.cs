@@ -20,25 +20,22 @@ namespace ProjectUnitTests
             controller = new HomeController(mockLogger.Object);
         }
 
-
-        [Theory]
-        [InlineData("Index", "index")]
-        public void TestGetIndexView(string viewNameString, string wrongViewNameString)
+        [Fact]
+        public void TestGetIndexView()
         {
+            string viewNameString = "Index", wrongViewNameString = "index";
             var result = controller.Index() as ViewResult;
             Assert.Equal(viewNameString, result.ViewName);
             Assert.NotEqual(wrongViewNameString, result.ViewName);
         }
 
-
-        [Theory]
-        [InlineData("Privacy", "privacy")]
-        public void TestGetPrivacyView(string viewNameString, string wrongViewNameString)
+        [Fact]
+        public void TestGetPrivacyView()
         {
+            string viewNameString = "Privacy", wrongViewNameString = "privacy";
             var result = controller.Privacy() as ViewResult;
             Assert.Equal(viewNameString, result.ViewName);
             Assert.NotEqual(wrongViewNameString, result.ViewName);
         }
-
     }
 }
