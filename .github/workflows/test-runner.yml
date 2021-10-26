@@ -10,7 +10,7 @@ on:
   
   push:
     # when pushing to any branch
-    branches-ignore: [ "" ]
+    branches-ignore: [ "i-will-not-be-ignored" ]
     
   pull_request:
     # when initiating a pull request to main
