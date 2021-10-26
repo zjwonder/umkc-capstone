@@ -1,5 +1,7 @@
 # Corner Club Capstone Project
 
+See the product in action by visiting our website: [www.corner-club.com](https://www.corner-club.com)
+
 ## Welcome!
 
 We've been waiting for you! Here, have a cup of tea.
@@ -11,12 +13,41 @@ In this repository, you will find the application that our group, the Corner Clu
 
 Who is the Corner Club, you ask? We are a team of computer science students, working together to create a better tomorrow! ... or at least a nice web app for Commerce Bank. Members include:
 
-- Wes McNall
-- Zach Halderwood
-- Ryan Williams
-- Colin McNish
-- Ian Chacey
-- Jayson Nguyen
+- Wes McNall, Project Manager
+- Zach Halderwood, Architect / PO
+- Ryan Williams, Senior Engineer
+- Colin McNish, Full-Stack Engineer
+- Ian Chacey, Full-Stack Engineer
+- Jayson Nguyen, Full-Stack Engineer
+
+## About the Project
+
+This project is a fully-functional, professional-quality web app which simulates an online banking tool. It is being created with a bit of guidance from some wonderful people at Commerce Bank and the academic big wigs in the School of Computing & Engineering at UMKC.
+
+### Team Meetings
+
+Our full team meets once/week over Discord and Zoom, where we discuss various class assignments, have kanban-style standups, review the timeline for our project, and collaborate on student-y things in general. Wes, Zach, and Ryan chat regularly to maintain a cohesive plan for prioritizing and planning work for the team and make sure project documentation is up-to-spec and submitted to the professor when she needs it. Various members of the team get together to pair-program on an as-needed basis so that our tasks always are completed on-time and with excellent quality.
+
+### Tech Stack
+
+We followed the sponsoring company's recommendations for database and API frameworks. We did stray a bit from the beaten path on some of our tools, though.
+
+- Database:         Microsoft SQL
+- API:              ASP.NET Core 3.1
+- Front end:        Razor Pages (CSHTML)
+
+### Additional Tools
+
+In this modern era, it would be silly of us to not consume some additional tools in order to ease the development and feature-building of our product.
+
+- Version control:  Github Pro
+- Cloud deployment: MS Azure
+- Authentication:   MS Identity Framework
+- Notifications:    Sendgrid API
+
+### CI/CD
+
+Our team has implemented Continuous Integration and Continuous Deployment. By configuring the Github repo to automatically deploy changes on the main branch to the Azure-hosted app service, we can easily and quickly patch bugs and add features with minimal risk. We protect the main branch by requiring approved pull requests in order to merge changes to main. The only users with access to pull, commit, and approve changes are members of this team and our professor.
 
 ## Resources
 
