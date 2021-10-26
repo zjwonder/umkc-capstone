@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CommerceBankProject.Migrations
 {
     [DbContext(typeof(CommerceBankDbContext))]
-    [Migration("20211024005525_reconfig")]
-    partial class reconfig
+    [Migration("20211026004231_Notifications")]
+    partial class Notifications
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -206,6 +206,9 @@ namespace CommerceBankProject.Migrations
                     b.Property<bool>("eatingOutRuleActive")
                         .HasColumnType("bit");
 
+                    b.Property<TimeSpan>("endTimeRule")
+                        .HasColumnType("time(7)");
+
                     b.Property<decimal>("essentialsRule")
                         .HasColumnType("decimal(18,2)");
 
@@ -246,6 +249,12 @@ namespace CommerceBankProject.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("phoneRuleActive")
+                        .HasColumnType("bit");
+
+                    b.Property<TimeSpan>("startTimeRule")
+                        .HasColumnType("time(7)");
+
+                    b.Property<bool>("timeRuleActive")
                         .HasColumnType("bit");
 
                     b.HasKey("customerID");

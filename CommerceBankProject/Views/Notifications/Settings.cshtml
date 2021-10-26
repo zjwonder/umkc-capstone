@@ -8,16 +8,16 @@
 <form asp-action="SettingsChange">
 
     <div class="form-check">
-    @if (Model.monthlyBudgetRuleActive)
-    {
-        <input class="form-check-input" type="checkbox" name="monthlyBudgetActive" value="true" id="monthlyBudgetCheck" onchange="toggleEnabled('monthlyBudget')" checked>
-    }
-    else
-    {
-        <input class="form-check-input" type="checkbox" name="monthlyBudgetActive" value="true" id="monthlyBudgetCheck" onchange="toggleEnabled('monthlyBudget')">
-    }
+        @if (Model.monthlyBudgetRuleActive)
+        {
+            <input class="form-check-input" type="checkbox" name="monthlyBudgetActive" value="true" id="monthlyBudgetCheck" onchange="toggleEnabled('monthlyBudget')" checked>
+        }
+        else
+        {
+            <input class="form-check-input" type="checkbox" name="monthlyBudgetActive" value="true" id="monthlyBudgetCheck" onchange="toggleEnabled('monthlyBudget')">
+        }
         <label class="form-check-label" for="monthlyBudgetCheck">
-            active?
+            Check this box if you want monthly budget notifications.
         </label>
     </div>
 
@@ -33,16 +33,16 @@
     <input type="number" value=@Model.monthlyBudgetRule id="monthlyBudgetReadOut" name="monthlyBudget" readonly />
 
     <div class="form-check">
-    @if (Model.balanceRuleActive)
-    {
-        <input class="form-check-input" type="checkbox" name="balanceActive" value="true" id="balanceCheck" onchange="toggleEnabled('balance')" checked>
-    }
-    else
-    {
-        <input class="form-check-input" type="checkbox" name="balanceActive" value="true" id="balanceCheck" onchange="toggleEnabled('balance')">
-    }
+        @if (Model.balanceRuleActive)
+        {
+            <input class="form-check-input" type="checkbox" name="balanceActive" value="true" id="balanceCheck" onchange="toggleEnabled('balance')" checked>
+        }
+        else
+        {
+            <input class="form-check-input" type="checkbox" name="balanceActive" value="true" id="balanceCheck" onchange="toggleEnabled('balance')">
+        }
         <label class="form-check-label" for="balanceCheck">
-            active?
+            Check this box if you want low balance notifications.
         </label>
     </div>
 
@@ -58,16 +58,16 @@
     <input type="number" value=@Model.balanceRule id="balanceReadOut" name="balance" readonly />
 
     <div class="form-check">
-    @if (Model.choresRuleActive)
-    {
-        <input class="form-check-input" type="checkbox" name="choresRuleActive" value="true" id="choresRuleCheck" onchange="toggleEnabled('chores')" checked>
-    }
-    else
-    {
-        <input class="form-check-input" type="checkbox" name="choresRuleActive" value="true" id="choresRuleCheck" onchange="toggleEnabled('chores')">
-    }
+        @if (Model.choresRuleActive)
+        {
+            <input class="form-check-input" type="checkbox" name="choresRuleActive" value="true" id="choresRuleCheck" onchange="toggleEnabled('chores')" checked>
+        }
+        else
+        {
+            <input class="form-check-input" type="checkbox" name="choresRuleActive" value="true" id="choresRuleCheck" onchange="toggleEnabled('chores')">
+        }
         <label class="form-check-label" for="choresRuleCheck">
-            active?
+            Check this box if you want monthly chore budget notifications.
         </label>
     </div>
 
@@ -83,16 +83,16 @@
     <input type="number" value=@Model.choresRule id="choresReadOut" name="chores" readonly />
 
     <div class="form-check">
-    @if (Model.clothingRuleActive)
-    {
-        <input class="form-check-input" type="checkbox" name="clothingRuleActive" value="true" id="clothingRuleCheck" onchange="toggleEnabled('clothing')" checked>
-    }
-    else
-    {
-        <input class="form-check-input" type="checkbox" name="clothingRuleActive" value="true" id="clothingRuleCheck" onchange="toggleEnabled('clothing')">
-    }
+        @if (Model.clothingRuleActive)
+        {
+            <input class="form-check-input" type="checkbox" name="clothingRuleActive" value="true" id="clothingRuleCheck" onchange="toggleEnabled('clothing')" checked>
+        }
+        else
+        {
+            <input class="form-check-input" type="checkbox" name="clothingRuleActive" value="true" id="clothingRuleCheck" onchange="toggleEnabled('clothing')">
+        }
         <label class="form-check-label" for="clothingRuleCheck">
-            active?
+            Check this box if you want monthly clothing budget notifications.
         </label>
     </div>
 
@@ -108,16 +108,16 @@
     <input type="number" value=@Model.clothingRule id="clothingReadOut" name="clothing" readonly />
 
     <div class="form-check">
-    @if (Model.eatingOutRuleActive)
-    {
-        <input class="form-check-input" type="checkbox" name="eatingOutRuleActive" value="true" id="eatingOutRuleCheck" onchange="toggleEnabled('eatingOut')" checked>
-    }
-    else
-    {
-        <input class="form-check-input" type="checkbox" name="eatingOutRuleActive" value="true" id="eatingOutRuleCheck" onchange="toggleEnabled('eatingOut')">
-    }
+        @if (Model.eatingOutRuleActive)
+        {
+            <input class="form-check-input" type="checkbox" name="eatingOutRuleActive" value="true" id="eatingOutRuleCheck" onchange="toggleEnabled('eatingOut')" checked>
+        }
+        else
+        {
+            <input class="form-check-input" type="checkbox" name="eatingOutRuleActive" value="true" id="eatingOutRuleCheck" onchange="toggleEnabled('eatingOut')">
+        }
         <label class="form-check-label" for="eatingOutRuleCheck">
-            active?
+            Check this box if you want monthly eating out budget notifications.
         </label>
     </div>
 
@@ -133,16 +133,16 @@
     <input type="number" value=@Model.eatingOutRule id="eatingOutReadOut" name="eatingOut" readonly />
 
     <div class="form-check">
-    @if (Model.essentialsRuleActive)
-    {
-        <input class="form-check-input" type="checkbox" name="essentialsRuleActive" value="true" id="essentialsRuleCheck" onchange="toggleEnabled('essentials')" checked>
-    }
-    else
-    {
-        <input class="form-check-input" type="checkbox" name="essentialsRuleActive" value="true" id="essentialsRuleCheck" onchange="toggleEnabled('essentials')">
-    }
+        @if (Model.essentialsRuleActive)
+        {
+            <input class="form-check-input" type="checkbox" name="essentialsRuleActive" value="true" id="essentialsRuleCheck" onchange="toggleEnabled('essentials')" checked>
+        }
+        else
+        {
+            <input class="form-check-input" type="checkbox" name="essentialsRuleActive" value="true" id="essentialsRuleCheck" onchange="toggleEnabled('essentials')">
+        }
         <label class="form-check-label" for="essentialsRuleCheck">
-            active?
+            Check this box if you want monthly essentials budget notifications.
         </label>
     </div>
 
@@ -158,16 +158,16 @@
     <input type="number" value=@Model.essentialsRule id="essentialsReadOut" name="essentials" readonly />
 
     <div class="form-check">
-    @if (Model.foodRuleActive)
-    {
-        <input class="form-check-input" type="checkbox" name="foodRuleActive" value="true" id="foodRuleCheck" onchange="toggleEnabled('food')" checked>
-    }
-    else
-    {
-        <input class="form-check-input" type="checkbox" name="foodRuleActive" value="true" id="foodRuleCheck" onchange="toggleEnabled('food')">
-    }
+        @if (Model.foodRuleActive)
+        {
+            <input class="form-check-input" type="checkbox" name="foodRuleActive" value="true" id="foodRuleCheck" onchange="toggleEnabled('food')" checked>
+        }
+        else
+        {
+            <input class="form-check-input" type="checkbox" name="foodRuleActive" value="true" id="foodRuleCheck" onchange="toggleEnabled('food')">
+        }
         <label class="form-check-label" for="foodRuleCheck">
-            active?
+            Check this box if you want monthly food budget notifications.
         </label>
     </div>
 
@@ -183,16 +183,16 @@
     <input type="number" value=@Model.foodRule id="foodReadOut" name="food" readonly />
 
     <div class="form-check">
-    @if (Model.funRuleActive)
-    {
-        <input class="form-check-input" type="checkbox" name="funRuleActive" value="true" id="funRuleCheck" onchange="toggleEnabled('fun')" checked>
-    }
-    else
-    {
-        <input class="form-check-input" type="checkbox" name="funRuleActive" value="true" id="funRuleCheck" onchange="toggleEnabled('fun')">
-    }
+        @if (Model.funRuleActive)
+        {
+            <input class="form-check-input" type="checkbox" name="funRuleActive" value="true" id="funRuleCheck" onchange="toggleEnabled('fun')" checked>
+        }
+        else
+        {
+            <input class="form-check-input" type="checkbox" name="funRuleActive" value="true" id="funRuleCheck" onchange="toggleEnabled('fun')">
+        }
         <label class="form-check-label" for="funRuleCheck">
-            active?
+            Check this box if you want monthly fun budget notifications.
         </label>
     </div>
 
@@ -209,16 +209,16 @@
     <input type="number" value=@Model.funRule id="funReadOut" name="fun" readonly />
 
     <div class="form-check">
-    @if (Model.gasRuleActive)
-    {
-        <input class="form-check-input" type="checkbox" name="gasRuleActive" value="true" id="gasRuleCheck" onchange="toggleEnabled('gas')" checked>
-    }
-    else
-    {
-        <input class="form-check-input" type="checkbox" name="gasRuleActive" value="true" id="gasRuleCheck" onchange="toggleEnabled('gas')">
-    }
+        @if (Model.gasRuleActive)
+        {
+            <input class="form-check-input" type="checkbox" name="gasRuleActive" value="true" id="gasRuleCheck" onchange="toggleEnabled('gas')" checked>
+        }
+        else
+        {
+            <input class="form-check-input" type="checkbox" name="gasRuleActive" value="true" id="gasRuleCheck" onchange="toggleEnabled('gas')">
+        }
         <label class="form-check-label" for="gasRuleCheck">
-            active?
+            Check this box if you want monthly gas budget notifications.
         </label>
     </div>
 
@@ -234,16 +234,16 @@
     <input type="number" value=@Model.gasRule id="gasReadOut" name="gas" readonly />
 
     <div class="form-check">
-    @if (Model.phoneRuleActive)
-    {
-        <input class="form-check-input" type="checkbox" name="phoneRuleActive" value="true" id="phoneRuleCheck" onchange="toggleEnabled('phone')" checked>
-    }
-    else
-    {
-        <input class="form-check-input" type="checkbox" name="phoneRuleActive" value="true" id="phoneRuleCheck" onchange="toggleEnabled('phone')">
-    }
+        @if (Model.phoneRuleActive)
+        {
+            <input class="form-check-input" type="checkbox" name="phoneRuleActive" value="true" id="phoneRuleCheck" onchange="toggleEnabled('phone')" checked>
+        }
+        else
+        {
+            <input class="form-check-input" type="checkbox" name="phoneRuleActive" value="true" id="phoneRuleCheck" onchange="toggleEnabled('phone')">
+        }
         <label class="form-check-label" for="phoneRuleCheck">
-            active?
+            Check this box if you want monthly phone budget notifications.
         </label>
     </div>
 
@@ -259,16 +259,16 @@
     <input type="number" value=@Model.phoneRule id="phoneReadOut" name="phone" readonly />
 
     <div class="form-check">
-    @if (Model.otherRuleActive)
-    {
-        <input class="form-check-input" type="checkbox" name="otherRuleActive" value="true" id="otherRuleCheck" onchange="toggleEnabled('other')" checked>
-    }
-    else
-    {
-        <input class="form-check-input" type="checkbox" name="otherRuleActive" value="true" id="otherRuleCheck" onchange="toggleEnabled('other')">
-    }
+        @if (Model.otherRuleActive)
+        {
+            <input class="form-check-input" type="checkbox" name="otherRuleActive" value="true" id="otherRuleCheck" onchange="toggleEnabled('other')" checked>
+        }
+        else
+        {
+            <input class="form-check-input" type="checkbox" name="otherRuleActive" value="true" id="otherRuleCheck" onchange="toggleEnabled('other')">
+        }
         <label class="form-check-label" for="otherRuleCheck">
-            active?
+            Check this box if you want monthly other budget notifications.
         </label>
     </div>
 
@@ -283,7 +283,35 @@
     }
     <input type="number" value=@Model.otherRule id="otherReadOut" name="other" readonly />
 
-    <input type ="submit" value="Save" class="btn btn-primary" />
+    <div class="form-check">
+        @if (Model.timeRuleActive)
+        {
+            <input class="form-check-input" type="checkbox" name="timeRuleActive" value="true" id="timeRuleCheck" onchange="toggleReadOnly(this);" checked>
+        }
+        else
+        {
+            <input class="form-check-input" type="checkbox" name="timeRuleActive" value="true" id="timeRuleCheck" onchange="toggleReadOnly(this);">
+        }
+        <label class="form-check-label" for="timeRuleCheck">
+            Check this box if you want timeframe notifications.
+        </label>
+    </div>
+
+    <label for="time" class="form-label">Start Time:</label>
+    @if (Model.timeRuleActive)
+    {
+        <input type="time" value=@Model.startTimeRule.ToString() id="timeStart" name="startTimeRule">
+        <label for="time" class="form-label">End Time:</label>
+        <input type="time" value=@Model.endTimeRule.ToString() id="timeEnd" name="endTimeRule">
+    }
+    else
+    {
+        <input type="time" value=@Model.startTimeRule.ToString() id="timeStart" name="startTimeRule" readonly>
+        <label for="time" class="form-label">End Time:</label>
+        <input type="time" value=@Model.endTimeRule.ToString() id="timeEnd" name="endTimeRule" readonly>
+    }
+
+    <input type="submit" value="Save" class="btn btn-primary" />
 
 </form>
 

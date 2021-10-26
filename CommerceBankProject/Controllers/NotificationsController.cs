@@ -65,7 +65,7 @@ namespace CommerceBankProject.Controllers
                 {
                     DateTime notificationDate = new DateTime(month.tyear, month.tmonth, 1);
                     notificationDate = notificationDate.AddMonths(1);
-                    string desc = "You have exceeded your monthly budget of " + settings.monthlyBudgetRule.ToString();
+                    string desc = "You have exceeded your monthly budget of $" + settings.monthlyBudgetRule.ToString();
                     Notification notification = new Notification { customerID = user.customerID, type = "Monthly Budget", description = desc, onDate = notificationDate, read = false, saved = false };
                     await _context.AddAsync(notification);
                     await _context.SaveChangesAsync();
@@ -82,7 +82,7 @@ namespace CommerceBankProject.Controllers
 
                 foreach (var trans in balanceList)
                 {
-                    string desc = "Your account is below your notification balance of " + settings.balanceRule.ToString();
+                    string desc = "Your account is below your notification balance of $" + settings.balanceRule.ToString();
                     Notification notification = new Notification { customerID = user.customerID, type = "Low balance", description = desc, onDate = trans.onDate, read = false, saved = false };
                     await _context.AddAsync(notification);
                     await _context.SaveChangesAsync();
@@ -96,7 +96,7 @@ namespace CommerceBankProject.Controllers
                 {
                     DateTime notificationDate = new DateTime(chores.tyear, chores.tmonth, 1);
                     notificationDate = notificationDate.AddMonths(1);
-                    string desc = "You have exceeded your monthly chores budget of " + settings.choresRule.ToString();
+                    string desc = "You have exceeded your monthly chores budget of $" + settings.choresRule.ToString();
                     Notification notification = new Notification { customerID = user.customerID, type = "Chores Budget", description = desc, onDate = notificationDate, read = false, saved = false };
                     await _context.AddAsync(notification);
                     await _context.SaveChangesAsync();
@@ -110,7 +110,7 @@ namespace CommerceBankProject.Controllers
                 {
                     DateTime notificationDate = new DateTime(clothing.tyear, clothing.tmonth, 1);
                     notificationDate = notificationDate.AddMonths(1);
-                    string desc = "You have exceeded your monthly clothing budget of " + settings.clothingRule.ToString();
+                    string desc = "You have exceeded your monthly clothing budget of $" + settings.clothingRule.ToString();
                     Notification notification = new Notification { customerID = user.customerID, type = "Clothing Budget", description = desc, onDate = notificationDate, read = false, saved = false };
                     await _context.AddAsync(notification);
                     await _context.SaveChangesAsync();
@@ -124,7 +124,7 @@ namespace CommerceBankProject.Controllers
                 {
                     DateTime notificationDate = new DateTime(eatingOut.tyear, eatingOut.tmonth, 1);
                     notificationDate = notificationDate.AddMonths(1);
-                    string desc = "You have exceeded your monthly eating out budget of " + settings.eatingOutRule.ToString();
+                    string desc = "You have exceeded your monthly eating out budget of $" + settings.eatingOutRule.ToString();
                     Notification notification = new Notification { customerID = user.customerID, type = "Eating Out Budget", description = desc, onDate = notificationDate, read = false, saved = false };
                     await _context.AddAsync(notification);
                     await _context.SaveChangesAsync();
@@ -132,13 +132,13 @@ namespace CommerceBankProject.Controllers
             }
             if (settings.essentialsRuleActive)
             {
-                var essentialsOutList = await _context.MonthlyResult.FromSqlRaw(query, "essentials", user.customerID, settings.essentialsRule).ToListAsync();
+                var essentialsList = await _context.MonthlyResult.FromSqlRaw(query, "essentials", user.customerID, settings.essentialsRule).ToListAsync();
 
-                foreach (var essentials in essentialsOutList)
+                foreach (var essentials in essentialsList)
                 {
                     DateTime notificationDate = new DateTime(essentials.tyear, essentials.tmonth, 1);
                     notificationDate = notificationDate.AddMonths(1);
-                    string desc = "You have exceeded your monthly essentials budget of " + settings.essentialsRule.ToString();
+                    string desc = "You have exceeded your monthly essentials budget of $" + settings.essentialsRule.ToString();
                     Notification notification = new Notification { customerID = user.customerID, type = "Essentials Budget", description = desc, onDate = notificationDate, read = false, saved = false };
                     await _context.AddAsync(notification);
                     await _context.SaveChangesAsync();
@@ -146,13 +146,13 @@ namespace CommerceBankProject.Controllers
             }
             if (settings.foodRuleActive)
             {
-                var foodOutList = await _context.MonthlyResult.FromSqlRaw(query, "food", user.customerID, settings.foodRule).ToListAsync();
+                var foodList = await _context.MonthlyResult.FromSqlRaw(query, "food", user.customerID, settings.foodRule).ToListAsync();
 
-                foreach (var food in foodOutList)
+                foreach (var food in foodList)
                 {
                     DateTime notificationDate = new DateTime(food.tyear, food.tmonth, 1);
                     notificationDate = notificationDate.AddMonths(1);
-                    string desc = "You have exceeded your monthly food budget of " + settings.foodRule.ToString(); ;
+                    string desc = "You have exceeded your monthly food budget of $" + settings.foodRule.ToString(); ;
                     Notification notification = new Notification { customerID = user.customerID, type = "Food Budget", description = desc, onDate = notificationDate, read = false, saved = false };
                     await _context.AddAsync(notification);
                     await _context.SaveChangesAsync();
@@ -160,13 +160,13 @@ namespace CommerceBankProject.Controllers
             }
             if (settings.funRuleActive)
             {
-                var funOutList = await _context.MonthlyResult.FromSqlRaw(query, "fun", user.customerID, settings.funRule).ToListAsync();
+                var funList = await _context.MonthlyResult.FromSqlRaw(query, "fun", user.customerID, settings.funRule).ToListAsync();
 
-                foreach (var fun in funOutList)
+                foreach (var fun in funList)
                 {
                     DateTime notificationDate = new DateTime(fun.tyear, fun.tmonth, 1);
                     notificationDate = notificationDate.AddMonths(1);
-                    string desc = "You have exceeded your monthly fun budget of " + settings.funRule.ToString(); ;
+                    string desc = "You have exceeded your monthly fun budget of $" + settings.funRule.ToString(); ;
                     Notification notification = new Notification { customerID = user.customerID, type = "Fun Budget", description = desc, onDate = notificationDate, read = false, saved = false };
                     await _context.AddAsync(notification);
                     await _context.SaveChangesAsync();
@@ -174,13 +174,13 @@ namespace CommerceBankProject.Controllers
             }
             if (settings.gasRuleActive)
             {
-                var gasOutList = await _context.MonthlyResult.FromSqlRaw(query, "gas", user.customerID, settings.gasRule).ToListAsync();
+                var gasList = await _context.MonthlyResult.FromSqlRaw(query, "gas", user.customerID, settings.gasRule).ToListAsync();
 
-                foreach (var fun in gasOutList)
+                foreach (var fun in gasList)
                 {
                     DateTime notificationDate = new DateTime(fun.tyear, fun.tmonth, 1);
                     notificationDate = notificationDate.AddMonths(1);
-                    string desc = "You have exceeded your monthly gas budget of " + settings.gasRule.ToString(); ;
+                    string desc = "You have exceeded your monthly gas budget of $" + settings.gasRule.ToString(); ;
                     Notification notification = new Notification { customerID = user.customerID, type = "Gas Budget", description = desc, onDate = notificationDate, read = false, saved = false };
                     await _context.AddAsync(notification);
                     await _context.SaveChangesAsync();
@@ -188,13 +188,13 @@ namespace CommerceBankProject.Controllers
             }
             if (settings.phoneRuleActive)
             {
-                var phoneOutList = await _context.MonthlyResult.FromSqlRaw(query, "phone", user.customerID, settings.phoneRule).ToListAsync();
+                var phoneList = await _context.MonthlyResult.FromSqlRaw(query, "phone", user.customerID, settings.phoneRule).ToListAsync();
 
-                foreach (var phone in phoneOutList)
+                foreach (var phone in phoneList)
                 {
                     DateTime notificationDate = new DateTime(phone.tyear, phone.tmonth, 1);
                     notificationDate = notificationDate.AddMonths(1);
-                    string desc = "You have exceeded your monthly phone budget of " + settings.phoneRule.ToString(); ;
+                    string desc = "You have exceeded your monthly phone budget of $" + settings.phoneRule.ToString(); ;
                     Notification notification = new Notification { customerID = user.customerID, type = "Phone Budget", description = desc, onDate = notificationDate, read = false, saved = false };
                     await _context.AddAsync(notification);
                     await _context.SaveChangesAsync();
@@ -202,14 +202,45 @@ namespace CommerceBankProject.Controllers
             }
             if (settings.otherRuleActive)
             {
-                var otherOutList = await _context.MonthlyResult.FromSqlRaw(query, "other", user.customerID, settings.otherRule).ToListAsync();
+                var otherList = await _context.MonthlyResult.FromSqlRaw(query, "other", user.customerID, settings.otherRule).ToListAsync();
 
-                foreach (var other in otherOutList)
+                foreach (var other in otherList)
                 {
                     DateTime notificationDate = new DateTime(other.tyear, other.tmonth, 1);
                     notificationDate = notificationDate.AddMonths(1);
-                    string desc = "You have exceeded your monthly other budget of " + settings.otherRule.ToString(); ;
+                    string desc = "You have exceeded your monthly other budget of $" + settings.otherRule.ToString(); ;
                     Notification notification = new Notification { customerID = user.customerID, type = "Other Budget", description = desc, onDate = notificationDate, read = false, saved = false };
+                    await _context.AddAsync(notification);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            if (settings.timeRuleActive)
+            {
+                int result = TimeSpan.Compare(settings.startTimeRule, settings.endTimeRule);
+                if (result == 1)
+                {
+                    query = @"select *
+                        from[Transaction]
+                        where (CAST(onDate as time) >= {0} or CAST(onDate as time) < {1})
+                        and customerID = {2};";
+                }
+                else
+                {
+                    query = @"select *
+                        from[Transaction]
+                        where (CAST(onDate as time) >= {0} and CAST(onDate as time) < {1})
+                        and customerID = {2};";
+                }
+
+                var timeList = await _context.Transaction.FromSqlRaw(query, settings.startTimeRule, settings.endTimeRule, user.customerID).ToListAsync();
+
+                string displayStartTime = new DateTime().Add(settings.startTimeRule).ToString("hh:mm tt");
+                string displayEndTime = new DateTime().Add(settings.endTimeRule).ToString("hh:mm tt");
+
+                foreach (var time in timeList)
+                {
+                    string desc = "You have a transaction out of your time frame of " + displayStartTime + " to " + displayEndTime;
+                    Notification notification = new Notification { customerID = user.customerID, type = "Time frame", description = desc, onDate = time.onDate, read = false, saved = false };
                     await _context.AddAsync(notification);
                     await _context.SaveChangesAsync();
                 }
@@ -231,7 +262,8 @@ namespace CommerceBankProject.Controllers
         public async Task<IActionResult> SettingsChange(bool monthlyBudgetActive, decimal monthlyBudget, bool balanceActive, decimal balance,
             bool choresRuleActive, decimal chores, bool clothingRuleActive, decimal clothing, bool eatingOutRuleActive, decimal eatingOut,
             bool essentialsRuleActive, decimal essentials, bool foodRuleActive, decimal food, bool funRuleActive, decimal fun, bool gasRuleActive,
-            decimal gas, bool phoneRuleActive, decimal phone, bool otherRuleActive, decimal other)
+            decimal gas, bool phoneRuleActive, decimal phone, bool otherRuleActive, decimal other, bool timeRuleActive, string startTimeRule,
+            string endTimeRule)
         {
             var claim = User.FindFirst(ClaimTypes.NameIdentifier);
             string userID = claim.Value;
@@ -243,14 +275,14 @@ namespace CommerceBankProject.Controllers
                         choresRule = {4}, choresRuleActive = {5}, clothingRule = {6}, clothingRuleActive = {7}, eatingOutRule = {8}, 
                         eatingOutRuleActive = {9}, essentialsRule = {10}, essentialsRuleActive = {11}, foodRule = {12}, foodRuleActive = {13},
                         funRule = {14}, funRuleActive = {15}, gasRule = {16}, gasRuleActive = {17}, phoneRule = {18}, phoneRuleActive = {19},
-                        otherRule = {20}, otherRuleActive = {21}
-                        Where customerID = {22}";
+                        otherRule = {20}, otherRuleActive = {21}, startTimeRule = {22}, endTimeRule = {23}, timeRuleActive = {24}
+                        Where customerID = {25}";
 
             await _context.Database.ExecuteSqlRawAsync(query, monthlyBudget, monthlyBudgetActive, balance, balanceActive, chores,
                 choresRuleActive, clothing, clothingRuleActive, eatingOut, eatingOutRuleActive, essentials, essentialsRuleActive,
-                food, foodRuleActive, fun, funRuleActive, gas, gasRuleActive, phone, phoneRuleActive, other, otherRuleActive, user.customerID);
+                food, foodRuleActive, fun, funRuleActive, gas, gasRuleActive, phone, phoneRuleActive, other, otherRuleActive, TimeSpan.Parse(startTimeRule),
+                TimeSpan.Parse(endTimeRule), timeRuleActive, user.customerID);
                 
-
             return RedirectToAction(nameof(Settings));
         }
 
@@ -262,9 +294,7 @@ namespace CommerceBankProject.Controllers
             string query = "delete from Notification where customerID = {0};";
             await _context.Database.ExecuteSqlRawAsync(query, user.customerID);
 
-
             return RedirectToAction(nameof(Index));
-            
         }
 
         // GET: Notifications/Details/5

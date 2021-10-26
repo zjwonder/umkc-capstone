@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CommerceBankProject.Migrations
 {
-    public partial class reconfig : Migration
+    public partial class Notifications : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -140,7 +140,10 @@ namespace CommerceBankProject.Migrations
                     phoneRule = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     phoneRuleActive = table.Column<bool>(nullable: false),
                     otherRule = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    otherRuleActive = table.Column<bool>(nullable: false)
+                    otherRuleActive = table.Column<bool>(nullable: false),
+                    startTimeRule = table.Column<TimeSpan>(type: "time(7)", nullable: false),
+                    endTimeRule = table.Column<TimeSpan>(type: "time(7)", nullable: false),
+                    timeRuleActive = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

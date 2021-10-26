@@ -65,9 +65,9 @@ if __name__ == '__main__':
             create = False
         except Exception as e:
             print(e)
-    #querydb(query)
+    querydb(query)
     query = "Drop table [Date]; Drop table [Account]; Drop table [MonthlyResult];"
-    #querydb(query)
+    querydb(query)
     query = ""
     for i in range(len(customers)):
         query += "INSERT INTO [Customer](customerID, email, claimed) VALUES ('"
@@ -94,7 +94,10 @@ if __name__ == '__main__':
                 otherRule,
                 otherRuleActive,
                 phoneRule,
-                phoneRuleActive)
+                phoneRuleActive,
+                startTimeRule,
+                endTimeRule,
+                timeRuleActive)
                 VALUES ("""
-        query += customers[i] + ", 1000, 1, 1000, 1, 50, 0, 50, 0, 50, 0, 50, 0, 50, 0, 50, 0, 50, 0, 50, 0, 50, 0);"
+        query += customers[i] + ", 1000, 1, 1000, 1, 50, 0, 50, 0, 50, 0, 50, 0, 50, 0, 50, 0, 50, 0, 50, 0, 50, 0, '00:00:00.0000000', '06:00:00.0000000', 0);"
     querydb(query)

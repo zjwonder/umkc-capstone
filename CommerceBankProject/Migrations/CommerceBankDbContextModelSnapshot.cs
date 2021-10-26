@@ -204,6 +204,9 @@ namespace CommerceBankProject.Migrations
                     b.Property<bool>("eatingOutRuleActive")
                         .HasColumnType("bit");
 
+                    b.Property<TimeSpan>("endTimeRule")
+                        .HasColumnType("time(7)");
+
                     b.Property<decimal>("essentialsRule")
                         .HasColumnType("decimal(18,2)");
 
@@ -244,6 +247,12 @@ namespace CommerceBankProject.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("phoneRuleActive")
+                        .HasColumnType("bit");
+
+                    b.Property<TimeSpan>("startTimeRule")
+                        .HasColumnType("time(7)");
+
+                    b.Property<bool>("timeRuleActive")
                         .HasColumnType("bit");
 
                     b.HasKey("customerID");

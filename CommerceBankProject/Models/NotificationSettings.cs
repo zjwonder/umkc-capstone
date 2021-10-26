@@ -56,9 +56,11 @@ namespace CommerceBankProject.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal otherRule { get; set; }
         public bool otherRuleActive { get; set; }
-
-
-
+        [Column(TypeName = "time(7)")]
+        public TimeSpan startTimeRule { get; set; }
+        [Column(TypeName = "time(7)")]
+        public TimeSpan endTimeRule { get; set; }
+        public bool timeRuleActive { get; set; }
 
 
     }
