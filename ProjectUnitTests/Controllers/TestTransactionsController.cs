@@ -13,6 +13,8 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using CommerceBankProject.Areas.Identity.Data;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace ProjectUnitTests
 {
@@ -22,13 +24,41 @@ namespace ProjectUnitTests
         private readonly Mock<TransactionsController> mockTransactionsController = new Mock<TransactionsController>();
         TransactionsController controller;
 
+        List<Transaction> transactions = new List<Transaction>
+            {
+                new Transaction()
+                {
+                    ID = 789456123,
+                    customerID = "123789456",
+                    actID = "456123789",
+                    actType = "Customer",
+                    onDate = new DateTime(2008, 6, 1),
+                    balance = 1000.04m,
+                    transType = "Fun",
+                    description = "test desc",
+                    userEntered = false
+                },
+                new Transaction()
+                {
+                    ID = 456789123,
+                    customerID = "111111111",
+                    actID = "222222222",
+                    actType = "Customer",
+                    onDate = new DateTime(2021, 7, 2),
+                    balance = 978.04m,
+                    transType = "Gas",
+                    description = "second description",
+                    userEntered = false
+                }
+            };
+
         public TestTransactionsController()
         {
             //AccountRecord tempRecord = new CommerceBankProject.Models.AccountRecord();
             //tempRecord.actID = "123456789";
             //tempRecord.actType = "Customer";
             //mockDbContext.Object.Account.Add(tempRecord);
-            
+
             var tempTransaction = new Transaction
             {
                 ID = 123456789,
@@ -43,6 +73,8 @@ namespace ProjectUnitTests
                 userEntered = true
             };
 
+
+
             //mockDbContext.Object.Transaction.Add(tempTransaction);
 
             //mockDbContext.SetupAllProperties();
@@ -50,6 +82,7 @@ namespace ProjectUnitTests
             //mockDbContext.Setup(x => x.Account=tempRecord);
             //controller = new TransactionsController(mockDbContext.Object);
         }
+
 
         [Fact]
         public async void TestIndex()
@@ -91,23 +124,13 @@ namespace ProjectUnitTests
                     context.Transaction.Add(t);
                 }
 
-
-                Mock<ApplicationUser> savedUser = new Mock<ApplicationUser>();
-                //savedUser.Setup(x => x.Id).Returns(user.Identity.Name);
-
-                savedUser.SetupAllProperties();
-                //savedUser.Object.Id = "123456789";
-
-                //savedUser.Object.Id = Guid.NewGuid().ToString();
-
-                //var test = savedUser.Object.Id;
-
-                context.Users.Add(savedUser.Object);
+                ApplicationUser savedUser = new ApplicationUser();
 
                 var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-            {new Claim(ClaimTypes.NameIdentifier, savedUser.Object.Id),
-            new Claim(ClaimTypes.Name, "test2")}, "TestAuthentication"));
+                    {new Claim(ClaimTypes.NameIdentifier, savedUser.Id)}, "TestAuthentication"));
 
+
+                context.Users.Add(savedUser);
                 context.SaveChanges();
                 controller = new TransactionsController(context);
 
@@ -122,23 +145,40 @@ namespace ProjectUnitTests
         [Fact]
         public async void TestFilterIndex()
         {
-            List<Transaction> transactions = new List<Transaction>
+            using (var context = new CommerceBankDbContext(TestDbContextOptions()))
             {
-                new Transaction()
+                foreach (Transaction t in transactions)
+                {
+                    context.Transaction.Add(t);
+                }
+
+                ApplicationUser savedUser = new ApplicationUser();
+
+                var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {new Claim(ClaimTypes.NameIdentifier, savedUser.Id)}, "TestAuthentication"));
+
+                context.Users.Add(savedUser);
+                context.SaveChanges();
+
+                controller = new TransactionsController(context);
+
+                controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
+                var result = await controller.FilterIndex("all", "test", "2006-1-1", "2021-1-1", "20");
+                Assert.IsType<ViewResult>(result);
+            }
+        }
+
+        [Fact]
+        public async void TestGetDetailsView()
+        {
+            int? badID = null;
+            int testID = 789456123;
+
+            using (var context = new CommerceBankDbContext(TestDbContextOptions()))
+            {
+                Transaction testTransaction = new Transaction()
                 {
                     ID = 789456123,
-                    customerID = "123789456",
-                    actID = "456123789",
-                    actType = "Customer",
-                    onDate = new DateTime(2008, 6, 1),
-                    balance = 1000.04m,
-                    transType = "Fun",
-                    description = "test desc",
-                    userEntered = false
-                },
-                new Transaction()
-                {
-                    ID = 456789123,
                     customerID = "111111111",
                     actID = "222222222",
                     actType = "Customer",
@@ -147,56 +187,122 @@ namespace ProjectUnitTests
                     transType = "Gas",
                     description = "second description",
                     userEntered = false
-                }
-            };
+                };
 
-
-
-            using (var context = new CommerceBankDbContext(TestDbContextOptions()))
-            {
-                foreach (Transaction t in transactions)
-                {
-                    context.Transaction.Add(t);
-                }
-
-
-                Mock<ApplicationUser> savedUser = new Mock<ApplicationUser>();
-                //savedUser.Setup(x => x.Id).Returns(user.Identity.Name);
-
-                savedUser.SetupAllProperties();
-                //savedUser.Object.Id = "123456789";
-
-                //savedUser.Object.Id = Guid.NewGuid().ToString();
-
-                //var test = savedUser.Object.Id;
-
-                context.Users.Add(savedUser.Object);
+                context.Add(testTransaction);
                 context.SaveChanges();
 
-                var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-            {new Claim(ClaimTypes.NameIdentifier, savedUser.Object.Id),
-            new Claim(ClaimTypes.Name, "test2")}, "TestAuthentication"));
-
-                
                 controller = new TransactionsController(context);
 
-                controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
-                var result = await controller.FilterIndex("all", "", "2006-1-1", "2021-1-1", "20");
+                var notFoundResult = await controller.Details(badID);
+                Assert.IsType<NotFoundResult>(notFoundResult);
+
+                var result = await controller.Details(testID);
+                var viewResult = result as ViewResult;
+
                 Assert.IsType<ViewResult>(result);
+                Assert.Equal(viewResult.Model, testTransaction);
+            }
+
+        }
+
+        [Fact]
+        public async void TestCreatePOSTWithValidModelState()
+        {
+            using (var context = new CommerceBankDbContext(TestDbContextOptions()))
+            {
+                Transaction testTransaction = new Transaction()
+                {
+                    ID = 789456123,
+                    customerID = "111111111",
+                    actID = "222222222",
+                    actType = "Customer",
+                    onDate = new DateTime(2021, 7, 2),
+                    balance = 978.04m,
+                    transType = "Gas",
+                    description = "second description",
+                    userEntered = false
+                };
+
+                controller = new TransactionsController(context);
+
+                var result = await controller.Create(transaction: testTransaction);
+                Assert.IsType<RedirectToActionResult>(result);
+
+                var viewRes = result as RedirectToActionResult;
+                Assert.Equal("Index", viewRes.ActionName);
             }
         }
 
         [Fact]
-        public void TestGetDeleteView()
+        public async void TestGetDeleteView()
         {
+            int? badID = null;
+            int testID = 789456123;
 
-            Assert.IsType<NotFoundResult>(controller.Delete(null).Result);
-            Assert.IsType<ViewResult>(controller.Delete(123456789).Result);
+            using (var context = new CommerceBankDbContext(TestDbContextOptions()))
+            {
+                Transaction testTransaction = new Transaction()
+                {
+                    ID = 789456123,
+                    customerID = "111111111",
+                    actID = "222222222",
+                    actType = "Customer",
+                    onDate = new DateTime(2021, 7, 2),
+                    balance = 978.04m,
+                    transType = "Gas",
+                    description = "second description",
+                    userEntered = false
+                };
+
+                context.Add(testTransaction);
+                context.SaveChanges();
+                controller = new TransactionsController(context);
+
+                var notFoundResult = await controller.Delete(badID);
+                Assert.IsType<NotFoundResult>(notFoundResult);
+
+                var result = await controller.Delete(testID);
+                Assert.IsType<ViewResult>(result);
+
+                var viewResult = result as ViewResult;
+                Assert.Equal(viewResult.Model, testTransaction);
+            }
         }
 
-        public void TestCreateTransaction()
+        [Fact]
+        public async void TestDeleteConfirmed()
         {
+            using (var context = new CommerceBankDbContext(TestDbContextOptions()))
+            {
+                Transaction testTransaction = new Transaction()
+                {
+                    ID = 789456123,
+                    customerID = "111111111",
+                    actID = "222222222",
+                    actType = "Customer",
+                    onDate = new DateTime(2021, 7, 2),
+                    balance = 978.04m,
+                    transType = "Gas",
+                    description = "second description",
+                    userEntered = false
+                };
 
+                context.Add(testTransaction);
+                context.SaveChanges();
+
+                Assert.Equal(testTransaction, context.Transaction.Find(789456123));
+
+                controller = new TransactionsController(context);
+
+                var result = await controller.DeleteConfirmed(789456123);
+                Assert.IsType<RedirectToActionResult>(result);
+
+                Assert.Null(context.Transaction.Find(789456123));
+
+                var viewRes = result as RedirectToActionResult;
+                Assert.Equal("Index", viewRes.ActionName);
+            }
         }
     }
 }
