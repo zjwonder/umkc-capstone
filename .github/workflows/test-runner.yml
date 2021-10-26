@@ -4,13 +4,20 @@
 
 name: .NET
 
+
 on:
+  # run tests under the following conditions
+  
   push:
-    branches: [ main ]
+    # when pushing to any branch
+    branches-ignore: [ "" ]
+    
   pull_request:
+    # when initiating a pull request to main
     branches: [ main ]
 
 jobs:
+  # build and test configuration
   build:
 
     runs-on: windows-latest
