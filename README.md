@@ -1,12 +1,11 @@
 # Corner Club Capstone Project
 
-## For the professor
-
-[Please follow this link](https://github.com/zjwonder/umkc-capstone/documents/iteration-1-begins/) to find documentation for our 'Iteration 1 Begins' submission
-
 ## Welcome!
 
 We've been waiting for you! Here, have a cup of tea.
+
+<img src="https://media0.giphy.com/media/uS9epqlhBNQOI/giphy.gif" width="300px">
+
 
 In this repository, you will find the application that our group, the Corner Club, is building for our capstone class.
 
@@ -18,6 +17,14 @@ Who is the Corner Club, you ask? We are a team of computer science students, wor
 - Colin McNish
 - Ian Chacey
 - Jayson Nguyen
+
+## Resources
+
+[Classroom Github Repository](https://github.com/UMKC-CS451R/cs415r_f21_groupproject-corner-club)
+- Contains file submissions for each iteration of the project
+
+[Project Trello Board](https://trello.com/b/0DNIyTPA/corner-club)
+- Where we break down and track the tasks involved in building this project
 
 ## Developer Tips
 
