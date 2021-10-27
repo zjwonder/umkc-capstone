@@ -28,6 +28,7 @@ namespace CommerceBankProject.Controllers
             return View(await _context.Notification.OrderByDescending(n => n.onDate).ToListAsync());
         }
 
+        [Authorize]
         public async Task<IActionResult> Generate()
         {
             var claim = User.FindFirst(ClaimTypes.NameIdentifier);
@@ -35,18 +36,18 @@ namespace CommerceBankProject.Controllers
             var user = await _context.Users.Where(u => u.Id == userID).FirstOrDefaultAsync();
             string query = "";
             query = @"Select *
-                    from [NotificationSettings]
-                    where customerID = {0}";
+            from [NotificationSettings]
+            where customerID = {0}";
             var settings = await _context.NotificationSettings.FromSqlRaw(query, user.customerID).FirstOrDefaultAsync();
 
             query = @"select temp.tyear, temp.tmonth, temp.amount from( 
-                select year([Transaction].onDate) as tyear , month([Transaction].onDate) as tmonth, sum([Transaction].amount) as amount
-                from [Transaction]
-                where [Transaction].category = {0} and customerID = {1}
-                group by ([Transaction].category), year([Transaction].onDate), month([Transaction].onDate)
-                ) as temp 
-                where amount > {2}
-                order by temp.tyear DESC, temp.tmonth DESC;";
+            select year([Transaction].onDate) as tyear , month([Transaction].onDate) as tmonth, sum([Transaction].amount) as amount
+            from [Transaction]
+            where [Transaction].category = {0} and customerID = {1}
+            group by ([Transaction].category), year([Transaction].onDate), month([Transaction].onDate)
+            ) as temp 
+            where amount > {2}
+            order by temp.tyear DESC, temp.tmonth DESC;";
 
             if(settings.monthlyBudgetRuleActive)
             {
@@ -74,9 +75,9 @@ namespace CommerceBankProject.Controllers
             if(settings.balanceRuleActive)
             {
                 string queryTrans = @"select *
-                    from[Transaction]
-                    where transType = 'DR' and balance < {0} and customerID = {1}
-                    order by onDate; ";
+                from[Transaction]
+                where transType = 'DR' and balance < {0} and customerID = {1}
+                order by onDate; ";
 
                 var balanceList = await _context.Transaction.FromSqlRaw(queryTrans, settings.balanceRule, user.customerID).ToListAsync();
 
@@ -220,16 +221,16 @@ namespace CommerceBankProject.Controllers
                 if (result == 1)
                 {
                     query = @"select *
-                        from[Transaction]
-                        where (CAST(onDate as time) >= {0} or CAST(onDate as time) < {1})
-                        and customerID = {2};";
+                    from[Transaction]
+                    where (CAST(onDate as time) >= {0} or CAST(onDate as time) < {1})
+                    and customerID = {2} and [Transaction].transType = 'DR';";
                 }
                 else
                 {
                     query = @"select *
-                        from[Transaction]
-                        where (CAST(onDate as time) >= {0} and CAST(onDate as time) < {1})
-                        and customerID = {2};";
+                    from[Transaction]
+                    where (CAST(onDate as time) >= {0} and CAST(onDate as time) < {1})
+                    and customerID = {2} and [Transaction].transType = 'DR';";
                 }
 
                 var timeList = await _context.Transaction.FromSqlRaw(query, settings.startTimeRule, settings.endTimeRule, user.customerID).ToListAsync();
@@ -246,10 +247,10 @@ namespace CommerceBankProject.Controllers
                 }
             }
 
-            // return View("Index", await _context.Notification.ToListAsync());
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize]
         public async Task<IActionResult> Settings()
         {
             var claim = User.FindFirst(ClaimTypes.NameIdentifier);
@@ -259,6 +260,7 @@ namespace CommerceBankProject.Controllers
             return View(settings);
         }
 
+        [Authorize]
         public async Task<IActionResult> SettingsChange(bool monthlyBudgetActive, decimal monthlyBudget, bool balanceActive, decimal balance,
             bool choresRuleActive, decimal chores, bool clothingRuleActive, decimal clothing, bool eatingOutRuleActive, decimal eatingOut,
             bool essentialsRuleActive, decimal essentials, bool foodRuleActive, decimal food, bool funRuleActive, decimal fun, bool gasRuleActive,
@@ -271,12 +273,12 @@ namespace CommerceBankProject.Controllers
             string query = "";
 
             query += @"Update NotificationSettings 
-                        Set monthlyBudgetRule = {0}, monthlyBudgetRuleActive = {1}, balanceRule = {2}, balanceRuleActive = {3}, 
-                        choresRule = {4}, choresRuleActive = {5}, clothingRule = {6}, clothingRuleActive = {7}, eatingOutRule = {8}, 
-                        eatingOutRuleActive = {9}, essentialsRule = {10}, essentialsRuleActive = {11}, foodRule = {12}, foodRuleActive = {13},
-                        funRule = {14}, funRuleActive = {15}, gasRule = {16}, gasRuleActive = {17}, phoneRule = {18}, phoneRuleActive = {19},
-                        otherRule = {20}, otherRuleActive = {21}, startTimeRule = {22}, endTimeRule = {23}, timeRuleActive = {24}
-                        Where customerID = {25}";
+            Set monthlyBudgetRule = {0}, monthlyBudgetRuleActive = {1}, balanceRule = {2}, balanceRuleActive = {3}, 
+            choresRule = {4}, choresRuleActive = {5}, clothingRule = {6}, clothingRuleActive = {7}, eatingOutRule = {8}, 
+            eatingOutRuleActive = {9}, essentialsRule = {10}, essentialsRuleActive = {11}, foodRule = {12}, foodRuleActive = {13},
+            funRule = {14}, funRuleActive = {15}, gasRule = {16}, gasRuleActive = {17}, phoneRule = {18}, phoneRuleActive = {19},
+            otherRule = {20}, otherRuleActive = {21}, startTimeRule = {22}, endTimeRule = {23}, timeRuleActive = {24}
+            Where customerID = {25}";
 
             await _context.Database.ExecuteSqlRawAsync(query, monthlyBudget, monthlyBudgetActive, balance, balanceActive, chores,
                 choresRuleActive, clothing, clothingRuleActive, eatingOut, eatingOutRuleActive, essentials, essentialsRuleActive,
@@ -286,6 +288,7 @@ namespace CommerceBankProject.Controllers
             return RedirectToAction(nameof(Settings));
         }
 
+        [Authorize]
         public async Task<IActionResult> DeleteAll()
         {
             var claim = User.FindFirst(ClaimTypes.NameIdentifier);
