@@ -7,11 +7,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using CommerceBankProject.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CommerceBankProject.Data
 {
     public class CommerceBankDbContext : IdentityDbContext<ApplicationUser>
     {
+        public CommerceBankDbContext()
+        {
+        }
         public CommerceBankDbContext(DbContextOptions<CommerceBankDbContext> options)
             : base(options)
         {

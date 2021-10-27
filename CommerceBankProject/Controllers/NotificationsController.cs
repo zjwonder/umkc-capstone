@@ -46,7 +46,7 @@ namespace CommerceBankProject.Controllers
         // GET: Notifications/Create
         public IActionResult Create()
         {
-            return View();
+            return View("Create");
         }
 
         // POST: Notifications/Create
