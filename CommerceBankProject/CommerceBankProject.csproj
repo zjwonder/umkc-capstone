@@ -12,13 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20211011204101_reconfig.cs" />
-    <Compile Remove="Migrations\20211011204101_reconfig.Designer.cs" />
-    <Compile Remove="Migrations\20211024005525_reconfig.cs" />
-    <Compile Remove="Migrations\20211024005525_reconfig.Designer.cs" />
+
   </ItemGroup>
 
   <ItemGroup>
+
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.18" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.18" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.18" />
@@ -27,6 +25,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+    <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="SendGrid" Version="9.24.3" />
   </ItemGroup>
 

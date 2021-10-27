@@ -323,7 +323,7 @@ namespace CommerceBankProject.Controllers
         [Authorize]
         public IActionResult Create()
         {
-            return View();
+            return View("Create");
         }
 
         // POST: Notifications/Create
