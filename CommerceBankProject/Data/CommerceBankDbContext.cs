@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,9 +13,6 @@ namespace CommerceBankProject.Data
 {
     public class CommerceBankDbContext : IdentityDbContext<ApplicationUser>
     {
-        public CommerceBankDbContext()
-        {
-        }
         public CommerceBankDbContext(DbContextOptions<CommerceBankDbContext> options)
             : base(options)
         {
@@ -26,6 +23,7 @@ namespace CommerceBankProject.Data
             base.OnModelCreating(builder);
             builder.Entity<AccountRecord>().HasNoKey();
             builder.Entity<DateRecord>().HasNoKey();
+            builder.Entity<MonthlyResult>().HasNoKey();
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
@@ -36,5 +34,7 @@ namespace CommerceBankProject.Data
         public DbSet<CustomerRecord> Customer { get; set; }
         public DbSet<DateRecord> Date { get; set; }
         public DbSet<Notification> Notification { get; set; }
+        public DbSet<MonthlyResult> MonthlyResult { get; set; }
+        public DbSet<NotificationSettings> NotificationSettings { get; set; }
     }
 }
