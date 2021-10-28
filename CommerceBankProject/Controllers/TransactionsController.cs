@@ -27,18 +27,35 @@ namespace CommerceBankProject.Controllers
         {
             var claim = User.FindFirst(ClaimTypes.NameIdentifier);
             string userID = claim.Value;
-            var user = await _context.Users.Where(u => u.Id == userID).FirstOrDefaultAsync();
-            string tQuery = "Select * from [Transaction] where customerID = {0} order by onDate desc;";
-            List<Transaction> tList = await _context.Transaction.FromSqlRaw(tQuery, user.customerID).ToListAsync();
-            string actQuery = "Select distinct actID, actType from [Transaction] where customerID = {0}";
-            List<AccountRecord> actList = await _context.Account.FromSqlRaw(actQuery, user.customerID).ToListAsync();
-            string dateQuery = "Select top 1 onDate from [Transaction] where customerID = {0} order by onDate";
-            DateRecord record = await _context.Date.FromSqlRaw(dateQuery, user.customerID).FirstOrDefaultAsync();
-            DateTime fromDate = record.onDate;
-            record = await _context.Date.FromSqlRaw(dateQuery+" desc", user.customerID).FirstOrDefaultAsync();
-            DateTime toDate = record.onDate;
-            TIndexViewModel vmod = new TIndexViewModel(tList, actList, fromDate, toDate);
-            
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userID);
+
+
+
+            //string tQuery = "Select * from [Transaction] where customerID = {0} order by onDate desc;";
+            //List<Transaction> tList = await _context.Transaction.FromSqlRaw(tQuery, user.customerID).ToListAsync();
+            //string actQuery = "Select distinct actID, actType from [Transaction] where customerID = {0}";
+            //List<AccountRecord> actList = await _context.Account.FromSqlRaw(actQuery, user.customerID).ToListAsync();
+            //string dateQuery = "Select top 1 onDate from [Transaction] where customerID = {0} order by onDate";
+            //DateRecord record = await _context.Date.FromSqlRaw(dateQuery, user.customerID).FirstOrDefaultAsync();
+            //DateTime fromDate = record.onDate;
+            //record = await _context.Date.FromSqlRaw(dateQuery+" desc", user.customerID).FirstOrDefaultAsync();
+            //DateTime toDate = record.onDate;
+            //TIndexViewModel vmod = new TIndexViewModel(tList, actList, fromDate, toDate);
+
+            List<Transaction> transactionList = new List<Transaction>(await _context.Transaction.Where(x => x.customerID == user.customerID).ToListAsync());
+
+            //List<AccountRecord> accountList = new List<AccountRecord>();
+
+            TIndexViewModel vmod = new TIndexViewModel(
+                transactionList,
+                transactionList.FirstOrDefault().onDate,
+                transactionList.LastOrDefault().onDate);
+
+            //    await _context.Transaction.Where(x => x.customerID == user.customerID).ToListAsync(),
+            //    await _context.Transaction.Where(x => x.).ToListAsync(),
+            //    await _context.Date.Where(x => x.
+            //    );
+
             return View(vmod);
         }
 
@@ -72,7 +89,7 @@ namespace CommerceBankProject.Controllers
             splitDate = fromDate.Split('-');
             DateTime fDate = new DateTime(int.Parse(splitDate[0]), int.Parse(splitDate[1]), int.Parse(splitDate[2]));
             List<AccountRecord> actList = await _context.Account.FromSqlRaw(actQuery, user.customerID).ToListAsync();
-            TIndexViewModel vmod = new TIndexViewModel(tList, actList, fDate, tDate, descFilter, int.Parse(pageNumber),actFilter);
+            TIndexViewModel vmod = new TIndexViewModel(tList, fDate, tDate, descFilter, int.Parse(pageNumber),actFilter);
             
             return View("Index", vmod);
         }

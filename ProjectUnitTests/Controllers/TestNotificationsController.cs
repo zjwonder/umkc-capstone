@@ -23,24 +23,30 @@ namespace ProjectUnitTests
         [Fact]
         public void TestGetCreateView()
         {
-            string viewNameString = "Create", wrongViewNameString = "create";
-            controller = new NotificationsController(mockDbContext.Object);
-            var result = controller.Create() as ViewResult;
-            Assert.Equal(viewNameString, result.ViewName);
-            Assert.NotEqual(wrongViewNameString, result.ViewName);
+            using (var context = new CommerceBankDbContext(TestDbContextOptions()))
+            {
+                string viewNameString = "Create", wrongViewNameString = "create";
+                controller = new NotificationsController(context);
+                var result = controller.Create() as ViewResult;
+                Assert.Equal(viewNameString, result.ViewName);
+                Assert.NotEqual(wrongViewNameString, result.ViewName);
+            }
         }
 
         [Fact]
         public void TestGetDetailsView()
         {
-            int id = 123456789;
-            int? badID = null;
-            controller = new NotificationsController(mockDbContext.Object);
-            var result = controller.Details(id);
-            Assert.NotNull(result);
+            using (var context = new CommerceBankDbContext(TestDbContextOptions()))
+            {
+                int id = 123456789;
+                int? badID = null;
+                controller = new NotificationsController(context);
+                var result = controller.Details(id);
+                Assert.NotNull(result);
 
-            var notFoundResult = controller.Details(badID);
-            Assert.IsType<NotFoundResult>(notFoundResult.Result);
+                var notFoundResult = controller.Details(badID);
+                Assert.IsType<NotFoundResult>(notFoundResult.Result);
+            }
         }
 
         [Fact]

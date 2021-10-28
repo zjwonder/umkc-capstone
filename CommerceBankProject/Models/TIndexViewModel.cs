@@ -19,10 +19,10 @@ namespace CommerceBankProject.Models
 
         public int pageSize { get; set; } = 10;
 
-        public TIndexViewModel(List<Transaction> transactions, List<AccountRecord> accounts, DateTime start, DateTime end, string desc="", int PageNumber = 1, string acct = "all")
+        public TIndexViewModel(List<Transaction> transactions, DateTime start, DateTime end, string desc="", int PageNumber = 1, string acct = "all")
         {
             tList = transactions;
-            actList = accounts;
+            //actList = transactions.ForEach();
             descSearch = desc;
             fromDate = start;
             toDate = end;
