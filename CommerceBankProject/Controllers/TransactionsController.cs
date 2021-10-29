@@ -32,7 +32,7 @@ namespace CommerceBankProject.Controllers
             List<Transaction> tList = await _context.Transaction.FromSqlRaw(tQuery, user.customerID).ToListAsync();
             string actQuery = "Select distinct actID, actType from [Transaction] where customerID = {0}";
             List<AccountRecord> actList = await _context.Account.FromSqlRaw(actQuery, user.customerID).ToListAsync();
-            string dateQuery = "Select top 1 onDate from [Transaction] where customerID = {0} order by ID";
+            string dateQuery = "Select top 1 onDate from [Transaction] where customerID = {0} order by onDate";
             DateRecord record = await _context.Date.FromSqlRaw(dateQuery, user.customerID).FirstOrDefaultAsync();
             DateTime fromDate = record.onDate;
             record = await _context.Date.FromSqlRaw(dateQuery+" desc", user.customerID).FirstOrDefaultAsync();
