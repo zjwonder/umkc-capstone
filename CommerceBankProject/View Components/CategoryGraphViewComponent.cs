@@ -68,16 +68,12 @@ namespace CommerceBankProject.View_Components
                                     , DATEDIFF(MONTH, 0, trans_cat.onDate)
                                     , 0)
                             ORDER BY
-	                            DATEADD(
-		                            MONTH
-		                            , DATEDIFF(MONTH, 0, trans_cat.onDate)
-		                            , 0) DESC
-	                            ,SUM(
+	                            SUM(
 		                            CASE
 			                            WHEN trans_cat.transType = 'CR' THEN trans_cat.amount
 			                            WHEN trans_cat.transType = 'DR' THEN (trans_cat.amount * -1)
 			                            ELSE NULL END
-	                            ) DESC";
+	                            ) ASC";
             List<YearMonthAggregated_CategoryTransactions> tList = await _context.YearMonthAggregated_CategoryTransactions.FromSqlRaw(tQuery, "777777777").ToListAsync();
             string actQuery = "Select distinct actID, actType from [Transaction] where customerID = {0}";
             List<AccountRecord> actList = await _context.Account.FromSqlRaw(actQuery, "777777777").ToListAsync();

@@ -18,9 +18,9 @@ namespace CommerceBankProject.Models
     {
 
         public int ID { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime MonthYearDate { get; set; }
-        [Column(TypeName = "nvarchar(9)")]
+        [Column(TypeName = "nvarchar(30)")]
+        public string MonthName { get; set; }
+        [Column(TypeName = "nvarchar(30)")]
         public string customerID { get; set; }
         [Column(TypeName = "nvarchar(30)")]
         public string actID { get; set; }

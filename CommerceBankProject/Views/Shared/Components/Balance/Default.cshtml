@@ -1,0 +1,43 @@
+﻿@model CommerceBankProject.Models.BalanceIndexViewModel
+
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Account
+            </th>
+            <th>
+                Balance
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.tList)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.actType)
+            </td>
+            @if (item.balance > 0)
+            {
+                <td style="text-align:left">
+                    $@Html.DisplayFor(modelItem => item.balance)
+                </td>
+            }
+            else
+            {
+                <td style="text-align:left">
+                    -$@Html.DisplayFor(modelItem => item.balance)
+                </td>
+            }
+        </tr>
+        }
+    </tbody>
+</table>

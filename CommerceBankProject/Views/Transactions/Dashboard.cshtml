@@ -6,7 +6,13 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <div class="text-center">
-    <h1 class="display-4">Dashboard</h1>
+    <h1 class="display-4">Data</h1>
+</div>
+
+<div class="row" style="display: flex; justify-content: flex-end">
+    <div class="column">
+        @(await Component.InvokeAsync("Balance", new { context = Context }))
+    </div>
 </div>
 
 <div class="row">
@@ -16,4 +22,8 @@
     <div class="column">
         @(await Component.InvokeAsync("TransactionSummaryGraph", new { context = Context }))
     </div>
+</div>
+
+<div class="row justify-content-center">
+    @(await Component.InvokeAsync("TopNTransactions", new { context = Context }))
 </div>
