@@ -141,6 +141,7 @@ tr:nth-child(even) {
     -webkit-appearance: checkbox !important;
 }
 
+.link-container,
 .settings-container {
     border: 1px solid #666;
 }

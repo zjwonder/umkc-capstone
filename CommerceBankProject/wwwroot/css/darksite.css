@@ -48,7 +48,7 @@ body {
 
 select,
 input {
-    background-color: #333;
+    background-color: #333 !important;
     color: #fff !important;
     transition-property: background-color, color;
     transition-duration: 0.5s;
@@ -160,15 +160,20 @@ td {
 
 th,
 tr:nth-child(even) {
-    background-color: #777;
-}
-
-tr:nth-child(odd) {
     background-color: #555;
 }
 
+tr:nth-child(odd) {
+    background-color: #444;
+}
+
+.link-container,
 .settings-container {
     border: 1px solid #aaa;
+}
+
+table {
+    color: #fff !important;
 }
 
 table tbody tr td a {
