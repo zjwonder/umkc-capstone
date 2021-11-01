@@ -3,315 +3,379 @@
     ViewData["Title"] = "Settings";
 }
 
-<h1>Settings</h1>
+<h1>Notification Settings</h1>
 
 <form asp-action="SettingsChange">
 
-    <div class="form-check">
-        @if (Model.monthlyBudgetRuleActive)
-        {
-            <input class="form-check-input" type="checkbox" name="monthlyBudgetActive" value="true" id="monthlyBudgetCheck" onchange="toggleEnabled('monthlyBudget')" checked>
-        }
-        else
-        {
-            <input class="form-check-input" type="checkbox" name="monthlyBudgetActive" value="true" id="monthlyBudgetCheck" onchange="toggleEnabled('monthlyBudget')">
-        }
-        <label class="form-check-label" for="monthlyBudgetCheck">
-            Check this box if you want monthly budget notifications.
-        </label>
+    <div class="settings-container">
+        <label for="monthlyBudget" class="form-label font-weight-bold label-padded">Monthly Budget</label>
+        <div class="arrow show" onclick="toggleHidden(this,'budgetSlider')"></div>
+        <div id="budgetSlider" class="open container-padded">
+            <p>Receive notifications when your monthly budget is exceeded</p>
+            @if (Model.monthlyBudgetRuleActive)
+            {
+                <input type="range" class="custom-range" min="50" max="3000" step="10" value=@Model.monthlyBudgetRule id="monthlyBudget" onchange="trackSlider(this,'monthlyBudgetReadOut')">
+            }
+            else
+            {
+                <input type="range" class="custom-range" min="50" max="3000" step="10" value=@Model.monthlyBudgetRule id="monthlyBudget" onchange="trackSlider(this,'monthlyBudgetReadOut')" disabled>
+            }
+            <input type="number" value=@Model.monthlyBudgetRule id="monthlyBudgetReadOut" name="monthlyBudget" class="slider-readout" readonly />
+
+            <div class="form-check">
+                @if (Model.monthlyBudgetRuleActive)
+                {
+                    <input class="form-check-input" type="checkbox" name="monthlyBudgetActive" value="true" id="monthlyBudgetCheck" onchange="toggleEnabled('monthlyBudget')" checked>
+                }
+                else
+                {
+                    <input class="form-check-input" type="checkbox" name="monthlyBudgetActive" value="true" id="monthlyBudgetCheck" onchange="toggleEnabled('monthlyBudget')">
+                }
+                <label class="form-check-label" for="monthlyBudgetCheck">
+                    Enable
+                </label>
+            </div>
+        </div>
     </div>
+    <br />
+    <div class="settings-container">
+        <label for="balance" class="form-label font-weight-bold label-padded">Balance</label>
+        <div class="arrow show" onclick="toggleHidden(this,'balanceSlider')"></div>
+        <div id="balanceSlider" class="open container-padded">
+            <p>Receive notifications when a withdrawal reduces your balance below a specified amount</p>
+            @if (Model.balanceRuleActive)
+            {
+                <input type="range" class="custom-range" min="50" max="5000" step="10" id="balance" value=@Model.balanceRule onchange="trackSlider(this,'balanceReadOut')">
+            }
+            else
+            {
+                <input type="range" class="custom-range" min="50" max="5000" step="10" id="balance" value=@Model.balanceRule onchange="trackSlider(this,'balanceReadOut')" disabled>
+            }
+            <input type="number" value=@Model.balanceRule id="balanceReadOut" name="balance" class="slider-readout" readonly />
 
-    <label for="monthlyBudget" class="form-label">Monthly Budget</label>
-    @if (Model.monthlyBudgetRuleActive)
-    {
-        <input type="range" class="form-range" min="50" max="3000" step="10" value=@Model.monthlyBudgetRule id="monthlyBudget" oninput="trackSlider(this,'monthlyBudgetReadOut')">
-    }
-    else
-    {
-        <input type="range" class="form-range" min="50" max="3000" step="10" value=@Model.monthlyBudgetRule id="monthlyBudget" oninput="trackSlider(this,'monthlyBudgetReadOut')" disabled>
-    }
-    <input type="number" value=@Model.monthlyBudgetRule id="monthlyBudgetReadOut" name="monthlyBudget" readonly />
-
-    <div class="form-check">
-        @if (Model.balanceRuleActive)
-        {
-            <input class="form-check-input" type="checkbox" name="balanceActive" value="true" id="balanceCheck" onchange="toggleEnabled('balance')" checked>
-        }
-        else
-        {
-            <input class="form-check-input" type="checkbox" name="balanceActive" value="true" id="balanceCheck" onchange="toggleEnabled('balance')">
-        }
-        <label class="form-check-label" for="balanceCheck">
-            Check this box if you want low balance notifications.
-        </label>
+            <div class="form-check">
+                @if (Model.balanceRuleActive)
+                {
+                    <input class="form-check-input" type="checkbox" name="balanceActive" value="true" id="balanceCheck" onchange="toggleEnabled('balance')" checked>
+                }
+                else
+                {
+                    <input class="form-check-input" type="checkbox" name="balanceActive" value="true" id="balanceCheck" onchange="toggleEnabled('balance')">
+                }
+                <label class="form-check-label" for="balanceCheck">
+                    Enable
+                </label>
+            </div>
+        </div>
     </div>
+    <br />
 
-    <label for="balance" class="form-label">balance</label>
-    @if (Model.balanceRuleActive)
-    {
-        <input type="range" class="form-range" min="50" max="5000" step="10" id="balance" value=@Model.balanceRule oninput="trackSlider(this,'balanceReadOut')">
-    }
-    else
-    {
-        <input type="range" class="form-range" min="50" max="5000" step="10" id="balance" value=@Model.balanceRule oninput="trackSlider(this,'balanceReadOut')" disabled>
-    }
-    <input type="number" value=@Model.balanceRule id="balanceReadOut" name="balance" readonly />
-
-    <div class="form-check">
-        @if (Model.choresRuleActive)
-        {
-            <input class="form-check-input" type="checkbox" name="choresRuleActive" value="true" id="choresRuleCheck" onchange="toggleEnabled('chores')" checked>
-        }
-        else
-        {
-            <input class="form-check-input" type="checkbox" name="choresRuleActive" value="true" id="choresRuleCheck" onchange="toggleEnabled('chores')">
-        }
-        <label class="form-check-label" for="choresRuleCheck">
-            Check this box if you want monthly chore budget notifications.
-        </label>
+    <div class="settings-container">
+        <label class="form-label font-weight-bold label-padded">Timeframe</label>
+        <div class="arrow show" onclick="toggleHidden(this,'timeSlider')"></div>
+        <div id="timeSlider" class="open container-padded">
+            <p>Receive notifications when a transaction takes place between the specified times</p>
+            <label for="time" class="form-label">Start Time:</label>
+            @if (Model.timeRuleActive)
+            {
+                <input type="time" value=@Model.startTimeRule.ToString() id="timeStart" name="startTimeRule">
+                <label for="time" class="form-label">End Time:</label>
+                <input type="time" value=@Model.endTimeRule.ToString() id="timeEnd" name="endTimeRule">
+            }
+            else
+            {
+                <input type="time" value=@Model.startTimeRule.ToString() id="timeStart" name="startTimeRule" readonly>
+                <label for="time" class="form-label">End Time:</label>
+                <input type="time" value=@Model.endTimeRule.ToString() id="timeEnd" name="endTimeRule" readonly>
+            }
+            <div class="form-check">
+                @if (Model.timeRuleActive)
+                {
+                    <input class="form-check-input" type="checkbox" name="timeRuleActive" value="true" id="timeRuleCheck" onchange="toggleReadOnly(this);" checked>
+                }
+                else
+                {
+                    <input class="form-check-input" type="checkbox" name="timeRuleActive" value="true" id="timeRuleCheck" onchange="toggleReadOnly(this);">
+                }
+                <label class="form-check-label" for="timeRuleCheck">
+                    Enable
+                </label>
+            </div>
+        </div>
     </div>
+    <br />
 
-    <label for="chores" class="form-label">Chores</label>
-    @if (Model.choresRuleActive)
-    {
-        <input type="range" class="form-range" min="50" max="3000" step="10" value=@Model.choresRule id="chores" oninput="trackSlider(this,'choresReadOut')">
-    }
-    else
-    {
-        <input type="range" class="form-range" min="50" max="3000" step="10" value=@Model.choresRule id="chores" oninput="trackSlider(this,'choresReadOut')" disabled>
-    }
-    <input type="number" value=@Model.choresRule id="choresReadOut" name="chores" readonly />
+    <div class="settings-container">
+        <label class="form-label font-weight-bold label-padded">Budget By Category</label>
+        <div class="arrow hide" onclick="toggleHidden(this,'categorySliders')"></div>
+        <div id="categorySliders" class="closed container-padded">
+            <p>Receive notifications when spending for any of your chosen categories exceeds a specified amount</p>
+            <label for="chores" class="form-label indent label-padded">Chores</label>
+            <div class="arrow hide" onclick="toggleHidden(this,'choresSlider')"></div>
+            <div id="choresSlider" class="closed indent container-padded">
+                @if (Model.choresRuleActive)
+                {
+                    <input type="range" class="custom-range" min="50" max="3000" step="10" value=@Model.choresRule id="chores" onchange="trackSlider(this,'choresReadOut')">
+                }
+                else
+                {
+                    <input type="range" class="custom-range" min="50" max="3000" step="10" value=@Model.choresRule id="chores" onchange="trackSlider(this,'choresReadOut')" disabled>
+                }
+                <input type="number" value=@Model.choresRule id="choresReadOut" name="chores" class="slider-readout" readonly />
+                <div class="form-check">
+                    @if (Model.choresRuleActive)
+                    {
+                        <input class="form-check-input" type="checkbox" name="choresRuleActive" value="true" id="choresRuleCheck" onchange="toggleEnabled('chores')" checked>
+                    }
+                    else
+                    {
+                        <input class="form-check-input" type="checkbox" name="choresRuleActive" value="true" id="choresRuleCheck" onchange="toggleEnabled('chores')">
+                    }
+                    <label class="form-check-label" for="choresRuleCheck">
+                        Enable
+                    </label>
+                </div>
+            </div>
+            <br />
 
-    <div class="form-check">
-        @if (Model.clothingRuleActive)
-        {
-            <input class="form-check-input" type="checkbox" name="clothingRuleActive" value="true" id="clothingRuleCheck" onchange="toggleEnabled('clothing')" checked>
-        }
-        else
-        {
-            <input class="form-check-input" type="checkbox" name="clothingRuleActive" value="true" id="clothingRuleCheck" onchange="toggleEnabled('clothing')">
-        }
-        <label class="form-check-label" for="clothingRuleCheck">
-            Check this box if you want monthly clothing budget notifications.
-        </label>
+            <label for="clothing" class="form-label indent label-padded">Clothing</label>
+            <div class="arrow hide" onclick="toggleHidden(this,'clothingSlider')"></div>
+            <div id="clothingSlider" class="closed indent container-padded">
+                @if (Model.clothingRuleActive)
+                {
+                    <input type="range" class="custom-range" min="50" max="3000" step="10" value=@Model.clothingRule id="clothing" onchange="trackSlider(this,'clothingReadOut')">
+                }
+                else
+                {
+                    <input type="range" class="custom-range" min="50" max="3000" step="10" value=@Model.clothingRule id="clothing" onchange="trackSlider(this,'clothingReadOut')" disabled>
+                }
+                <input type="number" value=@Model.clothingRule id="clothingReadOut" name="clothing" class="slider-readout" readonly />
+
+                <div class="form-check">
+                    @if (Model.clothingRuleActive)
+                    {
+                        <input class="form-check-input" type="checkbox" name="clothingRuleActive" value="true" id="clothingRuleCheck" onchange="toggleEnabled('clothing')" checked>
+                    }
+                    else
+                    {
+                        <input class="form-check-input" type="checkbox" name="clothingRuleActive" value="true" id="clothingRuleCheck" onchange="toggleEnabled('clothing')">
+                    }
+                    <label class="form-check-label" for="clothingRuleCheck">
+                        Enable
+                    </label>
+                </div>
+            </div>
+            <br />
+
+            <label for="eatingOut" class="form-label indent label-padded">Eating Out</label>
+            <div class="arrow hide" onclick="toggleHidden(this,'eatingOutSlider')"></div>
+            <div id="eatingOutSlider" class="closed indent container-padded">
+                @if (Model.eatingOutRuleActive)
+                {
+                    <input type="range" class="custom-range" min="50" max="3000" step="10" value=@Model.eatingOutRule id="eatingOut" onchange="trackSlider(this,'eatingOutReadOut')">
+                }
+                else
+                {
+                    <input type="range" class="custom-range" min="50" max="3000" step="10" value=@Model.eatingOutRule id="eatingOut" onchange="trackSlider(this,'eatingOutReadOut')" disabled>
+                }
+                <input type="number" value=@Model.eatingOutRule id="eatingOutReadOut" name="eatingOut" class="slider-readout" readonly />
+
+                <div class="form-check">
+                    @if (Model.eatingOutRuleActive)
+                    {
+                        <input class="form-check-input" type="checkbox" name="eatingOutRuleActive" value="true" id="eatingOutRuleCheck" onchange="toggleEnabled('eatingOut')" checked>
+                    }
+                    else
+                    {
+                        <input class="form-check-input" type="checkbox" name="eatingOutRuleActive" value="true" id="eatingOutRuleCheck" onchange="toggleEnabled('eatingOut')">
+                    }
+                    <label class="form-check-label" for="eatingOutRuleCheck">
+                        Enable
+                    </label>
+                </div>
+            </div>
+            <br />
+
+            <label for="essentials" class="form-label indent label-padded">Essentials</label>
+            <div class="arrow hide" onclick="toggleHidden(this,'essentialsSlider')"></div>
+            <div id="essentialsSlider" class="closed indent container-padded">
+                @if (Model.essentialsRuleActive)
+                {
+                    <input type="range" class="custom-range" min="50" max="3000" step="10" value=@Model.essentialsRule id="essentials" onchange="trackSlider(this,'essentialsReadOut')">
+                }
+                else
+                {
+                    <input type="range" class="custom-range" min="50" max="3000" step="10" value=@Model.essentialsRule id="essentials" onchange="trackSlider(this,'essentialsReadOut')" disabled>
+                }
+                <input type="number" value=@Model.essentialsRule id="essentialsReadOut" name="essentials" class="slider-readout" readonly />
+
+                <div class="form-check">
+                    @if (Model.essentialsRuleActive)
+                    {
+                        <input class="form-check-input" type="checkbox" name="essentialsRuleActive" value="true" id="essentialsRuleCheck" onchange="toggleEnabled('essentials')" checked>
+                    }
+                    else
+                    {
+                        <input class="form-check-input" type="checkbox" name="essentialsRuleActive" value="true" id="essentialsRuleCheck" onchange="toggleEnabled('essentials')">
+                    }
+                    <label class="form-check-label" for="essentialsRuleCheck">
+                        Enable
+                    </label>
+                </div>
+            </div>
+            <br />
+
+            <label for="food" class="form-label indent label-padded">Food</label>
+            <div class="arrow hide" onclick="toggleHidden(this,'foodSlider')"></div>
+            <div id="foodSlider" class="closed indent container-padded">
+                @if (Model.foodRuleActive)
+                {
+                    <input type="range" class="custom-range" min="50" max="3000" step="10" value=@Model.foodRule id="food" onchange="trackSlider(this,'foodReadOut')">
+                }
+                else
+                {
+                    <input type="range" class="custom-range" min="50" max="3000" step="10" value=@Model.foodRule id="food" onchange="trackSlider(this,'foodReadOut')" disabled>
+                }
+                <input type="number" value=@Model.foodRule id="foodReadOut" name="food" class="slider-readout" readonly />
+
+                <div class="form-check">
+                    @if (Model.foodRuleActive)
+                    {
+                        <input class="form-check-input" type="checkbox" name="foodRuleActive" value="true" id="foodRuleCheck" onchange="toggleEnabled('food')" checked>
+                    }
+                    else
+                    {
+                        <input class="form-check-input" type="checkbox" name="foodRuleActive" value="true" id="foodRuleCheck" onchange="toggleEnabled('food')">
+                    }
+                    <label class="form-check-label" for="foodRuleCheck">
+                        Enable
+                    </label>
+                </div>
+            </div>
+            <br />
+
+
+            <label for="fun" class="form-label indent label-padded">Fun</label>
+            <div class="arrow hide" onclick="toggleHidden(this,'funSlider')"></div>
+            <div id="funSlider" class="closed indent container-padded">
+                @if (Model.funRuleActive)
+                {
+                    <input type="range" class="custom-range" min="50" max="3000" step="10" value=@Model.funRule id="fun" onchange="trackSlider(this,'funReadOut')">
+                }
+                else
+                {
+                    <input type="range" class="custom-range" min="50" max="3000" step="10" value=@Model.funRule id="fun" onchange="trackSlider(this,'funReadOut')" disabled>
+
+                }
+                <input type="number" value=@Model.funRule id="funReadOut" name="fun" class="slider-readout" readonly />
+
+                <div class="form-check">
+                    @if (Model.funRuleActive)
+                    {
+                        <input class="form-check-input" type="checkbox" name="funRuleActive" value="true" id="funRuleCheck" onchange="toggleEnabled('fun')" checked>
+                    }
+                    else
+                    {
+                        <input class="form-check-input" type="checkbox" name="funRuleActive" value="true" id="funRuleCheck" onchange="toggleEnabled('fun')">
+                    }
+                    <label class="form-check-label" for="funRuleCheck">
+                        Enable
+                    </label>
+                </div>
+            </div>
+            <br />
+
+            <label for="gas" class="form-label indent label-padded">Gas</label>
+            <div class="arrow hide" onclick="toggleHidden(this,'gasSlider')"></div>
+            <div id="gasSlider" class="closed indent container-padded">
+                @if (Model.gasRuleActive)
+                {
+                    <input type="range" class="custom-range" min="50" max="3000" step="10" value=@Model.gasRule id="gas" onchange="trackSlider(this,'gasReadOut')">
+                }
+                else
+                {
+                    <input type="range" class="custom-range" min="50" max="3000" step="10" value=@Model.gasRule id="gas" onchange="trackSlider(this,'gasReadOut')" disabled>
+                }
+                <input type="number" value=@Model.gasRule id="gasReadOut" name="gas" class="slider-readout" readonly />
+
+                <div class="form-check">
+                    @if (Model.gasRuleActive)
+                    {
+                        <input class="form-check-input" type="checkbox" name="gasRuleActive" value="true" id="gasRuleCheck" onchange="toggleEnabled('gas')" checked>
+                    }
+                    else
+                    {
+                        <input class="form-check-input" type="checkbox" name="gasRuleActive" value="true" id="gasRuleCheck" onchange="toggleEnabled('gas')">
+                    }
+                    <label class="form-check-label" for="gasRuleCheck">
+                        Enable
+                    </label>
+                </div>
+            </div>
+            <br />
+
+            <label for="phone" class="form-label indent label-padded">Phone</label>
+            <div class="arrow hide" onclick="toggleHidden(this,'phoneSlider')"></div>
+            <div id="phoneSlider" class="closed indent container-padded">
+                @if (Model.phoneRuleActive)
+                {
+                    <input type="range" class="custom-range" min="50" max="3000" step="10" value=@Model.phoneRule id="phone" onchange="trackSlider(this,'phoneReadOut')">
+                }
+                else
+                {
+                    <input type="range" class="custom-range" min="50" max="3000" step="10" value=@Model.phoneRule id="phone" onchange="trackSlider(this,'phoneReadOut')" disabled>
+                }
+                <input type="number" value=@Model.phoneRule id="phoneReadOut" name="phone" class="slider-readout" readonly />
+
+                <div class="form-check">
+                    @if (Model.phoneRuleActive)
+                    {
+                        <input class="form-check-input" type="checkbox" name="phoneRuleActive" value="true" id="phoneRuleCheck" onchange="toggleEnabled('phone')" checked>
+                    }
+                    else
+                    {
+                        <input class="form-check-input" type="checkbox" name="phoneRuleActive" value="true" id="phoneRuleCheck" onchange="toggleEnabled('phone')">
+                    }
+                    <label class="form-check-label" for="phoneRuleCheck">
+                        Enable
+                    </label>
+                </div>
+            </div>
+            <br />
+
+            <label for="other" class="form-label indent label-padded">Other</label>
+            <div class="arrow hide" onclick="toggleHidden(this,'otherSlider')"></div>
+            <div id="otherSlider" class="closed indent container-padded">
+                @if (Model.otherRuleActive)
+                {
+                    <input type="range" class="custom-range" min="50" max="3000" step="10" value=@Model.otherRule id="other" onchange="trackSlider(this,'otherReadOut')">
+                }
+                else
+                {
+                    <input type="range" class="custom-range" min="50" max="3000" step="10" value=@Model.otherRule id="other" onchange="trackSlider(this,'otherReadOut')" disabled>
+                }
+                <input type="number" value=@Model.otherRule id="otherReadOut" name="other" class="slider-readout" readonly />
+
+                <div class="form-check">
+                    @if (Model.otherRuleActive)
+                    {
+                        <input class="form-check-input" type="checkbox" name="otherRuleActive" value="true" id="otherRuleCheck" onchange="toggleEnabled('other')" checked>
+                    }
+                    else
+                    {
+                        <input class="form-check-input" type="checkbox" name="otherRuleActive" value="true" id="otherRuleCheck" onchange="toggleEnabled('other')">
+                    }
+                    <label class="form-check-label" for="otherRuleCheck">
+                        Enable
+                    </label>
+                </div>
+            </div>
+        </div>
     </div>
+    <br />
 
-    <label for="clothing" class="form-label">Clothing</label>
-    @if (Model.clothingRuleActive)
-    {
-        <input type="range" class="form-range" min="50" max="3000" step="10" value=@Model.clothingRule id="clothing" oninput="trackSlider(this,'clothingReadOut')">
-    }
-    else
-    {
-        <input type="range" class="form-range" min="50" max="3000" step="10" value=@Model.clothingRule id="clothing" oninput="trackSlider(this,'clothingReadOut')" disabled>
-    }
-    <input type="number" value=@Model.clothingRule id="clothingReadOut" name="clothing" readonly />
 
-    <div class="form-check">
-        @if (Model.eatingOutRuleActive)
-        {
-            <input class="form-check-input" type="checkbox" name="eatingOutRuleActive" value="true" id="eatingOutRuleCheck" onchange="toggleEnabled('eatingOut')" checked>
-        }
-        else
-        {
-            <input class="form-check-input" type="checkbox" name="eatingOutRuleActive" value="true" id="eatingOutRuleCheck" onchange="toggleEnabled('eatingOut')">
-        }
-        <label class="form-check-label" for="eatingOutRuleCheck">
-            Check this box if you want monthly eating out budget notifications.
-        </label>
-    </div>
-
-    <label for="eatingOut" class="form-label">Eating Out</label>
-    @if (Model.eatingOutRuleActive)
-    {
-        <input type="range" class="form-range" min="50" max="3000" step="10" value=@Model.eatingOutRule id="eatingOut" oninput="trackSlider(this,'eatingOutReadOut')">
-    }
-    else
-    {
-        <input type="range" class="form-range" min="50" max="3000" step="10" value=@Model.eatingOutRule id="eatingOut" oninput="trackSlider(this,'eatingOutReadOut')" disabled>
-    }
-    <input type="number" value=@Model.eatingOutRule id="eatingOutReadOut" name="eatingOut" readonly />
-
-    <div class="form-check">
-        @if (Model.essentialsRuleActive)
-        {
-            <input class="form-check-input" type="checkbox" name="essentialsRuleActive" value="true" id="essentialsRuleCheck" onchange="toggleEnabled('essentials')" checked>
-        }
-        else
-        {
-            <input class="form-check-input" type="checkbox" name="essentialsRuleActive" value="true" id="essentialsRuleCheck" onchange="toggleEnabled('essentials')">
-        }
-        <label class="form-check-label" for="essentialsRuleCheck">
-            Check this box if you want monthly essentials budget notifications.
-        </label>
-    </div>
-
-    <label for="essentials" class="form-label">Essentials</label>
-    @if (Model.essentialsRuleActive)
-    {
-        <input type="range" class="form-range" min="50" max="3000" step="10" value=@Model.essentialsRule id="essentials" oninput="trackSlider(this,'essentialsReadOut')">
-    }
-    else
-    {
-        <input type="range" class="form-range" min="50" max="3000" step="10" value=@Model.essentialsRule id="essentials" oninput="trackSlider(this,'essentialsReadOut')" disabled>
-    }
-    <input type="number" value=@Model.essentialsRule id="essentialsReadOut" name="essentials" readonly />
-
-    <div class="form-check">
-        @if (Model.foodRuleActive)
-        {
-            <input class="form-check-input" type="checkbox" name="foodRuleActive" value="true" id="foodRuleCheck" onchange="toggleEnabled('food')" checked>
-        }
-        else
-        {
-            <input class="form-check-input" type="checkbox" name="foodRuleActive" value="true" id="foodRuleCheck" onchange="toggleEnabled('food')">
-        }
-        <label class="form-check-label" for="foodRuleCheck">
-            Check this box if you want monthly food budget notifications.
-        </label>
-    </div>
-
-    <label for="food" class="form-label">Food</label>
-    @if (Model.foodRuleActive)
-    {
-        <input type="range" class="form-range" min="50" max="3000" step="10" value=@Model.foodRule id="food" oninput="trackSlider(this,'foodReadOut')">
-    }
-    else
-    {
-        <input type="range" class="form-range" min="50" max="3000" step="10" value=@Model.foodRule id="food" oninput="trackSlider(this,'foodReadOut')" disabled>
-    }
-    <input type="number" value=@Model.foodRule id="foodReadOut" name="food" readonly />
-
-    <div class="form-check">
-        @if (Model.funRuleActive)
-        {
-            <input class="form-check-input" type="checkbox" name="funRuleActive" value="true" id="funRuleCheck" onchange="toggleEnabled('fun')" checked>
-        }
-        else
-        {
-            <input class="form-check-input" type="checkbox" name="funRuleActive" value="true" id="funRuleCheck" onchange="toggleEnabled('fun')">
-        }
-        <label class="form-check-label" for="funRuleCheck">
-            Check this box if you want monthly fun budget notifications.
-        </label>
-    </div>
-
-    <label for="fun" class="form-label">Fun</label>
-    @if (Model.funRuleActive)
-    {
-        <input type="range" class="form-range" min="50" max="3000" step="10" value=@Model.funRule id="fun" oninput="trackSlider(this,'funReadOut')">
-    }
-    else
-    {
-        <input type="range" class="form-range" min="50" max="3000" step="10" value=@Model.funRule id="fun" oninput="trackSlider(this,'funReadOut')" disabled>
-
-    }
-    <input type="number" value=@Model.funRule id="funReadOut" name="fun" readonly />
-
-    <div class="form-check">
-        @if (Model.gasRuleActive)
-        {
-            <input class="form-check-input" type="checkbox" name="gasRuleActive" value="true" id="gasRuleCheck" onchange="toggleEnabled('gas')" checked>
-        }
-        else
-        {
-            <input class="form-check-input" type="checkbox" name="gasRuleActive" value="true" id="gasRuleCheck" onchange="toggleEnabled('gas')">
-        }
-        <label class="form-check-label" for="gasRuleCheck">
-            Check this box if you want monthly gas budget notifications.
-        </label>
-    </div>
-
-    <label for="gas" class="form-label">Gas</label>
-    @if (Model.gasRuleActive)
-    {
-        <input type="range" class="form-range" min="50" max="3000" step="10" value=@Model.gasRule id="gas" oninput="trackSlider(this,'gasReadOut')">
-    }
-    else
-    {
-        <input type="range" class="form-range" min="50" max="3000" step="10" value=@Model.gasRule id="gas" oninput="trackSlider(this,'gasReadOut')" disabled>
-    }
-    <input type="number" value=@Model.gasRule id="gasReadOut" name="gas" readonly />
-
-    <div class="form-check">
-        @if (Model.phoneRuleActive)
-        {
-            <input class="form-check-input" type="checkbox" name="phoneRuleActive" value="true" id="phoneRuleCheck" onchange="toggleEnabled('phone')" checked>
-        }
-        else
-        {
-            <input class="form-check-input" type="checkbox" name="phoneRuleActive" value="true" id="phoneRuleCheck" onchange="toggleEnabled('phone')">
-        }
-        <label class="form-check-label" for="phoneRuleCheck">
-            Check this box if you want monthly phone budget notifications.
-        </label>
-    </div>
-
-    <label for="phone" class="form-label">Phone</label>
-    @if (Model.phoneRuleActive)
-    {
-        <input type="range" class="form-range" min="50" max="3000" step="10" value=@Model.phoneRule id="phone" oninput="trackSlider(this,'phoneReadOut')">
-    }
-    else
-    {
-        <input type="range" class="form-range" min="50" max="3000" step="10" value=@Model.phoneRule id="phone" oninput="trackSlider(this,'phoneReadOut')" disabled>
-    }
-    <input type="number" value=@Model.phoneRule id="phoneReadOut" name="phone" readonly />
-
-    <div class="form-check">
-        @if (Model.otherRuleActive)
-        {
-            <input class="form-check-input" type="checkbox" name="otherRuleActive" value="true" id="otherRuleCheck" onchange="toggleEnabled('other')" checked>
-        }
-        else
-        {
-            <input class="form-check-input" type="checkbox" name="otherRuleActive" value="true" id="otherRuleCheck" onchange="toggleEnabled('other')">
-        }
-        <label class="form-check-label" for="otherRuleCheck">
-            Check this box if you want monthly other budget notifications.
-        </label>
-    </div>
-
-    <label for="other" class="form-label">Other</label>
-    @if (Model.otherRuleActive)
-    {
-        <input type="range" class="form-range" min="50" max="3000" step="10" value=@Model.otherRule id="other" oninput="trackSlider(this,'otherReadOut')">
-    }
-    else
-    {
-        <input type="range" class="form-range" min="50" max="3000" step="10" value=@Model.otherRule id="other" oninput="trackSlider(this,'otherReadOut')" disabled>
-    }
-    <input type="number" value=@Model.otherRule id="otherReadOut" name="other" readonly />
-
-    <div class="form-check">
-        @if (Model.timeRuleActive)
-        {
-            <input class="form-check-input" type="checkbox" name="timeRuleActive" value="true" id="timeRuleCheck" onchange="toggleReadOnly(this);" checked>
-        }
-        else
-        {
-            <input class="form-check-input" type="checkbox" name="timeRuleActive" value="true" id="timeRuleCheck" onchange="toggleReadOnly(this);">
-        }
-        <label class="form-check-label" for="timeRuleCheck">
-            Check this box if you want timeframe notifications.
-        </label>
-    </div>
-
-    <label for="time" class="form-label">Start Time:</label>
-    @if (Model.timeRuleActive)
-    {
-        <input type="time" value=@Model.startTimeRule.ToString() id="timeStart" name="startTimeRule">
-        <label for="time" class="form-label">End Time:</label>
-        <input type="time" value=@Model.endTimeRule.ToString() id="timeEnd" name="endTimeRule">
-    }
-    else
-    {
-        <input type="time" value=@Model.startTimeRule.ToString() id="timeStart" name="startTimeRule" readonly>
-        <label for="time" class="form-label">End Time:</label>
-        <input type="time" value=@Model.endTimeRule.ToString() id="timeEnd" name="endTimeRule" readonly>
-    }
-
-    <input type="submit" value="Save" class="btn btn-primary" />
+    <button type="submit" class="btn btn-primary" id="saveSettingsBtn">Save Changes</button>
 
 </form>
 

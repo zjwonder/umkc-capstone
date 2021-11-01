@@ -7,7 +7,7 @@
 <div class="text-center">
     <h2>View Transactions</h2>
 </div>
-<button type="button" class="btn btn-primary inactive" id="filterBtn" onclick="toggleFilter()">Filter</button>
+<button type="button" class="btn btn-primary inactive" id="filterBtn" onclick="toggleDisplay(this, 'filterForm')">Filter</button>
 <form asp-action="FilterIndex" id="filterForm" class="closed">
     <label for="actFilter">Select Account</label>
     <select name="actFilter">
@@ -127,14 +127,6 @@
     <p>No transactions were found.</p>
 }
 <script>
-    function toggleFilter() {
-        var filterButton = document.getElementById("filterBtn");
-        filterButton.classList.toggle("active");
-        filterButton.classList.toggle("inactive");
-        var filterInputs = document.getElementById("filterForm");
-        filterInputs.classList.toggle("closed");
-        filterInputs.classList.toggle("open");
-    }
 
     function changeMinTo(date) {
         var min = date.value;

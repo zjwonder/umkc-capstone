@@ -95,7 +95,7 @@ button[type=submit].btn-primary,
 
 input:-webkit-autofill,
 input {
-    background: #fff;
+    
     -webkit-box-shadow: 0 0 0 30px #fff inset;
     border-color: #999 !important;
 }
@@ -135,6 +135,14 @@ input:active {
 
 tr:nth-child(even) {
     background-color:#ccc;
+}
+
+#monthlyBudgetCheck {
+    -webkit-appearance: checkbox !important;
+}
+
+.settings-container {
+    border: 1px solid #666;
 }
 
 table tbody tr td a {
