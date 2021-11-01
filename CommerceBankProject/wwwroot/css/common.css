@@ -1,0 +1,257 @@
+﻿/* CSS for font families */
+
+@font-face {
+    font-family: Poppins;
+    src: url("../Fonts/Poppins/Poppins-Regular.ttf");
+}
+
+@font-face {
+    font-family: OpenSans;
+    src: url("../Fonts/OpenSans/OpenSans-Regular.ttf");
+}
+
+@font-face {
+    font-family: Poppins;
+    font-weight: lighter;
+    src: url("../Fonts/Poppins/Poppins-Light.ttf");
+}
+
+@font-face {
+    font-family: Poppins;
+    font-weight: bold;
+    src: url("../Fonts/Poppins/Poppins-Bold.ttf");
+}
+
+@font-face {
+    font-family: OpenSans;
+    font-weight: lighter;
+    src: url("../Fonts/OpenSans/OpenSans-Light.ttf");
+}
+
+@font-face {
+    font-family: OpenSans;
+    font-weight: bold;
+    src: url("../Fonts/OpenSans/OpenSans-Bold.ttf");
+}
+
+/*Setting fonts*/
+
+body {
+    font-family: OpenSans;
+}
+
+h1, h2, h3 {
+    font-family: Poppins;
+}
+
+nav {
+    font-family: Poppins;
+}
+
+a.navbar-brand {
+    font-family: OpenSans;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
+}
+
+/*Navbar*/
+nav {
+    background-image: linear-gradient(#006747, #004727);
+}
+
+a.navbar-brand {
+    font-weight: bold;
+    color: #f0f0f0 !important;
+    text-shadow: 1px 1px 1px rgba(0,0,0,.2),
+        -1px -1px 1px rgba(0,0,0,.2);
+    white-space: normal;
+    word-break: break-all;
+}
+
+nav .nav-link {
+    text-shadow: -1px -1px 0px rgba(0,0,0,.3), 1px 1px 0px rgba(0,0,0,.1);
+    color: #f0f0f0 !important;
+}
+
+nav .nav-link:hover {
+    text-shadow: -1px -1px 0px rgba(255,255,255,.1), 1px 1px 0px rgba(0,0,0,.3);
+    color: #f0f0f0 !important;
+}
+
+nav .dropdown-menu {
+    background: rgba(0,103,71,0.95);
+    box-shadow: inset -2px -2px 3px #003717;
+}
+
+nav .dropdown-item {
+    color: #f0f0f0 !important;
+}
+
+nav .dropdown-item:hover {
+    background-color: #006747;
+}
+
+/*Spacing and display settings*/
+
+input[type=checkbox] {
+    -webkit-box-shadow: none !important;
+}
+
+input[type=time] {
+    margin-right: 20px;
+}
+
+label {
+    margin: 0px 5px 0px 0px;
+}
+
+.indent {
+    margin-left: 50px;
+}
+
+.container-padded {
+    margin-top: 10px;
+}
+
+.label-padded {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.slider-readout {
+    border: none;
+    width: 100px;
+    margin-left: 20px;
+}
+
+#saveSettingsBtn {
+    margin-top: 50px;
+}
+
+#darkMode {
+    display: none;
+}
+
+#filterBtn {
+    border: none !important;
+    margin: 0px 0px 5px 0px;
+}
+
+#filterForm select,
+#filterForm input {
+    margin: 5px 20px 5px 0px;
+}
+
+#filterSubmit {
+    background-color: #4FA800 !important;
+    -webkit-box-shadow: none !important;
+    border: none;
+    margin: 5px 0px 5px 10px;
+}
+
+#pageChanged label {
+    margin-left: 20px;
+}
+
+#changePageNumber,
+#changePageNumber:focus,
+#changePageNumber:active {
+    width: 40px;
+    border: none;
+    cursor: auto !important;
+}
+
+.trans-cr,
+.trans-dr {
+    text-align: right;
+}
+
+#darkModeLabel {
+    padding-left: 0px;
+    margin-top: 0px;
+    float: left;
+}
+
+/*Containers*/
+
+.settings-container {
+    padding: 10px 10px 10px 10px;
+    border-radius: 10px;
+}
+
+.link-container {
+    padding: 5px 5px 5px 5px;
+    border-radius: 10px;
+}
+
+/*Toggling display*/
+.closed {
+    visibility: hidden;
+    position: absolute;
+    opacity: 0;
+}
+
+.open {
+    visibility: visible;
+    position: static;
+    transition-property: opacity;
+    transition-duration: 0.5s;
+}
+
+/*Sliders*/
+
+.custom-range {
+    width: 200px;
+}
+
+/*Icons*/
+
+.arrow {
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+}
+
+.arrow.hide {
+    border: 1px solid #888;
+    border-width: 2px 2px 0 0;
+    transform: rotate(45deg);
+    transition-property: transform, border;
+    transition-duration: 0.5s
+}
+
+.arrow.show {
+    border: 1px solid #4FA800;
+    border-width: 2px 2px 0 0;
+    transform: rotate(135deg);
+    transition-property: transform, border;
+    transition-duration: 0.5s
+}

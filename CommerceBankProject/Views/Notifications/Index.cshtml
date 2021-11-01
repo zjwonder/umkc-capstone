@@ -3,71 +3,58 @@
 @{
     ViewData["Title"] = "Index";
 }
+<div class="text-center">
+    <h1>Notification Center</h1>
+</div>
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Generate">Generate notifications</a>
+<p class="d-inline-block mr-md-5 link-container">
+    <a asp-action="Generate">Generate Notifications</a>
 </p>
 
-<p>
-    <a asp-action= "DeleteAll">Delete all</a>
+<p class="d-inline-block mr-md-5 link-container">
+    <a asp-action="Settings">Notification Settings</a>
 </p>
 
-<p>
-    <a asp-action="Settings">Notification settings</a>
+<p class="d-inline-block link-container">
+    <a asp-action="DeleteAll">Delete All</a>
 </p>
+<br />
+
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.customerID)
+                Type
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.type)
+                Description
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.onDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.read)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.saved)
+                Date
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.customerID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.onDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.read)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.saved)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.onDate)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

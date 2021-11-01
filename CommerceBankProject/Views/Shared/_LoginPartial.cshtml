@@ -1,34 +1,67 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using CommerceBankProject.Areas.Identity.Data
+@using Microsoft.AspNetCore.Http
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
-<ul class="navbar-nav">
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <li class="nav-item">
-            <a id="transactions" class="nav-link text-primary font-weight-light" asp-area="" asp-controller="Transactions" asp-action="Index">History</a>
-        </li>
-        <li class="nav-item">
-            <a id="manage" class="nav-link text-primary font-weight-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Account</a>
-        </li>
-        <li class="nav-item">
-            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button id="logout" type="submit" class="nav-link btn btn-link text-primary font-weight-light">Logout</button>
-            </form>
-        </li>
-        <li class="nav-item">
-            <a id="notifications" class="nav-link text-primary font-weight-light" asp-area="" asp-controller="Notifications" asp-action="Index">Notifications</a>
-        </li>
-    }
-    else
-    {
-        <li class="nav-item">
-            <a class="nav-link text-primary font-weight-light" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-primary font-weight-light" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
-        </li>
-    }
-</ul>
+<div class="collapse navbar-collapse" id="navbarMenu">
+    <ul class="navbar-nav flex-grow-1 float-right justify-content-end">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle font-weight-light" id="navigate" asp-area="" asp-controller="Home" asp-action="Index" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Navigation</a>
+                <div class="dropdown-menu" aria-labelledby="navigate">
+                    <a class="dropdown-item font-weight-light" asp-area="" asp-controller="Home" asp-action="Index">Dashboard</a>
+                    <a id="notifications" class="dropdown-item font-weight-light" asp-area="" asp-controller="Notifications" asp-action="Index">Notifications</a>
+                    <a id="transactions" class="dropdown-item font-weight-light" asp-area="" asp-controller="Transactions" asp-action="Index">History</a>
+                    <a id="manage" class="dropdown-item font-weight-light" asp-area="Identity" asp-page="/Account/Manage/Index">Account</a>
+                    <form class="dropdown-item font-weight-light form-inline">
+                        <label for="darkMode" class="form-check-label nav-link btn-link" id="darkModeLabel">Theme</label>
+                        @if (HttpContextAccessor.HttpContext.Session.GetString("UserStyle") == "dark")
+                        {
+                            <input type="checkbox" id="darkMode" onchange="changeCss(this)" checked />
+                        }
+                        else
+                        {
+                            <input type="checkbox" id="darkMode" onchange="changeCss(this)" />
+                        }
+                        <label for="darkMode" id="darkModeAfter">•</label>
+                    </form>
+                </div>
+            </li>
+            <li class="nav-item">
+                <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button id="logout" type="submit" class="nav-link btn btn-link text-primary font-weight-light">Logout</button>
+                </form>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link font-weight-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link font-weight-light" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link font-weight-light" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+            </li>
+            <li class="nav-item">
+                <form class="form-inline">
+                    <label for="darkMode" class="form-check-label nav-link btn-link">Theme</label>
+                    @if (HttpContextAccessor.HttpContext.Session.GetString("UserStyle") == "dark")
+                    {
+                        <input type="checkbox" id="darkMode" onchange="changeCss(this)" checked />
+                    }
+                    else
+                    {
+                        <input type="checkbox" id="darkMode" onchange="changeCss(this)" />
+                    }
+                    <label for="darkMode" id="darkModeAfter">•</label>
+                </form>
+            </li>
+        }
+    </ul>
+</div>
