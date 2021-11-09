@@ -29,68 +29,61 @@ namespace CommerceBankProject.Controllers
             string userID = claim.Value;
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userID);
 
+            IQueryable<Transaction> transactionIQ = from t in _context.Transaction.Where(
+                t => t.customerID == user.customerID) select t;
 
-
-            //string tQuery = "Select * from [Transaction] where customerID = {0} order by onDate desc;";
-            //List<Transaction> tList = await _context.Transaction.FromSqlRaw(tQuery, user.customerID).ToListAsync();
-            //string actQuery = "Select distinct actID, actType from [Transaction] where customerID = {0}";
-            //List<AccountRecord> actList = await _context.Account.FromSqlRaw(actQuery, user.customerID).ToListAsync();
-            //string dateQuery = "Select top 1 onDate from [Transaction] where customerID = {0} order by onDate";
-            //DateRecord record = await _context.Date.FromSqlRaw(dateQuery, user.customerID).FirstOrDefaultAsync();
-            //DateTime fromDate = record.onDate;
-            //record = await _context.Date.FromSqlRaw(dateQuery+" desc", user.customerID).FirstOrDefaultAsync();
-            //DateTime toDate = record.onDate;
-            //TIndexViewModel vmod = new TIndexViewModel(tList, actList, fromDate, toDate);
-
-            List<Transaction> transactionList = new List<Transaction>(await _context.Transaction.Where(x => x.customerID == user.customerID).ToListAsync());
-
-            //List<AccountRecord> accountList = new List<AccountRecord>();
+            List<Transaction> transactionList = await transactionIQ.AsNoTracking().ToListAsync();
+            List<AccountRecord> actList = PopulateActList(transactionList);
 
             TIndexViewModel vmod = new TIndexViewModel(
-                transactionList,
-                transactionList.FirstOrDefault().onDate,
-                transactionList.LastOrDefault().onDate);
-
-            //    await _context.Transaction.Where(x => x.customerID == user.customerID).ToListAsync(),
-            //    await _context.Transaction.Where(x => x.).ToListAsync(),
-            //    await _context.Date.Where(x => x.
-            //    );
+                transactions: transactionList,
+                start: transactionList.FirstOrDefault().onDate,
+                end: transactionList.LastOrDefault().onDate,
+                accounts: actList);
 
             return View(vmod);
         }
 
+        // GET: Filtered Transactions
         [Authorize]
         public async Task<IActionResult> FilterIndex(string actFilter, string descFilter, string fromDate, string toDate, string pageNumber)
         {
+            // Get user claim
             var claim = User.FindFirst(ClaimTypes.NameIdentifier);
             string userID = claim.Value;
             var user = await _context.Users.Where(u => u.Id == userID).FirstOrDefaultAsync();
-            string[] splitDate = toDate.Split('-');
-            DateTime tDate = new DateTime(int.Parse(splitDate[0]), int.Parse(splitDate[1]), int.Parse(splitDate[2]));
-            toDate = string.Format("{0:yyyy-MM-dd}", tDate.AddDays(1));
-            string tQuery = "Select * from [Transaction] where customerID = {0}";
-            tQuery += " and onDate >= {1} and onDate < {2}";
+
+            // Parse date strings into date objects
+            DateTime tDate = DateTime.Parse(toDate);
+            DateTime fDate = DateTime.Parse(fromDate);
+
+            IQueryable<Transaction> transactionIQ = from t in _context.Transaction.Where(
+                t => t.customerID == user.customerID 
+                && t.onDate >= fDate 
+                && t.onDate < tDate) select t;
+            List<AccountRecord> actList = PopulateActList(await transactionIQ.AsNoTracking().ToListAsync());
+
+            if (actFilter != "all")
+            {
+                transactionIQ = transactionIQ.Where(t => t.actID == actFilter);
+
+            }
             if (!string.IsNullOrEmpty(descFilter))
             {
-                tQuery += " and description like '%' + {3} + '%'";
+                transactionIQ = transactionIQ.Where(t => t.description == actFilter);
             }
-            List<Transaction> tList;
-            if (actFilter == "all")
-            {
-                tQuery += " order by onDate desc";
-                tList = await _context.Transaction.FromSqlRaw(tQuery, user.customerID, fromDate, toDate, descFilter).ToListAsync();
-            }
-            else
-            {
-                tQuery += " and actID = {4} order by onDate desc";
-                tList = await _context.Transaction.FromSqlRaw(tQuery, user.customerID, fromDate, toDate, descFilter, actFilter).ToListAsync();
-            }
-            string actQuery = "Select distinct actID, actType from [Transaction] where customerID = {0}";
-            splitDate = fromDate.Split('-');
-            DateTime fDate = new DateTime(int.Parse(splitDate[0]), int.Parse(splitDate[1]), int.Parse(splitDate[2]));
-            List<AccountRecord> actList = await _context.Account.FromSqlRaw(actQuery, user.customerID).ToListAsync();
-            TIndexViewModel vmod = new TIndexViewModel(tList, fDate, tDate, descFilter, int.Parse(pageNumber),actFilter);
-            
+
+            List<Transaction> tList = await transactionIQ.AsNoTracking().ToListAsync();
+
+            TIndexViewModel vmod = new TIndexViewModel(
+                accounts: actList, 
+                transactions: tList, 
+                start: fDate, 
+                end: tDate, 
+                desc: descFilter, 
+                page: int.Parse(pageNumber), 
+                acct: actFilter);
+
             return View("Index", vmod);
         }
 
@@ -121,8 +114,6 @@ namespace CommerceBankProject.Controllers
         }
 
         // POST: Transactions/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -171,6 +162,39 @@ namespace CommerceBankProject.Controllers
         private bool TransactionExists(int id)
         {
             return _context.Transaction.Any(e => e.ID == id);
+        }
+
+        private List<AccountRecord> PopulateActList(List<Transaction> transactionList)
+        {
+            HashSet<AccountRecord> set = new HashSet<AccountRecord>();
+            foreach (var f in transactionList)
+            {
+                AccountRecord temp = new AccountRecord();
+
+                temp.actID = f.actID;
+                temp.actType = f.actType;
+
+                set.Add(temp);
+            }
+            List<AccountRecord> actList;
+            return actList = set.ToList();
+            //List<AccountRecord> accounts = await transactionIQ
+            //    .GroupBy(t => t.actID)
+            //    .Select(group => new AccountRecord
+            //    {
+            //        actID = group.Key, 
+            //        actType = group.
+            //    }).ToListAsync();
+
+            // List<string> actIDList = await transactionIQ.Select(x => x.actID).Distinct().ToListAsync();
+            // List<AccountRecord> actList2 = await transactionIQ
+            //     .Select(x => new AccountRecord { actID = x.actID, actType = x.actType}).ToListAsync();
+
+            // List<AccountRecord> actList = await transactionIQ
+            //     .Select(x => new AccountRecord { actID = x.actID, actType = x.actType })
+            //     .GroupBy(g => g.actID)
+            //     .Select(a => a.First())
+            //     .ToListAsync();
         }
     }
 }
