@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using CommerceBankProject.Models;
 using CommerceBankProject.Data;
+using Microsoft.Extensions.DependencyInjection;
+using System.Security.Claims;
 
 namespace CommerceBankProject.View_Components
 {
@@ -20,16 +22,19 @@ namespace CommerceBankProject.View_Components
             _context = context;
         }
 
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddHttpContextAccessor();
+        }
+
         [Authorize]
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            //var model = _context.Users.find;
-            //return await Task.FromResult((IViewComponentResult)View("SocialLinks", model));
-            //var userID = "777777777";
+            var claim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+            string userID = claim.Value;
+            var user = await _context.Users.Where(u => u.Id == userID).FirstOrDefaultAsync();
 
-            //var claim = User.FindFirst(ClaimTypes.NameIdentifier);
-
-        string tQuery = @"SELECT
+            string tQuery = @"SELECT
 	                        CAST( DENSE_RANK() OVER (ORDER BY CONVERT(VARCHAR(7), trans.onDate, 126)
 		                        , trans.customerID, trans.actID) AS INT) [ID]
 	                        ,CONVERT(VARCHAR(7), trans.onDate, 126) [MonthName]
@@ -48,13 +53,14 @@ namespace CommerceBankProject.View_Components
 	                        ) [NetAmount]
                         FROM[CommerceBankProject].[dbo].[Transaction] trans
                         WHERE 1 = 1
-	                        AND trans.customerID = '777777777'
+	                        AND trans.customerID = {0}
+                            AND trans.actType = 'Checking'
                         GROUP BY
 	                        CONVERT(VARCHAR(7), trans.onDate, 126)
 	                        ,trans.customerID
 	                        ,trans.actID
 	                        ,trans.actType";
-            List<YearMonthAggregated_Transaction> tList = await _context.YearMonthAggregated_Transaction.FromSqlRaw(tQuery).ToListAsync();
+            List<YearMonthAggregated_Transaction> tList = await _context.YearMonthAggregated_Transaction.FromSqlRaw(tQuery, user.customerID).ToListAsync();
             TAggregatedIndexViewModel vmod = new TAggregatedIndexViewModel(tList);
 
             return View(vmod);
