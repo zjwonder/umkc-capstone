@@ -57,7 +57,6 @@ if __name__ == '__main__':
                 hour = randint(hour,23)
                 minute = randint(minute,59)
                 second = randint(second,59)
-                print("'%s-%s-%s %d:%d:%d', " % (date[2], date[0], date[1], hour, minute, second))
                 query += "'%s-%s-%s %d:%d:%d', " % (date[2], date[0], date[1], hour, minute, second)
                 query += fields[3] + ", '" + fields[4] + "', " + fields[5][1:-1] + ", "
                 query += "'" + fields[6].replace("'", "''") + "', 0,"
@@ -68,7 +67,7 @@ if __name__ == '__main__':
             print(e)
     querydb(query)
     query = "Drop table [Date]; Drop table [Account]; Drop table [MonthlyResult];"
-    query = "DROP TABLE [YearMonthAggregated_Transaction]; DROP TABLE [YearMonthAggregated_CategoryTransactions]"
+    query = "DROP TABLE [YearMonthAggregated_Transaction]; DROP TABLE [YearMonthAggregated_CategoryTransactions];"
     querydb(query)
     query = ""
     for i in range(len(customers)):
