@@ -67,10 +67,39 @@ if __name__ == '__main__':
         except Exception as e:
             print(e)
     querydb(query)
-    query = "Drop table [Date]; Drop table [Account]; DROP TABLE [YearMonthAggregated_Transaction]; DROP TABLE [YearMonthAggregated_CategoryTransactions]"
+    query = "Drop table [Date]; Drop table [Account]; Drop table [MonthlyResult];"
+    query = "DROP TABLE [YearMonthAggregated_Transaction]; DROP TABLE [YearMonthAggregated_CategoryTransactions]"
     querydb(query)
     query = ""
     for i in range(len(customers)):
         query += "INSERT INTO [Customer](customerID, email, claimed) VALUES ('"
         query += customers[i] + "', '" + emails[i] + "', 0);\n"
+        query += """INSERT INTO [NotificationSettings] (customerID,
+                monthlyBudgetRule,
+                monthlyBudgetRuleActive,
+                balanceRule,
+                balanceRuleActive, 
+                choresRule,
+                choresRuleActive,
+                clothingRule,
+                clothingRuleActive,
+                eatingOutRule,
+                eatingOutRuleActive,
+                essentialsRule,
+                essentialsRuleActive,
+                foodRule,
+                foodRuleActive,
+                funRule,
+                funRuleActive,
+                gasRule,
+                gasRuleActive,
+                otherRule,
+                otherRuleActive,
+                phoneRule,
+                phoneRuleActive,
+                startTimeRule,
+                endTimeRule,
+                timeRuleActive)
+                VALUES ("""
+        query += customers[i] + ", 1000, 1, 1000, 1, 50, 0, 50, 0, 50, 0, 50, 0, 50, 0, 50, 0, 50, 0, 50, 0, 50, 0, '00:00:00.0000000', '06:00:00.0000000', 0);"
     querydb(query)
