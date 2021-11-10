@@ -33,6 +33,66 @@
     font-weight: bold;
     src: url("../Fonts/OpenSans/OpenSans-Bold.ttf");
 }
+/*Animations*/
+
+@keyframes ring {
+    5% { 
+        transform: rotate(10deg) scale(1.1);
+        text-shadow: 0px 1px 1px #e30000;
+    }
+    25% {
+        transform: rotate(35deg) scale(1.2);
+        text-shadow: 0px 2px 1px #e30000;
+    }
+    75% {
+        transform: rotate(-35deg) scale(1.2);
+        text-shadow: 0px 2px 1px #e30000;
+    }
+    100% {
+        transform: rotate(0deg) scale(1.2);
+        text-shadow: 0px 2px 1px #e30000;
+    }
+}
+
+@keyframes bounce {
+    5% {
+        transform: translateY(-2px) scale(1.1);
+        text-shadow: 0px 2px 0px #4fa800;
+    }
+    25% {
+        transform: translateY(7px) scale(1.2);
+    }
+    50% {
+        transform: translateY(-2px) scale(1.2);
+        text-shadow: 0px 2px 0px #4fa800;
+    }
+    75% {
+        transform: translateY(7px) scale(1.2);
+    }
+    95% {
+        transform: translateY(-2px) scale(1.2);
+        text-shadow: 0px 2px 0px #4fa800;
+    }
+    100% {
+        transform: scale(1.2);
+        text-shadow: 0px 2px 0px #4fa800;
+    }
+}
+
+@keyframes pulse {
+    50% {
+        transform: scale(1.1);
+        text-shadow: 10px 0px 0px rgba(0,122,163,.1), -10px 0px 0px rgba(0,122,163,.1);
+    }
+    60% {
+        transform: scale(1.2);
+        text-shadow: none;
+    }
+    100% {
+        transform: scale(1.2);
+        text-shadow: 3px 0px 0px #007aa3, -3px 0px 0px #007aa3;
+    }
+}
 
 /*Setting fonts*/
 
@@ -40,7 +100,7 @@ body {
     font-family: OpenSans;
 }
 
-h1, h2, h3 {
+h1, h2, h3, .dash-heading {
     font-family: Poppins;
 }
 
@@ -50,6 +110,10 @@ nav {
 
 a.navbar-brand {
     font-family: OpenSans;
+}
+
+.dash-heading {
+    letter-spacing: 1px;
 }
 
 /* Sticky footer styles
@@ -269,24 +333,71 @@ label {
     margin-top: 25px;
 }
 
-.dash-icon.fa-user {
-    transition-property: transform;
+.dash-icon.fa-bell {
+    transition-property: text-shadow, transform;
     transition-duration: 0.7s;
 }
 
-.icon-container:hover .dash-icon.fa-user {
-    transform: scale(1.5);
-    transition-property: transform;
+.icon-container:hover .dash-icon.fa-bell {
+    animation: ring 0.7s;
+    transform: scale(1.2);
+    text-shadow: 0px 2px 1px #e30000;
+}
+
+.dash-icon.fa-history {
+    transition-property: transform, text-shadow;
+    transition-duration: 0.7s;
+}
+
+.icon-container:hover .dash-icon.fa-history {
+    animation: bounce 0.7s;
+    transform: scale(1.2);
+    text-shadow: 0px 2px 0px #4fa800;
+}
+
+.dash-icon.fa-plus-square {
+    transition-property: transform, text-shadow;
+    transition-duration: 0.7s;
+}
+
+.icon-container:hover .dash-icon.fa-plus-square {
+    transform: scale(1.2) rotate3d(1,1,0,180deg);
+    text-shadow: -2px 2px 0px #007aa3;
+    transition-property: transform, text-shadow;
     transition-duration: 0.7s;
 }
 
 .dash-icon.fa-cog {
-    transition-property: transform;
+    transition-property: transform, text-shadow;
     transition-duration: 0.7s;
 }
 
 .icon-container:hover .dash-icon.fa-cog {
-    transform: rotate(180deg);
+    transform: rotate(180deg) scale(1.2);
+    text-shadow: 2px 0px 0px #e30000;
     transition-property: transform;
     transition-duration: 0.7s;
+}
+
+.dash-icon.fa-chart-pie {
+    transition-property: transform, text-shadow;
+    transition-duration: 0.7s;
+}
+
+.icon-container:hover .dash-icon.fa-chart-pie {
+    transform: translateY(2px) translateX(-1px) scale(1.2);
+    text-shadow: 1px -2px 0px #4fa800;
+    transition-property: transform, text-shadow;
+    transition-duration: 0.7s;
+}
+
+.dash-icon.fa-user {
+    transition-property: transform, text-shadow;
+    transition-duration: 0.7s;
+}
+
+.icon-container:hover .dash-icon.fa-user {
+    animation: pulse 0.7s;
+    transform: scale(1.2);
+    text-shadow: 3px 0px 0px #007aa3, -3px 0px 0px #007aa3;
 }
