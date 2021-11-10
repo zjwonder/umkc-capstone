@@ -41,7 +41,12 @@ namespace CommerceBankProject.Controllers
             
             return View(vmod);
         }
-
+        [Authorize]
+        public async Task<IActionResult> Dashboard()
+        {
+            return View();
+        }
+        
         [Authorize]
         public async Task<IActionResult> FilterIndex(string actFilter, string descFilter, string fromDate, string toDate, string pageNumber)
         {
