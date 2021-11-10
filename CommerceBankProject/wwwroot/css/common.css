@@ -264,6 +264,11 @@ label {
     float: left;
 }
 
+.balance-table {
+    width: 200px;
+    margin: 50px 0px 0px 15px;
+}
+
 /*Containers*/
 
 .settings-container {
