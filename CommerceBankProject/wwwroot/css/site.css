@@ -146,6 +146,11 @@ tr:nth-child(even) {
     border: 1px solid #666;
 }
 
+.icon-container {
+    box-shadow: 0px 0px 5px rgba(0,0,0,.7);
+    background-image: linear-gradient(#ddd, #aaa);
+}
+
 table tbody tr td a {
     opacity: 0;
     transition: 0.5s;

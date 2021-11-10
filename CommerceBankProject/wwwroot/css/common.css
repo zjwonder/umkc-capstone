@@ -212,6 +212,14 @@ label {
     border-radius: 10px;
 }
 
+.icon-container {
+    padding: 15px;
+    width: 150px;
+    height: 150px;
+    margin: 30px;
+    vertical-align: top;
+}
+
 /*Toggling display*/
 .closed {
     visibility: hidden;
@@ -254,4 +262,31 @@ label {
     transform: rotate(135deg);
     transition-property: transform, border;
     transition-duration: 0.5s
+}
+
+.dash-icon {
+    font-size: 24pt;
+    margin-top: 25px;
+}
+
+.dash-icon.fa-user {
+    transition-property: transform;
+    transition-duration: 0.7s;
+}
+
+.icon-container:hover .dash-icon.fa-user {
+    transform: scale(1.5);
+    transition-property: transform;
+    transition-duration: 0.7s;
+}
+
+.dash-icon.fa-cog {
+    transition-property: transform;
+    transition-duration: 0.7s;
+}
+
+.icon-container:hover .dash-icon.fa-cog {
+    transform: rotate(180deg);
+    transition-property: transform;
+    transition-duration: 0.7s;
 }
