@@ -6,28 +6,22 @@ using System.Threading.Tasks;
 
 namespace CommerceBankProject.Models
 {
-    public class TIndexViewModel
+    public class TCategoryAggregatedIndexViewModel
     {
-        public List<Transaction> tList { get; set; }
+        public List<YearMonthAggregated_CategoryTransactions> tList { get; set; }
         public List<AccountRecord> actList { get; set; }
         public DateTime fromDate { get; set; }
         public DateTime toDate { get; set; }
         public string descSearch { get; set; }
         public string debug { get; set; }
-        public int pageNumber { get; set; }
-        public string account { get; set;  }
 
-        public int pageSize { get; set; } = 10;
-
-        public TIndexViewModel(List<Transaction> transactions, List<AccountRecord> accounts, DateTime start, DateTime end, string desc="", int PageNumber = 1, string acct = "all")
+        public TCategoryAggregatedIndexViewModel(List<YearMonthAggregated_CategoryTransactions> aggregated_Transactions, List<AccountRecord> accounts, DateTime start, DateTime end, string desc = "")
         {
-            tList = transactions;
+            tList = aggregated_Transactions;
             actList = accounts;
             descSearch = desc;
             fromDate = start;
             toDate = end;
-            pageNumber = PageNumber;
-            account = acct;
         }
     }
 }
