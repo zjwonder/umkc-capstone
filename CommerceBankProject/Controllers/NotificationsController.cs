@@ -61,28 +61,26 @@ namespace CommerceBankProject.Controllers
 
             if(settings.monthlyBudgetRuleActive)
             {
-                string queryMonthly = @" select temp.tyear, temp.tmonth, temp.amount from( 
-                 year([Transaction].onDate) as tyear , month([Transaction].onDate) as tmonth, sum([Transaction].amount) as amount
+                string queryMonthly = @"select temp.tyear, temp.tmonth, temp.amount from( 
+                select year([Transaction].onDate) as tyear , month([Transaction].onDate) as tmonth, sum([Transaction].amount) as amount
                 from [Transaction]
                 where [Transaction].transType = 'DR' and customerID = {0}
-                group by year([Transaction].onDate), month([Transaction].onDate),ID
+                group by year([Transaction].onDate), month([Transaction].onDate)
                 ) as temp 
                 where amount > {1}
-                order by temp.tyear DESC, temp.tmonth DESC";
+                order by temp.tyear DESC, temp.tmonth DESC;";
 
-                var monthlyList = await _context.MonthlyResult.FromSqlRaw(queryMonthly, user.customerID, settings.monthlyBudgetRule).ToListAsync();
+                List<MonthlyResult> monthlyList = await _context.MonthlyResult.FromSqlRaw(queryMonthly, user.customerID, settings.monthlyBudgetRule).ToListAsync();
 
-                foreach (var monthly in monthlyList)
+                foreach (var month in monthlyList)
                 {
-
-                    DateTime notificationDate = new DateTime(monthly.tyear, monthly.tmonth, 1);
+                    DateTime notificationDate = new DateTime(month.tyear, month.tmonth, 1);
                     notificationDate = notificationDate.AddMonths(1);
                     string desc = "You have exceeded your monthly budget of $" + settings.monthlyBudgetRule.ToString();
                     Notification notification = new Notification { customerID = user.customerID, type = "Monthly Budget", description = desc, onDate = notificationDate, read = false, saved = false };
                     await _context.AddAsync(notification);
                     await _context.SaveChangesAsync();
                 }
-                
             }
             if(settings.balanceRuleActive)
             {
@@ -306,7 +304,7 @@ namespace CommerceBankProject.Controllers
             var claim = User.FindFirst(ClaimTypes.NameIdentifier);
             string userID = claim.Value;
             var user = await _context.Users.Where(u => u.Id == userID).FirstOrDefaultAsync();
-            string query = "delete from Notification where customerID = {0} where saved = 0;";
+            string query = "delete from Notification where customerID = {0} and saved = 0;";
             await _context.Database.ExecuteSqlRawAsync(query, user.customerID);
 
             return RedirectToAction(nameof(Index));

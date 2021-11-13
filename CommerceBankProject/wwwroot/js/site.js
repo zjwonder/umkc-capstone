@@ -28,4 +28,24 @@ function toggleReadOnly(timeRuleCheck) {
         document.getElementById("timeStart").readOnly = true;
         document.getElementById("timeEnd").readOnly = true;
     }
+
 }
+
+function toggleDisplay(btn, displayName) {
+    btn.classList.toggle("active");
+    btn.classList.toggle("inactive");
+    var inputs = document.getElementById(displayName);
+    inputs.classList.toggle("closed");
+    inputs.classList.toggle("open");
+}
+
+function toggleHidden(btn, displayName) {
+    btn.classList.toggle("show");
+    btn.classList.toggle("hide");
+    var inputs = document.getElementById(displayName);
+    inputs.classList.toggle("closed");
+    inputs.classList.toggle("open");
+}
+
+
+

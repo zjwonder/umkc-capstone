@@ -33,8 +33,6 @@ namespace CommerceBankProject.Models
             toDate = end;
             pageNumber = PageNumber;
             account = acct;
-           
-
         }
     }
 }

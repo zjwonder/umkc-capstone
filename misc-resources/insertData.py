@@ -67,6 +67,7 @@ if __name__ == '__main__':
             print(e)
     querydb(query)
     query = "Drop table [Date]; Drop table [Account]; Drop table [MonthlyResult];"
+    query = "DROP TABLE [YearMonthAggregated_Transaction]; DROP TABLE [YearMonthAggregated_CategoryTransactions];"
     querydb(query)
     query = ""
     for i in range(len(customers)):

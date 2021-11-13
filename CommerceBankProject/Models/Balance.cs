@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace CommerceBankProject.Models
 {
-    public class MonthlyResult
+    public class Balance
     {
-        public int tyear { get; set; }
-        public int tmonth { get; set; }
-
+        public int ID { get; set; }
+        [Column(TypeName = "nvarchar(30)")]
+        public string actType { get; set; }
         [Column(TypeName = "decimal(18,2)")]
-        public decimal amount { get; set; }
-
+        public decimal balance { get; set; }
     }
 }
