@@ -109,31 +109,31 @@ namespace ProjectUnitTests
             //Assert.IsType<ViewResult>(result);
         }
 
-        //[Fact]
-        //public async void TestFilterIndex()
-        //{
-        //    using (var context = new CommerceBankDbContext(TestDbContextOptions()))
-        //    {
-        //        foreach (Transaction t in transactions)
-        //        {
-        //            context.Transaction.Add(t);
-        //        }
+        [Fact]
+        public async void TestFilterIndex()
+        {
+            using (var context = new CommerceBankDbContext(TestDbContextOptions()))
+            {
+                foreach (Transaction t in transactions)
+                {
+                    context.Transaction.Add(t);
+                }
 
-        //        ApplicationUser savedUser = new ApplicationUser();
+                ApplicationUser savedUser = new ApplicationUser();
 
-        //        var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-        //            {new Claim(ClaimTypes.NameIdentifier, savedUser.Id)}, "TestAuthentication"));
+                var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {new Claim(ClaimTypes.NameIdentifier, savedUser.Id)}, "TestAuthentication"));
 
-        //        context.Users.Add(savedUser);
-        //        context.SaveChanges();
+                context.Users.Add(savedUser);
+                context.SaveChanges();
 
-        //        controller = new TransactionsController(context);
+                controller = new TransactionsController(context);
 
-        //        controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
-        //        var result = await controller.FilterIndex("all", "test", "2006-1-1", "2021-1-1", "20");
-        //        Assert.IsType<ViewResult>(result);
-        //    }
-        //}
+                controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
+                var result = await controller.FilterIndex("all", "test", "2006-1-1", "2021-1-1", "20");
+                Assert.IsType<ViewResult>(result);
+            }
+        }
 
         [Fact]
         public async void TestGetDetailsView()

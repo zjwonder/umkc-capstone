@@ -10,14 +10,14 @@ namespace CommerceBankProject.Models
         public string actID { get; set; }
         public string actType { get; set; }
 
-        public override bool Equals(object obj)
-        {
-            AccountRecord a = obj as AccountRecord;
-            return (this.actID == a.actID) && (this.actType == a.actType);
-        }
-        public override int GetHashCode()
-        {
-            return this.actID.GetHashCode() ^ this.actType.GetHashCode();
-        }
+        //public override bool Equals(object obj)
+        //{
+        //    AccountRecord a = obj as AccountRecord;
+        //    return (this.actID == a.actID) && (this.actType == a.actType);
+        //}
+        //public override int GetHashCode()
+        //{
+        //    return this.actID.GetHashCode() ^ this.actType.GetHashCode();
+        //}
     }
 }

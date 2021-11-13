@@ -33,7 +33,13 @@ namespace CommerceBankProject.Controllers
                 t => t.customerID == user.customerID) select t;
 
             List<Transaction> transactionList = await transactionIQ.AsNoTracking().ToListAsync();
-            List<AccountRecord> actList = PopulateActList(transactionList);
+            //List<AccountRecord> actList = PopulateActList(transactionList);
+
+            List<AccountRecord> actList = transactionList
+                .GroupBy(p => p.actID)
+                .Select(g => g.First())
+                .Select(x => new AccountRecord { actID = x.actID, actType = x.actType})
+                .ToList();
 
             TIndexViewModel vmod = new TIndexViewModel(
                 transactions: transactionList,
@@ -61,7 +67,12 @@ namespace CommerceBankProject.Controllers
                 t => t.customerID == user.customerID 
                 && t.onDate >= fDate 
                 && t.onDate < tDate) select t;
-            List<AccountRecord> actList = PopulateActList(await transactionIQ.AsNoTracking().ToListAsync());
+            //List<AccountRecord> actList = PopulateActList(await transactionIQ.AsNoTracking().ToListAsync());
+            List<AccountRecord> actList = transactionIQ.AsNoTracking().ToList()
+                .GroupBy(p => p.actID)
+                .Select(g => g.First())
+                .Select(x => new AccountRecord { actID = x.actID, actType = x.actType })
+                .ToList();
 
             if (actFilter != "all")
             {
@@ -164,37 +175,37 @@ namespace CommerceBankProject.Controllers
             return _context.Transaction.Any(e => e.ID == id);
         }
 
-        private List<AccountRecord> PopulateActList(List<Transaction> transactionList)
-        {
-            HashSet<AccountRecord> set = new HashSet<AccountRecord>();
-            foreach (var f in transactionList)
-            {
-                AccountRecord temp = new AccountRecord();
+        //private List<AccountRecord> PopulateActList(List<Transaction> transactionList)
+        //{
+        //    HashSet<AccountRecord> set = new HashSet<AccountRecord>();
+        //    foreach (var f in transactionList)
+        //    {
+        //        AccountRecord temp = new AccountRecord();
 
-                temp.actID = f.actID;
-                temp.actType = f.actType;
+        //        temp.actID = f.actID;
+        //        temp.actType = f.actType;
 
-                set.Add(temp);
-            }
-            List<AccountRecord> actList;
-            return actList = set.ToList();
-            //List<AccountRecord> accounts = await transactionIQ
-            //    .GroupBy(t => t.actID)
-            //    .Select(group => new AccountRecord
-            //    {
-            //        actID = group.Key, 
-            //        actType = group.
-            //    }).ToListAsync();
+        //        set.Add(temp);
+        //    }
+        //    List<AccountRecord> actList;
+        //    return actList = set.ToList();
+        //    //List<AccountRecord> accounts = await transactionIQ
+        //    //    .GroupBy(t => t.actID)
+        //    //    .Select(group => new AccountRecord
+        //    //    {
+        //    //        actID = group.Key, 
+        //    //        actType = group.
+        //    //    }).ToListAsync();
 
-            // List<string> actIDList = await transactionIQ.Select(x => x.actID).Distinct().ToListAsync();
-            // List<AccountRecord> actList2 = await transactionIQ
-            //     .Select(x => new AccountRecord { actID = x.actID, actType = x.actType}).ToListAsync();
+        //    // List<string> actIDList = await transactionIQ.Select(x => x.actID).Distinct().ToListAsync();
+        //    // List<AccountRecord> actList2 = await transactionIQ
+        //    //     .Select(x => new AccountRecord { actID = x.actID, actType = x.actType}).ToListAsync();
 
-            // List<AccountRecord> actList = await transactionIQ
-            //     .Select(x => new AccountRecord { actID = x.actID, actType = x.actType })
-            //     .GroupBy(g => g.actID)
-            //     .Select(a => a.First())
-            //     .ToListAsync();
-        }
+        //    // List<AccountRecord> actList = await transactionIQ
+        //    //     .Select(x => new AccountRecord { actID = x.actID, actType = x.actType })
+        //    //     .GroupBy(g => g.actID)
+        //    //     .Select(a => a.First())
+        //    //     .ToListAsync();
+        //}
     }
 }
