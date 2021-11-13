@@ -7,6 +7,10 @@
 <div class="text-center">
     <h2>View Transactions</h2>
 </div>
+
+<p>
+    <a asp-action="CreateSetup">Create transaction</a>
+</p>
 <button type="button" class="btn btn-primary inactive" id="filterBtn" onclick="toggleFilter()">Filter</button>
 <form asp-action="FilterIndex" id="filterForm" class="closed">
     <label for="actFilter">Select Account</label>
@@ -51,9 +55,9 @@
             <button type="button" class="btn btn-primary" id="decrementPageButton" onclick="decrementPage()">Back</button>
         }
         <label for="pageNumber">Page</label>
-        <input type="number" min=1 max=@((Model.tList.Count() +1)/Model.pageSize) name="pageNumber" id="changePageNumber" value=@Model.pageNumber readonly />
+        <input type="number" min=1 max=@Math.Ceiling(Convert.ToDecimal(Model.tList.Count() ) / Model.pageSize) name="pageNumber" id="changePageNumber" value=@Model.pageNumber readonly />
 
-        @if (Model.pageNumber == (Model.tList.Count() + 1) / Model.pageSize)
+        @if (Model.pageNumber == Math.Ceiling((Convert.ToDecimal(Model.tList.Count() ) / Model.pageSize))) 
         {
             <button type="button" class="btn btn-primary" id="incrementPageButton" onclick="incrementPage()" disabled>Next</button>
         }

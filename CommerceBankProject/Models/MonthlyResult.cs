@@ -8,6 +8,7 @@ namespace CommerceBankProject.Models
 {
     public class MonthlyResult
     {
+        //public int tId { get; set; }
         public int tyear { get; set; }
         public int tmonth { get; set; }
 

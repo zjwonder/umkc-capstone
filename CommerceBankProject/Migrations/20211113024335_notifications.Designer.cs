@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CommerceBankProject.Migrations
 {
     [DbContext(typeof(CommerceBankDbContext))]
-    [Migration("20211026004231_Notifications")]
-    partial class Notifications
+    [Migration("20211113024335_notifications")]
+    partial class notifications
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

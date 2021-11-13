@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CommerceBankProject.Migrations
 {
-    public partial class Notifications : Migration
+    public partial class notifications : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

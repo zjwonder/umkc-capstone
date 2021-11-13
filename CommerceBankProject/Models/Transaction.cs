@@ -23,11 +23,14 @@ namespace CommerceBankProject.Models
         [Column(TypeName = "nvarchar(2)")]
         public string transType { get; set; }
         [Column(TypeName = "decimal(18,2)")]
+
         public decimal amount { get; set; }
         [Column(TypeName = "nvarchar(100)")]
         public string description { get; set; }
         public bool userEntered { get; set; }
         [Column(TypeName = "nvarchar(30)")]
         public string category { get; set; }
+
+        
     }
 }
