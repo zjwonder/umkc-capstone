@@ -12,8 +12,8 @@
  <a asp-action="CreateSetup">Create Transaction</a>
  </p>
 
-<button type="button" class="btn btn-primary inactive" id="filterBtn" onclick="toggleFilter()">Filter</button>
-<form asp-action="FilterIndex" id="filterForm" class="closed">
+<button type="button" class="btn btn-primary inactive" id="filterBtn" onclick="toggleDisplay(this, 'filterForm')">Filter</button>
+<form asp-action="FilterIndex" id="filterForm" class="closed mb-3">
     <label for="actFilter">Select Account</label>
     <select name="actFilter">
         <option value="all">All</option>

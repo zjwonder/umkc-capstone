@@ -3,11 +3,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CommerceBankProject.Migrations
 {
-<<<<<<< HEAD:CommerceBankProject/Migrations/20211113024335_notifications.cs
+//<<<<<<< HEAD:CommerceBankProject/Migrations/20211113024335_notifications.cs
     public partial class notifications : Migration
+/*
 =======
     public partial class Notifications : Migration
 >>>>>>> main:CommerceBankProject/Migrations/20211026004231_Notifications.cs
+*/
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
