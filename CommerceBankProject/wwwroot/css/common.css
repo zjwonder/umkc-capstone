@@ -216,17 +216,8 @@ label {
     margin-left: 20px;
 }
 
-#saveSettingsBtn {
-    margin-top: 50px;
-}
-
 #darkMode {
     display: none;
-}
-
-#filterBtn {
-    border: none !important;
-    margin: 0px 0px 5px 0px;
 }
 
 #filterForm select,
@@ -277,8 +268,21 @@ label {
 }
 
 .link-container {
-    padding: 5px 5px 5px 5px;
+    padding: 5px 10px 5px 10px;
     border-radius: 10px;
+    background-color: #4fa800 !important;
+    color: #000;
+}
+
+.link-container:hover {
+    background-color: #006747 !important;
+    color: #fff;
+    text-decoration: none;
+}
+
+form .link-container,
+td .link-container {
+    height: 35px !important;
 }
 
 .icon-container {

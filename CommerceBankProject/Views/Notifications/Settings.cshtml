@@ -2,15 +2,18 @@
 @{
     ViewData["Title"] = "Settings";
 }
-
-<h1>Notification Settings</h1>
-
+<div class="text-center">
+    <h1>Notification Settings</h1>
+    <p>Adjust notification rules below. Changes to settings must be saved before they take effect.</p>
+</div>
 <form asp-action="SettingsChange">
-
+    <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary mt-3 mb-3" id="saveSettingsTop">Save Changes</button>
+    </div>
     <div class="settings-container">
         <label for="monthlyBudget" class="form-label font-weight-bold label-padded">Monthly Budget</label>
-        <div class="arrow show" onclick="toggleHidden(this,'budgetSlider')"></div>
-        <div id="budgetSlider" class="open container-padded">
+        <div class="arrow hide" onclick="toggleHidden(this,'budgetSlider')"></div>
+        <div id="budgetSlider" class="closed container-padded">
             <p>Receive notifications when your monthly budget is exceeded</p>
             @if (Model.monthlyBudgetRuleActive)
             {
@@ -40,8 +43,8 @@
     <br />
     <div class="settings-container">
         <label for="balance" class="form-label font-weight-bold label-padded">Balance</label>
-        <div class="arrow show" onclick="toggleHidden(this,'balanceSlider')"></div>
-        <div id="balanceSlider" class="open container-padded">
+        <div class="arrow hide" onclick="toggleHidden(this,'balanceSlider')"></div>
+        <div id="balanceSlider" class="closed container-padded">
             <p>Receive notifications when a withdrawal reduces your balance below a specified amount</p>
             @if (Model.balanceRuleActive)
             {
@@ -72,8 +75,8 @@
 
     <div class="settings-container">
         <label class="form-label font-weight-bold label-padded">Timeframe</label>
-        <div class="arrow show" onclick="toggleHidden(this,'timeSlider')"></div>
-        <div id="timeSlider" class="open container-padded">
+        <div class="arrow hide" onclick="toggleHidden(this,'timeSlider')"></div>
+        <div id="timeSlider" class="closed container-padded">
             <p>Receive notifications when a transaction takes place between the specified times</p>
             <label for="time" class="form-label">Start Time:</label>
             @if (Model.timeRuleActive)
@@ -374,10 +377,15 @@
     </div>
     <br />
 
-
-    <button type="submit" class="btn btn-primary" id="saveSettingsBtn">Save Changes</button>
-
+    <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary mt-3 mb-3" id="saveSettingsBottom">Save Changes</button>
+    </div>
 </form>
+<div class="d-flex justify-content-center">
+    <form asp-controller="Home" asp-action="Dashboard">
+        <button type="submit" class="btn btn-primary mt-3 mb-3">Cancel</button>
+    </form>
+</div>
 
 <script>
 

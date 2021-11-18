@@ -182,12 +182,3 @@ table {
     color: #fff !important;
 }
 
-table tbody tr td a {
-    opacity: 0;
-    transition: 0.5s;
-}
-
-table tbody tr:hover td a {
-    opacity: 1;
-    transition: 0.2s;
-}
