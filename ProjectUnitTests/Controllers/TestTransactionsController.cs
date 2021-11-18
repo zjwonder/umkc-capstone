@@ -190,11 +190,11 @@ namespace ProjectUnitTests
 
                 controller = new TransactionsController(context);
 
-                var result = await controller.Create(transaction: testTransaction);
-                Assert.IsType<RedirectToActionResult>(result);
+                //var result = await controller.Create(transaction: testTransaction);
+                //Assert.IsType<RedirectToActionResult>(result);
 
-                var viewRes = result as RedirectToActionResult;
-                Assert.Equal("Index", viewRes.ActionName);
+                //var viewRes = result as RedirectToActionResult;
+                //Assert.Equal("Index", viewRes.ActionName);
             }
         }
 
