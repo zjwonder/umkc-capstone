@@ -10,13 +10,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CommerceBankProject.Migrations
 {
     [DbContext(typeof(CommerceBankDbContext))]
-<<<<<<< HEAD:CommerceBankProject/Migrations/20211113024335_notifications.Designer.cs
+//<<<<<<< HEAD:CommerceBankProject/Migrations/20211113024335_notifications.Designer.cs
     [Migration("20211113024335_notifications")]
     partial class notifications
+/*
 =======
     [Migration("20211026004231_Notifications")]
     partial class Notifications
 >>>>>>> main:CommerceBankProject/Migrations/20211026004231_Notifications.Designer.cs
+*/
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

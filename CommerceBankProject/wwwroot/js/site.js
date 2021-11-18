@@ -28,6 +28,7 @@ function toggleReadOnly(timeRuleCheck) {
         document.getElementById("timeStart").readOnly = true;
         document.getElementById("timeEnd").readOnly = true;
     }
+
 }
 
 function toggleDisplay(btn, displayName) {
@@ -45,5 +46,6 @@ function toggleHidden(btn, displayName) {
     inputs.classList.toggle("closed");
     inputs.classList.toggle("open");
 }
+
 
 

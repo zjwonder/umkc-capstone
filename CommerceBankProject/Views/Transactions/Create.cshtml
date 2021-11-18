@@ -1,9 +1,11 @@
-﻿@model CommerceBankProject.Models.Transaction
+﻿@model CommerceBankProject.Models.UserTransactions
+
 
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 
 <h1>Create</h1>
 
@@ -11,53 +13,80 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
+        
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+
+            <!--<div asp-validation-summary="ModelOnly" class="text-danger"></div>-->
+            <select name="tranActFilter">
+                
+                @foreach (var account in Model.userAccounts)
+                {
+                    if (account.actID == Model.transaction.actID)
+                    {
+                        <option selected value=@account.actID>@account.actType @account.actID</option>
+                    }
+                    else
+                    {
+                        <option value=@account.actID>@account.actType @account.actID</option>
+                    }
+
+                }
+            </select>
+            <!--
             <div class="form-group">
-                <label asp-for="customerID" class="control-label"></label>
-                <input asp-for="customerID" class="form-control" />
-                <span asp-validation-for="customerID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="actID" class="control-label"></label>
-                <input asp-for="actID" class="form-control" />
-                <span asp-validation-for="actID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="actType" class="control-label"></label>
-                <input asp-for="actType" class="form-control" />
-                <span asp-validation-for="actType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="onDate" class="control-label"></label>
-                <input asp-for="onDate" class="form-control" />
-                <span asp-validation-for="onDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="balance" class="control-label"></label>
-                <input asp-for="balance" class="form-control" />
-                <span asp-validation-for="balance" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="transType" class="control-label"></label>
-                <input asp-for="transType" class="form-control" />
-                <span asp-validation-for="transType" class="text-danger"></span>
+                <label asp-for="transaction.actID" class="control-label"></label>
+                <input asp-for="transaction.actID" class="form-control" />
+                <span asp-validation-for="transaction.actID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="amount" class="control-label"></label>
-                <input asp-for="amount" class="form-control" />
-                <span asp-validation-for="amount" class="text-danger"></span>
+                <label asp-for="transaction.actType" class="control-label"></label>
+                <input asp-for="transaction.actType" class="form-control" />
+                <span asp-validation-for="transaction.actType" class="text-danger"></span>
+            </div>
+    -->
+
+
+            <div class="form-group">
+                <select name="transType" for="transaction.transType" class="custom-select mr-sm-2">
+                    <option value="DR">Withdrawl</option>
+                    <option value="CR">Deposit</option>
+                </select>
             </div>
             <div class="form-group">
-                <label asp-for="description" class="control-label"></label>
-                <input asp-for="description" class="form-control" />
-                <span asp-validation-for="description" class="text-danger"></span>
+                <label for="transaction.amount" class="control-label"> amount</label>
+                <input for="transaction.amount" name="amount" class="form-control" />
+
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="userEntered" /> @Html.DisplayNameFor(model => model.userEntered)
-                </label>
+            <div class="form-group">
+                <label for="transaction.description" class="control-label">description</label>
+                <input for="transaction.description" name="description" class="form-control" />
+
             </div>
+            <select for="transaction.category" name="category" class="custom-select mr-sm-2">
+                <option value="Other" selected>Other</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Chores">Chores</option>
+                <option value="Eating Out">Eating out</option>
+                <option value="Essentials">Essentials</option>
+                <option value="Food">Food</option>
+                <option value="Fun">Fun</option>
+                <option value="Gas">gas</option>
+                <option value="Phone">Phone</option>
+
+
+
+
+
+
+
+
+
+
+
+            </select>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
