@@ -102,11 +102,32 @@ namespace CommerceBankProject.Controllers
         }
 
         // GET: Transactions/Create
+        
         [Authorize]
         public IActionResult Create()
         {
             return View();
         }
+        
+
+
+        
+        [Authorize]
+        public async Task<IActionResult> CreateSetup ()
+        {
+            var claim = User.FindFirst(ClaimTypes.NameIdentifier);
+            string userID = claim.Value;
+            var user = await _context.Users.Where(u => u.Id == userID).FirstOrDefaultAsync();
+            string actQuery = "Select distinct actID, actType from [Transaction] where customerID = {0}";
+            List<AccountRecord> actListSetup = await _context.Account.FromSqlRaw(actQuery, user.customerID).ToListAsync();
+            UserTransactions t = new UserTransactions();
+            Transaction trans = new Transaction();
+            t.userAccounts = actListSetup;
+            t.transaction = trans;
+            return View("Create", t);
+
+        }
+        
 
         // POST: Transactions/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -114,16 +135,53 @@ namespace CommerceBankProject.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,customerID,actID,actType,onDate,balance,transType,amount,description,userEntered,category")] Transaction transaction)
+        public async Task<IActionResult> Create(string tranActFilter,string transType,decimal amount,string description,string category)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(transaction);
+            
+            
+                var claim = User.FindFirst(ClaimTypes.NameIdentifier);
+                string userID = claim.Value;
+                var user = await _context.Users.Where(u => u.Id == userID).FirstOrDefaultAsync();
+                Transaction t = new Transaction();
+
+                t.customerID = user.customerID;
+                t.actID = tranActFilter;
+                t.transType = transType;
+                t.amount = amount;
+                t.description = description;
+                t.userEntered = true;
+                t.category = category;
+                t.onDate = DateTime.Now;
+
+
+                string actBalance = "Select top 1 * from [Transaction] where customerID = {0} and actID = {1} order by onDate desc";
+
+                Transaction prevTopTransaction = await _context.Transaction.FromSqlRaw(actBalance, user.customerID,t.actID).FirstOrDefaultAsync();
+
+                decimal userBalance = prevTopTransaction.balance;
+
+                t.actType = prevTopTransaction.actType;
+
+                
+                if (t.transType == "DR")
+                {
+                    t.balance = userBalance - t.amount;
+                }
+                else
+                {
+                    t.balance = userBalance + t.amount;
+
+                }
+
+
+                _context.Add(t);
                 await _context.SaveChangesAsync();
+                //NotificationsController temp = new NotificationsController(_context);
+                //temp.GenerateOnInsertion(t);
                 return RedirectToAction(nameof(Index));
             }
-            return View(transaction);
-        }
+            
+        
 
         // GET: Transactions/Delete/5
         [Authorize]
