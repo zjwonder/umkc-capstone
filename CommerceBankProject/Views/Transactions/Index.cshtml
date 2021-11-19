@@ -4,131 +4,196 @@
     ViewData["Title"] = "History";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="text-center">
-    <h2>View Transactions</h2>
-</div>
 
-<p>
- <a asp-action="CreateSetup">Create Transaction</a>
- </p>
 
-<button type="button" class="btn btn-primary inactive" id="filterBtn" onclick="toggleDisplay(this, 'filterForm')">Filter</button>
-<form asp-action="FilterIndex" id="filterForm" class="closed mb-3">
-    <label for="actFilter">Select Account</label>
-    <select name="actFilter">
-        <option value="all">All</option>
-        @foreach (var account in Model.actList)
-        {
-            if (account.actID == Model.account)
+
+
+<div class="container-padded">
+
+    <div class="row">
+        <div class=" col-12 text-center">
+            <h2>View Transactions</h2>
+        </div>
+    </div>
+
+    <div class="row">
+
+
+        <div class="col-md-10">
+            <div class="container-padded" id="filterFormParent">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-primary inactive" id="filterBtn" onclick="toggleDisplay(this, 'filterForm')">Filter</button>
+                    </div>
+                </div>
+                <form asp-action="FilterIndex" id="filterForm" class="closed mb-3">
+                    <div class="row">
+                        <div class="col-md-5 firstFilterCol">
+                            <label for="actFilter">Select Account</label>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="descFilter">Search</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 firstFilterCol">
+                            <select name="actFilter">
+                                <option value="all">All Accounts</option>
+                                @foreach (var account in Model.actList)
+                                {
+                                    if (account.actID == Model.account)
+                                    {
+                                        <option selected value=@account.actID>@account.actType @account.actID</option>
+                                    }
+                                    else
+                                    {
+                                        <option value=@account.actID>@account.actType @account.actID</option>
+                                    }
+
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-5">
+                            <input type="text" name="descFilter" value=@Model.descSearch>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 firstFilterCol">
+                            <label for="fromDate">From</label>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="toDate">To</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 firstFilterCol">
+                            <input type="date" name="toDate" id="toDate"
+                                   value=@string.Format("{0:yyyy-MM-dd}", Model.toDate)
+                                   min=@string.Format("{0:yyyy-MM-dd}", Model.fromDate)
+                                   onchange="changeMaxFrom(this)" />
+                        </div>
+                        <div class="col-md-5">
+                            <input type="date" name="fromDate" id="fromDate"
+                                   value=@string.Format("{0:yyyy-MM-dd}", Model.fromDate)
+                                   max=@string.Format("{0:yyyy-MM-dd}", Model.toDate)
+                                   onchange="changeMinTo(this)" />
+                        </div>
+                    </div>
+                    <div class="row firstFilterCol">
+                        <div class="col-md-2">
+                            <input type="submit" value="Go" class="btn btn-primary defaultBtn" id="updateBtn" />
+                            <input type="hidden" name="pageNumber" value="1" id="pageNumber" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-1" id="createCol">
+            <a class="btn btn-primary inactive defaultBtn" asp-action="CreateSetup">Create</a>
+        </div>
+
+        <div class="col-md-1" id="downloadCol">
+            <form method="post" asp-controller="Transactions" asp-action="Export">
+                <button type="submit" class="btn btn-primary inactive defaultBtn">Download</button>
+            </form>
+        </div>
+
+    </div>
+
+    <div class="row justify-content-center" id="pageRow">
+        <form asp-action="FilterIndex" id="pageChanged">
+            <input type="hidden" name="actFilter" value=@Model.account />
+            <input type="hidden" name="descFilter" value=@Model.descSearch>
+            <input type="hidden" name="fromDate" value=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) />
+            <input type="hidden" name="toDate" value=@string.Format("{0:yyyy-MM-dd}", Model.toDate) />
+            @if (Model.pageNumber == 1)
             {
-                <option selected value=@account.actID>@account.actType @account.actID</option>
+                <button type="button" class="btn btn-primary" id="decrementPageButton" onclick="decrementPage()" disabled>Back</button>
             }
             else
             {
-                <option value=@account.actID>@account.actType @account.actID</option>
+                <button type="button" class="btn btn-primary" id="decrementPageButton" onclick="decrementPage()">Back</button>
             }
+            <label for="pageNumber">Page</label>
+            <input type="number" min=1 max=@Math.Ceiling(Convert.ToDecimal(Model.tList.Count() ) / Model.pageSize) name="pageNumber" id="changePageNumber" value=@Model.pageNumber readonly />
 
-        }
-    </select>
-    <label for="descFilter">Search</label>
-    <input type="text" name="descFilter" value=@Model.descSearch>
-    <br />
-    <label for="fromDate">From:</label>
-    <input type="date" name="fromDate" id="fromDate" value=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) max=@string.Format("{0:yyyy-MM-dd}", Model.toDate) onchange="changeMinTo(this)" />
-    <label for="toDate">To:</label>
-    <input type="date" name="toDate" id="toDate" value=@string.Format("{0:yyyy-MM-dd}", Model.toDate) min=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) onchange="changeMaxFrom(this)" />
-    <input type="submit" value="Go" id="filterSubmit" class="btn btn-primary" />
-    <input type="hidden" name="pageNumber" value="1" id="pageNumber" />
-</form>
+            @if (Model.pageNumber == Math.Ceiling((Convert.ToDecimal(Model.tList.Count()) / Model.pageSize)))
+            {
+                <button type="button" class="btn btn-primary" id="incrementPageButton" onclick="incrementPage()" disabled>Next</button>
+            }
+            else
+            {
+                <button type="button" class="btn btn-primary" id="incrementPageButton" onclick="incrementPage()">Next</button>
+            }
+        </form>
+    </div>
 
-<div class="row justify-content-center">
-    <form asp-action="FilterIndex" id="pageChanged">
-        <input type="hidden" name="actFilter" value=@Model.account />
-        <input type="hidden" name="descFilter" value=@Model.descSearch>
-        <input type="hidden" name="fromDate" value=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) />
-        <input type="hidden" name="toDate" value=@string.Format("{0:yyyy-MM-dd}", Model.toDate) />
-        @if (Model.pageNumber == 1)
-        {
-            <button type="button" class="btn btn-primary" id="decrementPageButton" onclick="decrementPage()" disabled>Back</button>
-        }
-        else
-        {
-            <button type="button" class="btn btn-primary" id="decrementPageButton" onclick="decrementPage()">Back</button>
-        }
-        <label for="pageNumber">Page</label>
-        <input type="number" min=1 max=@Math.Ceiling(Convert.ToDecimal(Model.tList.Count() ) / Model.pageSize) name="pageNumber" id="changePageNumber" value=@Model.pageNumber readonly />
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Account
+                    </th>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        Amount
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = (Model.pageNumber - 1) * Model.pageSize; i < (Model.pageNumber) * Model.pageSize && i < Model.tList.Count(); i++)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.tList[i].actType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.tList[i].onDate)
+                        </td>
+                        @if (Model.tList[i].transType == "DR")
+                        {
+                            <td class="trans-dr">
+                                -$@Html.DisplayFor(modelItem => Model.tList[i].amount)
+                            </td>
+                        }
+                        else
+                        {
+                            <td class="trans-cr">
+                                +$@Html.DisplayFor(modelItem => Model.tList[i].amount)
+                            </td>
+                        }
+                        @if (Model.tList[i].description.Length > 25)
+                        {
+                            <td>
+                                @Model.tList[i].description.Substring(0, 25)
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Model.tList[i].description
+                            </td>
+                        }
+                        <td>
+                            <a asp-action="Details" asp-route-id="@Model.tList[i].ID">Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 
-        @if (Model.pageNumber == Math.Ceiling((Convert.ToDecimal(Model.tList.Count() ) / Model.pageSize))) 
-        {
-            <button type="button" class="btn btn-primary" id="incrementPageButton" onclick="incrementPage()" disabled>Next</button>
-        }
-        else
-        {
-            <button type="button" class="btn btn-primary" id="incrementPageButton" onclick="incrementPage()">Next</button>
-        }
-    </form>
 </div>
-<br />
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Account
-            </th>
-            <th>
-                Date
-            </th>
-            <th>
-                Amount
-            </th>
-            <th>
-                Description
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (int i = (Model.pageNumber - 1) * Model.pageSize; i < (Model.pageNumber) * Model.pageSize && i < Model.tList.Count(); i++)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.tList[i].actType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.tList[i].onDate)
-                </td>
-                @if (Model.tList[i].transType == "DR")
-                {
-                    <td class="trans-dr">
-                        -$@Html.DisplayFor(modelItem => Model.tList[i].amount)
-                    </td>
-                }
-                else
-                {
-                    <td class="trans-cr">
-                        +$@Html.DisplayFor(modelItem => Model.tList[i].amount)
-                    </td>
-                }
-                @if (Model.tList[i].description.Length > 25)
-                {
-                    <td>
-                        @Model.tList[i].description.Substring(0, 25)
-                    </td>
-                }
-                else
-                {
-                    <td>
-                        @Model.tList[i].description
-                    </td>
-                }
-                <td>
-                    <a asp-action="Details" asp-route-id="@Model.tList[i].ID">Details</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+
 @if (Model.tList.Count == 0)
 {
     <p>No transactions were found.</p>
