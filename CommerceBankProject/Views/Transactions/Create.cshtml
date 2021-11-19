@@ -6,89 +6,73 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-<h1>Create</h1>
-
-<h4>Transaction</h4>
-<hr />
+<div class="text-center">
+    <h1>Create Transaction</h1>
+</div>
 <div class="row">
-    <div class="col-md-4">
-        
+    <div class="m-auto settings-container pl-lg-5 pr-lg-5">
         <form asp-action="Create">
+            <div class="d-flex mb-3">
+                <div class="text-center mr-3">
+                    <label for="tranActFilter">Account</label>
+                    <div>
+                        <select id="tranActFilter" name="tranActFilter">
+                            @foreach (var account in Model.userAccounts)
+                            {
+                                if (account.actID == Model.transaction.actID)
+                                {
+                                    <option selected value=@account.actID>@account.actType @account.actID</option>
+                                }
+                                else
+                                {
+                                    <option value=@account.actID>@account.actType @account.actID</option>
+                                }
 
-
-
-            <!--<div asp-validation-summary="ModelOnly" class="text-danger"></div>-->
-            <select name="tranActFilter">
-                
-                @foreach (var account in Model.userAccounts)
-                {
-                    if (account.actID == Model.transaction.actID)
-                    {
-                        <option selected value=@account.actID>@account.actType @account.actID</option>
-                    }
-                    else
-                    {
-                        <option value=@account.actID>@account.actType @account.actID</option>
-                    }
-
-                }
-            </select>
-            <!--
-            <div class="form-group">
-                <label asp-for="transaction.actID" class="control-label"></label>
-                <input asp-for="transaction.actID" class="form-control" />
-                <span asp-validation-for="transaction.actID" class="text-danger"></span>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="text-center ml-3">
+                    <label for="transType">Type</label>
+                    <div>
+                        <select id="transType" name="transType">
+                            <option value="DR">Withdrawal</option>
+                            <option value="CR">Deposit</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="transaction.actType" class="control-label"></label>
-                <input asp-for="transaction.actType" class="form-control" />
-                <span asp-validation-for="transaction.actType" class="text-danger"></span>
+            <div class="text-center mb-3">
+                <label for="category">Category</label>
+                <div>
+                    <select id="category" name="category" class="mb-3">
+                        <option value="Other" selected>Other</option>
+                        <option value="Clothing">Clothing</option>
+                        <option value="Chores">Chores</option>
+                        <option value="Eating Out">Eating Out</option>
+                        <option value="Essentials">Essentials</option>
+                        <option value="Food">Food</option>
+                        <option value="Fun">Fun</option>
+                        <option value="Gas">Gas</option>
+                        <option value="Phone">Phone</option>
+                    </select>
+                </div>
             </div>
-    -->
 
-
-            <div class="form-group">
-                <select name="transType" for="transaction.transType" class="custom-select mr-sm-2">
-                    <option value="DR">Withdrawl</option>
-                    <option value="CR">Deposit</option>
-                </select>
+            <div class="text-center mb-3">
+                <label for="amount">Amount</label>
+                <div class="d-flex justify-content-center">
+                    <input id="amount" name="amount" class="form-control w-50" />
+                </div>
             </div>
-            <div class="form-group">
-                <label for="transaction.amount" class="control-label"> amount</label>
-                <input for="transaction.amount" name="amount" class="form-control" />
 
+            <div class="mb-3 text-center">
+                <label for="description">Description</label>
+                <input id="description" name="description" class="form-control" />
             </div>
-            <div class="form-group">
-                <label for="transaction.description" class="control-label">description</label>
-                <input for="transaction.description" name="description" class="form-control" />
 
-            </div>
-            <select for="transaction.category" name="category" class="custom-select mr-sm-2">
-                <option value="Other" selected>Other</option>
-                <option value="Clothing">Clothing</option>
-                <option value="Chores">Chores</option>
-                <option value="Eating Out">Eating out</option>
-                <option value="Essentials">Essentials</option>
-                <option value="Food">Food</option>
-                <option value="Fun">Fun</option>
-                <option value="Gas">gas</option>
-                <option value="Phone">Phone</option>
-
-
-
-
-
-
-
-
-
-
-
-            </select>
-
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="d-flex justify-content-center mb-3">
+                <button type="submit" class="btn btn-primary">Create</button>
             </div>
         </form>
     </div>
