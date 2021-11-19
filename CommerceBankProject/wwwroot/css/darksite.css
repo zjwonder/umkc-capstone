@@ -175,7 +175,7 @@ tr:nth-child(odd) {
 .icon-container {
     color: #fff;
     box-shadow: 0px 0px 5px rgba(255,255,255,.5);
-    background-image: linear-gradient(#555,#333);
+    background-image: linear-gradient(#666,#444);
 }
 
 table {

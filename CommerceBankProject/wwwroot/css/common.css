@@ -280,6 +280,7 @@ label {
     text-decoration: none;
 }
 
+.short-button .link-container,
 form .link-container,
 td .link-container {
     height: 35px !important;
