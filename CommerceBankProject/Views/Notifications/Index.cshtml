@@ -6,18 +6,19 @@
 <div class="text-center">
     <h1>Notification Center</h1>
 </div>
+<div class="mt-1">
+    <a class="d-inline-block mr-md-5 link-container" asp-action="Settings">
+        <p class="d-inline mr-2">Settings</p><i class="d-inline fas fa-cog"></i>
+    </a>
 
-<p class="d-inline-block mr-md-5 link-container">
-    <a asp-action="Generate">Generate Notifications</a>
-</p>
+    <a class="d-inline-block mr-md-5 link-container" asp-action="Generate">
+        <p class="d-inline mr-2">Generate Notifications</p><i class="d-inline fas fa-redo"></i>
+    </a>
 
-<p class="d-inline-block mr-md-5 link-container">
-    <a asp-action="Settings">Notification Settings</a>
-</p>
-
-<p class="d-inline-block link-container">
-    <a asp-action="DeleteAll">Delete All</a>
-</p>
+    <a class="d-inline-block link-container" asp-action="DeleteAll">
+        <p class="d-inline mr-2">Delete All</p><i class="d-inline fas fa-trash-alt"></i>
+    </a>
+</div>
 <br />
 
 
@@ -50,11 +51,18 @@
                     @Html.DisplayFor(modelItem => item.onDate)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    <form class="d-inline" asp-action="Delete">
+                        <input type="hidden" value="@item.ID" name="id" />
+                        <button type="submit" class="btn btn-danger" ><i  class="fas fa-trash"></i></button>
+                    </form>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<div class="d-flex justify-content-center">
+    <form asp-controller="Home" asp-action="Dashboard">
+        <button type="submit" class="btn btn-primary mt-3 mb-3">Dashboard</button>
+    </form>
+</div>

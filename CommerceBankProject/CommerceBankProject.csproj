@@ -12,8 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20211026004231_Notifications.cs" />
-    <Compile Remove="Migrations\20211026004231_Notifications.Designer.cs" />
+    
   </ItemGroup>
 
   <ItemGroup>

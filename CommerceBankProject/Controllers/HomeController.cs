@@ -1,4 +1,5 @@
 ﻿using CommerceBankProject.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -24,6 +25,12 @@ namespace CommerceBankProject.Controllers
         public IActionResult Index()
         {
             return View("Index");
+        }
+
+        [Authorize]
+        public IActionResult Dashboard()
+        {
+            return View("Dashboard");
         }
 
         public IActionResult Privacy()

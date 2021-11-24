@@ -104,16 +104,7 @@ namespace CommerceBankProject.Controllers
         // GET: Transactions/Create
         
         [Authorize]
-        public IActionResult Create()
-        {
-            return View();
-        }
-        
-
-
-        
-        [Authorize]
-        public async Task<IActionResult> CreateSetup ()
+        public async Task<IActionResult> Create()
         {
             var claim = User.FindFirst(ClaimTypes.NameIdentifier);
             string userID = claim.Value;

@@ -8,38 +8,38 @@
     <h2>View Transactions</h2>
 </div>
 
-<p>
- <a asp-action="CreateSetup">Create Transaction</a>
- </p>
-
-<button type="button" class="btn btn-primary inactive" id="filterBtn" onclick="toggleDisplay(this, 'filterForm')">Filter</button>
-<form asp-action="FilterIndex" id="filterForm" class="closed mb-3">
-    <label for="actFilter">Select Account</label>
-    <select name="actFilter">
-        <option value="all">All</option>
-        @foreach (var account in Model.actList)
-        {
-            if (account.actID == Model.account)
-            {
-                <option selected value=@account.actID>@account.actType @account.actID</option>
-            }
-            else
-            {
-                <option value=@account.actID>@account.actType @account.actID</option>
-            }
-
-        }
-    </select>
-    <label for="descFilter">Search</label>
-    <input type="text" name="descFilter" value=@Model.descSearch>
-    <br />
-    <label for="fromDate">From:</label>
-    <input type="date" name="fromDate" id="fromDate" value=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) max=@string.Format("{0:yyyy-MM-dd}", Model.toDate) onchange="changeMinTo(this)" />
-    <label for="toDate">To:</label>
-    <input type="date" name="toDate" id="toDate" value=@string.Format("{0:yyyy-MM-dd}", Model.toDate) min=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) onchange="changeMaxFrom(this)" />
-    <input type="submit" value="Go" id="filterSubmit" class="btn btn-primary" />
-    <input type="hidden" name="pageNumber" value="1" id="pageNumber" />
-</form>
+<div class="mb-3">
+    <div class="settings-container m-auto w-75">
+        <label for="filterArrow" class="form-label font-weight-bold label-padded">Filter</label>
+        <div id="filterArrow" class="arrow hide" onclick="toggleHidden(this,'filterForm')"></div>
+        <form asp-action="FilterIndex" id="filterForm" class="closed mb-3">
+            <label for="actFilter">Select Account</label>
+            <select name="actFilter">
+                <option value="all">All</option>
+                @foreach (var account in Model.actList)
+                {
+                    if (account.actID == Model.account)
+                    {
+                        <option selected value=@account.actID>@account.actType @account.actID</option>
+                    }
+                    else
+                    {
+                        <option value=@account.actID>@account.actType @account.actID</option>
+                    }
+                }
+            </select>
+            <label for="descFilter">Search</label>
+            <input type="text" name="descFilter" value=@Model.descSearch>
+            <br />
+            <label for="fromDate">From:</label>
+            <input type="date" name="fromDate" id="fromDate" value=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) max=@string.Format("{0:yyyy-MM-dd}", Model.toDate) onchange="changeMinTo(this)" />
+            <label for="toDate">To:</label>
+            <input type="date" name="toDate" id="toDate" value=@string.Format("{0:yyyy-MM-dd}", Model.toDate) min=@string.Format("{0:yyyy-MM-dd}", Model.fromDate) onchange="changeMaxFrom(this)" />
+            <input type="submit" value="Go" id="filterSubmit" class="btn btn-primary" />
+            <input type="hidden" name="pageNumber" value="1" id="pageNumber" />
+        </form>
+    </div>
+</div>
 
 <div class="row justify-content-center">
     <form asp-action="FilterIndex" id="pageChanged">
@@ -123,7 +123,9 @@
                     </td>
                 }
                 <td>
-                    <a asp-action="Details" asp-route-id="@Model.tList[i].ID">Details</a>
+                    <a class="d-inline-block mr-3 link-container" asp-action="Details" asp-route-id="@Model.tList[i].ID">
+                        <p>Details</p>
+                    </a>
                 </td>
             </tr>
         }
@@ -133,6 +135,12 @@
 {
     <p>No transactions were found.</p>
 }
+
+<div class="d-flex justify-content-center mt-3">
+    <form asp-controller="Home" asp-action="Dashboard">
+        <button type="submit" class="btn btn-primary mt-3 mb-3">Dashboard</button>
+    </form>
+</div>
 <script>
 
     function changeMinTo(date) {
