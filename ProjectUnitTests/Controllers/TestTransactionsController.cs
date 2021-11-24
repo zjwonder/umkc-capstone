@@ -190,7 +190,7 @@ namespace ProjectUnitTests
 
                 controller = new TransactionsController(context);
 
-                var result = await controller.Create("222222222","CR", 978.04m, "Description", "Phone");
+                var result = await controller.Create("222222222", 978.04m, "Description", "Phone");
                 Assert.IsType<RedirectToActionResult>(result);
 
                 var viewRes = result as RedirectToActionResult;

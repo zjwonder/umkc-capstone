@@ -55,14 +55,14 @@ namespace CommerceBankProject.Controllers
 
             if (settings.monthlyBudgetRuleActive)
             {
-                string queryMonthly = @"select top 1 temp.tyear, temp.tmonth,temp.tday, temp.amount  from( 
-                select year([Transaction].onDate) as tyear , month([Transaction].onDate) as tmonth, day([Transaction].onDate) as tday, sum([Transaction].amount) as amount
+                string queryMonthly = @"select top 1 temp.tyear, temp.tmonth, temp.amount  from( 
+                select year([Transaction].onDate) as tyear , month([Transaction].onDate) as tmonth, sum([Transaction].amount) as amount
                 from [Transaction]
                 where [Transaction].transType = 'DR' and customerID = {0}
-                group by year([Transaction].onDate), month([Transaction].onDate),day([transaction].onDate)
+                group by year([Transaction].onDate), month([Transaction].onDate)
                 ) as temp 
-                where amount > {1} and temp.tyear = YEAR(getDate()) and temp.tmonth = MONTH(getDate()) and temp.tday = DAY(getDate())
-                order by temp.tyear DESC, temp.tmonth DESC,temp.tday Desc;";
+                where amount > {1} and temp.tyear = YEAR(getDate()) and temp.tmonth = MONTH(getDate())
+                order by temp.tyear DESC, temp.tmonth DESC;";
 
                 List<MonthlyResult> monthlyList = await _context.MonthlyResult.FromSqlRaw(queryMonthly, user, settings.monthlyBudgetRule).ToListAsync();
 
@@ -80,8 +80,7 @@ namespace CommerceBankProject.Controllers
             {
                 string queryTrans = @"select top 1 *
                 from[Transaction]
-                where transType = 'DR' and balance < {0} and customerID = {1} and Year([transaction].onDate) = YEAR(getDate()) and Month([transaction].onDate) = MONTH(getDate()) and 
-				Day([transaction].onDate) = DAY(getDate())
+                where transType = 'DR' and balance < {0} and customerID = {1} and Year([transaction].onDate) = YEAR(getDate()) and Month([transaction].onDate) = MONTH(getDate())
                 order by onDate desc; ";
 
                 var balanceList = await _context.Transaction.FromSqlRaw(queryTrans, settings.balanceRule, user).ToListAsync();
