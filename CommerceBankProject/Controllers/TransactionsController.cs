@@ -126,7 +126,7 @@ namespace CommerceBankProject.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string tranActFilter,string transType,decimal amount,string description,string category)
+        public async Task<IActionResult> Create(string tranActFilter,decimal amount,string description,string category)
         {
             
             
@@ -137,7 +137,7 @@ namespace CommerceBankProject.Controllers
 
                 t.customerID = user.customerID;
                 t.actID = tranActFilter;
-                t.transType = transType;
+                t.transType = "DR";
                 t.amount = amount;
                 t.description = description;
                 t.userEntered = true;
@@ -167,10 +167,11 @@ namespace CommerceBankProject.Controllers
 
                 _context.Add(t);
                 await _context.SaveChangesAsync();
-                //NotificationsController temp = new NotificationsController(_context);
-                //temp.GenerateOnInsertion(t);
-                return RedirectToAction(nameof(Index));
-            }
+            NotificationsController temp = new NotificationsController(_context);
+            await temp.GenerateOnInsertion(user.customerID);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
             
         
 
