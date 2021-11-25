@@ -7,7 +7,6 @@
 function trackSlider(slide, output) {
     document.getElementById(output).value = slide.value;
 }
-
 function toggleEnabled(rangeName) {
     var ele = document.getElementById(rangeName);
     if (ele.disabled) {
@@ -47,5 +46,12 @@ function toggleHidden(btn, displayName) {
     inputs.classList.toggle("open");
 }
 
+function ShowHideDiv() {
+    var categoryLabel = document.getElementById("categoryLabel");
+    var categoryDropDown = document.getElementById("category");
+    var transType = document.getElementById("transType");
+    categoryDropDown.style.display = transType.value == "DR" ? "block" : "none";
+    categoryLabel.style.display = transType.value == "DR" ? "block" : "none";
+}
 
 

@@ -32,22 +32,34 @@
                         </select>
                     </div>
                 </div>
-                
+                <div class="text-center ml-3">
+                    <label for="transType">Type</label>
+                    <div>
+                        <select id="transType" name="transType" onchange="ShowHideDiv()">
+                            <option value="CR" selected>Deposit</option>
+                            <option value="DR">Withdraw</option>
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="text-center mb-3">
-                <label for="category">Category</label>
+                <label for="category" id="categoryLabel" style="display:none">Category</label>
                 <div>
-                    <select id="category" name="category" class="mb-3">
-                        <option value="Other" selected>Other</option>
-                        <option value="Clothing">Clothing</option>
-                        <option value="Chores">Chores</option>
-                        <option value="Eating Out">Eating Out</option>
-                        <option value="Essentials">Essentials</option>
-                        <option value="Food">Food</option>
-                        <option value="Fun">Fun</option>
-                        <option value="Gas">Gas</option>
-                        <option value="Phone">Phone</option>
-                    </select>
+                    
+                 <select id="category" name="category" class="mb-3" style="display: none">
+                      <option value="Other" selected>Other</option>
+                      <option value="Clothing">Clothing</option>
+                      <option value="Chores">Chores</option>
+                      <option value="Eating Out">Eating Out</option>
+                      <option value="Essentials">Essentials</option>
+                      <option value="Food">Food</option>
+                      <option value="Fun">Fun</option>
+                      <option value="Gas">Gas</option>
+                      <option value="Phone">Phone</option>
+                  </select>
+                    
+
+                    
                 </div>
             </div>
 
@@ -78,4 +90,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
 }

@@ -47,7 +47,7 @@ namespace CommerceBankProject.Controllers
             query = @"select top 1 temp.tyear, temp.tmonth, temp.amount from( 
             select year([Transaction].onDate) as tyear , month([Transaction].onDate) as tmonth, sum([Transaction].amount) as amount
             from [Transaction]
-            where [Transaction].category = {0} and customerID = {1}
+            where [Transaction].category = {0} and customerID = {1} and [Transaction].transType = 'DR'
             group by ([Transaction].category), year([Transaction].onDate), month([Transaction].onDate)
             ) as temp 
             where temp.amount > {2} and temp.tyear = YEAR(getDate()) and temp.tmonth = MONTH(getDate())
@@ -234,7 +234,7 @@ namespace CommerceBankProject.Controllers
             }
 
 
-            if (settings.timeRuleActive && TimeBetween(topTransaction.onDate, settings.startTimeRule, settings.endTimeRule))
+            if (settings.timeRuleActive && TimeBetween(topTransaction.onDate, settings.startTimeRule, settings.endTimeRule) && topTransaction.transType == "DR")
             {
                 int result = TimeSpan.Compare(settings.startTimeRule, settings.endTimeRule);
                 if (result == 1)
