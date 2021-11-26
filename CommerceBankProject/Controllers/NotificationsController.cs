@@ -53,7 +53,7 @@ namespace CommerceBankProject.Controllers
             where temp.amount > {2} and temp.tyear = YEAR(getDate()) and temp.tmonth = MONTH(getDate())
             order by temp.tyear DESC, temp.tmonth DESC;";
 
-            if (settings.monthlyBudgetRuleActive)
+            if (settings.monthlyBudgetRuleActive && topTransaction.transType == "DR")
             {
                 string queryMonthly = @"select top 1 temp.tyear, temp.tmonth, temp.amount  from( 
                 select year([Transaction].onDate) as tyear , month([Transaction].onDate) as tmonth, sum([Transaction].amount) as amount
@@ -76,7 +76,7 @@ namespace CommerceBankProject.Controllers
                     await _context.SaveChangesAsync();
                 }
             }
-            if (settings.balanceRuleActive)
+            if (settings.balanceRuleActive &&  topTransaction.transType == "DR")
             {
                 string queryTrans = @"select top 1 *
                 from[Transaction]
