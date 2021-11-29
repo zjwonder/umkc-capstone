@@ -28,13 +28,23 @@ namespace CommerceBankProject.Controllers
             return View(await _context.Notification.OrderByDescending(n => n.onDate).ToListAsync());
         }
 
+        public void GenerateOnInsertion(Transaction insertedTransaction)
+        {
+            //does nothing rn
+        }
+
         [Authorize]
         public async Task<IActionResult> Generate()
         {
+           
+            
             var claim = User.FindFirst(ClaimTypes.NameIdentifier);
             string userID = claim.Value;
             var user = await _context.Users.Where(u => u.Id == userID).FirstOrDefaultAsync();
-            string query = "";
+            string query = "delete from Notification where customerID = {0} and saved = 0;";
+            await _context.Database.ExecuteSqlRawAsync(query, user.customerID);
+
+            query = "";
             query = @"Select *
             from [NotificationSettings]
             where customerID = {0}";
@@ -294,7 +304,7 @@ namespace CommerceBankProject.Controllers
             var claim = User.FindFirst(ClaimTypes.NameIdentifier);
             string userID = claim.Value;
             var user = await _context.Users.Where(u => u.Id == userID).FirstOrDefaultAsync();
-            string query = "delete from Notification where customerID = {0};";
+            string query = "delete from Notification where customerID = {0} and saved = 0;";
             await _context.Database.ExecuteSqlRawAsync(query, user.customerID);
 
             return RedirectToAction(nameof(Index));

@@ -1,0 +1,27 @@
+﻿@{
+    //ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<div class="text-center">
+    <h1 class="display-4">Data</h1>
+</div>
+
+<div class="d-flex">
+    <div class="d-inline">
+        @(await Component.InvokeAsync("CategoryGraph", new { context = Context }))
+    </div>
+    <div class="d-inline balance-table">
+        @(await Component.InvokeAsync("Balance", new { context = Context }))
+    </div>
+</div>
+
+<div class="t-summary">
+    @(await Component.InvokeAsync("TransactionSummaryGraph", new { context = Context }))
+</div>
+
+<div class="recent-table">
+    @(await Component.InvokeAsync("TopNTransactions", new { context = Context }))
+</div>

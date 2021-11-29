@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CommerceBankProject.Migrations
 {
     [DbContext(typeof(CommerceBankDbContext))]
-    [Migration("20211026004231_Notifications")]
-    partial class Notifications
+    [Migration("20211118213817_reconfig")]
+    partial class reconfig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -107,6 +107,24 @@ namespace CommerceBankProject.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.ToTable("Account");
+                });
+
+            modelBuilder.Entity("CommerceBankProject.Models.Balance", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("actType")
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<decimal>("balance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Balance");
                 });
 
             modelBuilder.Entity("CommerceBankProject.Models.CustomerRecord", b =>
@@ -302,6 +320,66 @@ namespace CommerceBankProject.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Transaction");
+                });
+
+            modelBuilder.Entity("CommerceBankProject.Models.YearMonthAggregated_CategoryTransactions", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("MonthYearDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("NetAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("actID")
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("actType")
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("category")
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("customerID")
+                        .HasColumnType("nvarchar(9)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("YearMonthAggregated_CategoryTransactions");
+                });
+
+            modelBuilder.Entity("CommerceBankProject.Models.YearMonthAggregated_Transaction", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("MonthName")
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<decimal>("NetAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("NumTransactions")
+                        .HasColumnType("int");
+
+                    b.Property<string>("actID")
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("actType")
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("customerID")
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("YearMonthAggregated_Transaction");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

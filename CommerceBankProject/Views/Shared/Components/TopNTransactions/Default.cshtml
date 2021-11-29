@@ -1,0 +1,65 @@
+﻿@model CommerceBankProject.Models.TIndexViewModel
+
+
+<div class="text-center mt-3">
+    <b style="font-size: 150%">Last 5 Transactions</b>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Account
+            </th>
+            <th>
+                Date
+            </th>
+            <th>
+                Amount
+            </th>
+            <th>
+                Description
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = (Model.pageNumber - 1) * Model.pageSize; i < (Model.pageNumber) * Model.pageSize && i < Model.tList.Count(); i++)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.tList[i].actType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.tList[i].onDate)
+                </td>
+                @if (Model.tList[i].transType == "DR")
+                {
+                    <td class="trans-dr">
+                        -$@Html.DisplayFor(modelItem => Model.tList[i].amount)
+                    </td>
+                }
+                else
+                {
+                    <td class="trans-cr">
+                        +$@Html.DisplayFor(modelItem => Model.tList[i].amount)
+                    </td>
+                }
+                @if (Model.tList[i].description.Length > 25)
+                {
+                    <td>
+                        @Model.tList[i].description.Substring(0, 25)
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Model.tList[i].description
+                    </td>
+                }
+                <td>
+                    <a asp-action="Details" asp-route-id="@Model.tList[i].ID">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

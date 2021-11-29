@@ -33,5 +33,8 @@ namespace CommerceBankProject.Data
         public DbSet<Notification> Notification { get; set; }
         public DbSet<MonthlyResult> MonthlyResult { get; set; }
         public DbSet<NotificationSettings> NotificationSettings { get; set; }
+        public DbSet<YearMonthAggregated_Transaction> YearMonthAggregated_Transaction { get; set; }
+        public DbSet<YearMonthAggregated_CategoryTransactions> YearMonthAggregated_CategoryTransactions { get; set; }
+        public DbSet<Balance> Balance { get;  set; }
     }
 }

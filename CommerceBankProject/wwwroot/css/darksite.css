@@ -1,40 +1,6 @@
-﻿/* CSS for font families */
+﻿
 
-@font-face {
-    font-family: Poppins;
-    src: url("../Fonts/Poppins/Poppins-Regular.ttf");
-}
-
-@font-face {
-    font-family: OpenSans;
-    src: url("../Fonts/OpenSans/OpenSans-Regular.ttf");
-}
-
-@font-face {
-    font-family: Poppins;
-    font-weight: lighter;
-    src: url("../Fonts/Poppins/Poppins-Light.ttf");
-}
-
-@font-face {
-    font-family: Poppins;
-    font-weight: bold;
-    src: url("../Fonts/Poppins/Poppins-Bold.ttf");
-}
-
-@font-face {
-    font-family: OpenSans;
-    font-weight: lighter;
-    src: url("../Fonts/OpenSans/OpenSans-Light.ttf");
-}
-
-@font-face {
-    font-family: OpenSans;
-    font-weight: bold;
-    src: url("../Fonts/OpenSans/OpenSans-Bold.ttf");
-}
-
-/* Provide sufficient contrast against white background */
+/* Provide sufficient contrast against background */
 a {
     color: #0366d6;
 }
@@ -53,15 +19,6 @@ a {
 
 /* Sticky footer styles
 -------------------------------------------------- */
-html {
-    font-size: 14px;
-}
-
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
-}
 
 .border-top {
     border-top: 1px solid #e5e5e5;
@@ -80,85 +37,21 @@ button.accept-policy {
     line-height: inherit;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-    position: relative;
-    min-height: 100%;
-}
-
-body {
-    /* Margin bottom by footer height */
-    margin-bottom: 60px;
-}
-
-.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    white-space: nowrap;
-    line-height: 60px; /* Vertically center the text there */
-}
-
 body {
     background-color: #333;
     color: #fff;
-    font-family: OpenSans;
-    transition:.5s;
+    transition-property: background-color, color;
+    transition-duration: 0.5s;
 }
 
-h1, h2, h3 {
-    font-family: Poppins;
-}
-
-nav {
-    font-family: Poppins;
-    background-image: linear-gradient(#006747, #004727);
-}
-
-a.navbar-brand {
-    font-family: OpenSans;
-    font-weight: bold;
-    color: #003717 !important;
-    padding: 0px 20px 0px 0px;
-    text-shadow: 0px 1px 0px rgba(255,255,255,.1), 0px -1px 0px rgba(0,0,0,.7);
-    white-space: normal;
-    text-align: center;
-    word-break: break-all;
-}
-
-nav button.nav-link,
-nav a.nav-link {
-    text-shadow: -1px -1px 0px rgba(0,0,0,.3), 1px 1px 0px rgba(0,0,0,.1);
-}
-
-nav button.nav-link:hover,
-nav a.nav-link:hover {
-    text-shadow: -1px -1px 0px rgba(13,110,253,.2), 1px 1px 0px rgba(0,0,0,.5);
-    color: #0d6efd !important;
-}
-
-#filterForm select,
-#filterForm input {
-    margin: 5px 20px 5px 0px;
-}
-
-#pageChanged label {
-    margin-left: 20px;
-}
-
-#changePageNumber,
-#changePageNumber:focus,
-#changePageNumber:active {
-    width: 40px;
-    border: none;
-    cursor: auto !important;
-}
+/*Inputs*/
 
 select,
 input {
-    background-color: #333;
+    background-color: #333 !important;
     color: #fff !important;
+    transition-property: background-color, color;
+    transition-duration: 0.5s;
 }
 
 ::-webkit-calendar-picker-indicator {
@@ -194,10 +87,6 @@ input:active {
     background-color: #555;
 }
 
-#darkMode {
-    display: none;
-}
-
 #darkModeAfter {
     color: #09e;
     text-shadow: 0px 0px 5px #09e;
@@ -210,22 +99,6 @@ input:active {
     box-shadow: inset -1px -1px 3px rgba(255,255,255,0.2), inset 2px 2px 6px rgba(0,0,0,0.8);
     display: inline-block;
     background-color: none !important;
-}
-
-label {
-    margin: 0px 5px 0px 0px;
-}
-
-#filterBtn {
-    border: none !important;
-    margin: 0px 0px 5px 0px;
-}
-
-#filterSubmit {
-    background-color: #4FA800 !important;
-    -webkit-box-shadow: none !important;
-    border: none;
-    margin: 5px 0px 5px 10px;
 }
 
 a.btn-primary,
@@ -272,25 +145,8 @@ button[type=submit].btn-primary,
     transition: 0.3s
 }
 
-.closed {
-    visibility: hidden;
-    position: absolute;
-    opacity: 0;
-}
-
-.open {
-    visibility: visible;
-    position: static;
-    transition: 0.5s;
-}
-
-.trans-dr {
-    text-align: right;
-}
-
 .trans-cr {
     color: #4FA800;
-    text-align: right;
     text-shadow: -1px -1px 1px rgba(0,0,0,0.5), 0px 0px 1px rgba(0,0,0,.5);
     font-weight: normal;
 }
@@ -304,19 +160,25 @@ td {
 
 th,
 tr:nth-child(even) {
-    background-color: #777;
-}
-
-tr:nth-child(odd) {
     background-color: #555;
 }
 
-table tbody tr td a {
-    opacity: 0;
-    transition: 0.5s;
+tr:nth-child(odd) {
+    background-color: #444;
 }
 
-table tbody tr:hover td a {
-    opacity: 1;
-    transition: 0.2s;
+.link-container,
+.settings-container {
+    border: 1px solid #aaa;
 }
+
+.icon-container {
+    color: #fff;
+    box-shadow: 0px 0px 5px rgba(255,255,255,.5);
+    background-image: linear-gradient(#666,#444);
+}
+
+table {
+    color: #fff !important;
+}
+

@@ -27,74 +27,58 @@ namespace CommerceBankProject.Controllers
         {
             var claim = User.FindFirst(ClaimTypes.NameIdentifier);
             string userID = claim.Value;
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userID);
-
-            IQueryable<Transaction> transactionIQ = from t in _context.Transaction.Where(
-                t => t.customerID == user.customerID) select t;
-
-            List<Transaction> transactionList = await transactionIQ.AsNoTracking().ToListAsync();
-            //List<AccountRecord> actList = PopulateActList(transactionList);
-
-            List<AccountRecord> actList = transactionList
-                .GroupBy(p => p.actID)
-                .Select(g => g.First())
-                .Select(x => new AccountRecord { actID = x.actID, actType = x.actType})
-                .ToList();
-
-            TIndexViewModel vmod = new TIndexViewModel(
-                transactions: transactionList,
-                start: transactionList.FirstOrDefault().onDate,
-                end: transactionList.LastOrDefault().onDate,
-                accounts: actList);
-
+            var user = await _context.Users.Where(u => u.Id == userID).FirstOrDefaultAsync();
+            string tQuery = "Select * from [Transaction] where customerID = {0} order by onDate desc;";
+            List<Transaction> tList = await _context.Transaction.FromSqlRaw(tQuery, user.customerID).ToListAsync();
+            string actQuery = "Select distinct actID, actType from [Transaction] where customerID = {0}";
+            List<AccountRecord> actList = await _context.Account.FromSqlRaw(actQuery, user.customerID).ToListAsync();
+            string dateQuery = "Select top 1 onDate from [Transaction] where customerID = {0} order by onDate";
+            DateRecord record = await _context.Date.FromSqlRaw(dateQuery, user.customerID).FirstOrDefaultAsync();
+            DateTime fromDate = record.onDate;
+            record = await _context.Date.FromSqlRaw(dateQuery+" desc", user.customerID).FirstOrDefaultAsync();
+            DateTime toDate = record.onDate;
+            TIndexViewModel vmod = new TIndexViewModel(tList, actList, fromDate, toDate);
+            
             return View(vmod);
         }
-
-        // GET: Filtered Transactions
+        [Authorize]
+        public async Task<IActionResult> Dashboard()
+        {
+            return View();
+        }
+        
         [Authorize]
         public async Task<IActionResult> FilterIndex(string actFilter, string descFilter, string fromDate, string toDate, string pageNumber)
         {
-            // Get user claim
             var claim = User.FindFirst(ClaimTypes.NameIdentifier);
             string userID = claim.Value;
             var user = await _context.Users.Where(u => u.Id == userID).FirstOrDefaultAsync();
-
-            // Parse date strings into date objects
-            DateTime tDate = DateTime.Parse(toDate);
-            DateTime fDate = DateTime.Parse(fromDate);
-
-            IQueryable<Transaction> transactionIQ = from t in _context.Transaction.Where(
-                t => t.customerID == user.customerID 
-                && t.onDate >= fDate 
-                && t.onDate < tDate) select t;
-            //List<AccountRecord> actList = PopulateActList(await transactionIQ.AsNoTracking().ToListAsync());
-            List<AccountRecord> actList = transactionIQ.AsNoTracking().ToList()
-                .GroupBy(p => p.actID)
-                .Select(g => g.First())
-                .Select(x => new AccountRecord { actID = x.actID, actType = x.actType })
-                .ToList();
-
-            if (actFilter != "all")
-            {
-                transactionIQ = transactionIQ.Where(t => t.actID == actFilter);
-
-            }
+            string[] splitDate = toDate.Split('-');
+            DateTime tDate = new DateTime(int.Parse(splitDate[0]), int.Parse(splitDate[1]), int.Parse(splitDate[2]));
+            toDate = string.Format("{0:yyyy-MM-dd}", tDate.AddDays(1));
+            string tQuery = "Select * from [Transaction] where customerID = {0}";
+            tQuery += " and onDate >= {1} and onDate < {2}";
             if (!string.IsNullOrEmpty(descFilter))
             {
-                transactionIQ = transactionIQ.Where(t => t.description.Contains(descFilter));
+                tQuery += " and description like '%' + {3} + '%'";
             }
-
-            List<Transaction> tList = await transactionIQ.AsNoTracking().ToListAsync();
-
-            TIndexViewModel vmod = new TIndexViewModel(
-                accounts: actList, 
-                transactions: tList, 
-                start: fDate, 
-                end: tDate, 
-                desc: descFilter, 
-                page: int.Parse(pageNumber), 
-                acct: actFilter);
-
+            List<Transaction> tList;
+            if (actFilter == "all")
+            {
+                tQuery += " order by onDate desc";
+                tList = await _context.Transaction.FromSqlRaw(tQuery, user.customerID, fromDate, toDate, descFilter).ToListAsync();
+            }
+            else
+            {
+                tQuery += " and actID = {4} order by onDate desc";
+                tList = await _context.Transaction.FromSqlRaw(tQuery, user.customerID, fromDate, toDate, descFilter, actFilter).ToListAsync();
+            }
+            string actQuery = "Select distinct actID, actType from [Transaction] where customerID = {0}";
+            splitDate = fromDate.Split('-');
+            DateTime fDate = new DateTime(int.Parse(splitDate[0]), int.Parse(splitDate[1]), int.Parse(splitDate[2]));
+            List<AccountRecord> actList = await _context.Account.FromSqlRaw(actQuery, user.customerID).ToListAsync();
+            TIndexViewModel vmod = new TIndexViewModel(tList, actList, fDate, tDate, descFilter, int.Parse(pageNumber),actFilter);
+            
             return View("Index", vmod);
         }
 
@@ -118,26 +102,77 @@ namespace CommerceBankProject.Controllers
         }
 
         // GET: Transactions/Create
+        
         [Authorize]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var claim = User.FindFirst(ClaimTypes.NameIdentifier);
+            string userID = claim.Value;
+            var user = await _context.Users.Where(u => u.Id == userID).FirstOrDefaultAsync();
+            string actQuery = "Select distinct actID, actType from [Transaction] where customerID = {0}";
+            List<AccountRecord> actListSetup = await _context.Account.FromSqlRaw(actQuery, user.customerID).ToListAsync();
+            UserTransactions t = new UserTransactions();
+            Transaction trans = new Transaction();
+            t.userAccounts = actListSetup;
+            t.transaction = trans;
+            return View("Create", t);
+
         }
+        
 
         // POST: Transactions/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,customerID,actID,actType,onDate,balance,transType,amount,description,userEntered,category")] Transaction transaction)
+        public async Task<IActionResult> Create(string tranActFilter,string transType,decimal amount,string description,string category)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(transaction);
+            
+            
+                var claim = User.FindFirst(ClaimTypes.NameIdentifier);
+                string userID = claim.Value;
+                var user = await _context.Users.Where(u => u.Id == userID).FirstOrDefaultAsync();
+                Transaction t = new Transaction();
+
+                t.customerID = user.customerID;
+                t.actID = tranActFilter;
+                t.transType = transType;
+                t.amount = amount;
+                t.description = description;
+                t.userEntered = true;
+                t.category = category;
+                t.onDate = DateTime.Now;
+
+
+                string actBalance = "Select top 1 * from [Transaction] where customerID = {0} and actID = {1} order by onDate desc";
+
+                Transaction prevTopTransaction = await _context.Transaction.FromSqlRaw(actBalance, user.customerID,t.actID).FirstOrDefaultAsync();
+
+                decimal userBalance = prevTopTransaction.balance;
+
+                t.actType = prevTopTransaction.actType;
+
+                
+                if (t.transType == "DR")
+                {
+                    t.balance = userBalance - t.amount;
+                }
+                else
+                {
+                    t.balance = userBalance + t.amount;
+
+                }
+
+
+                _context.Add(t);
                 await _context.SaveChangesAsync();
+                //NotificationsController temp = new NotificationsController(_context);
+                //temp.GenerateOnInsertion(t);
                 return RedirectToAction(nameof(Index));
             }
-            return View(transaction);
-        }
+            
+        
 
         // GET: Transactions/Delete/5
         [Authorize]
@@ -174,38 +209,5 @@ namespace CommerceBankProject.Controllers
         {
             return _context.Transaction.Any(e => e.ID == id);
         }
-
-        //private List<AccountRecord> PopulateActList(List<Transaction> transactionList)
-        //{
-        //    HashSet<AccountRecord> set = new HashSet<AccountRecord>();
-        //    foreach (var f in transactionList)
-        //    {
-        //        AccountRecord temp = new AccountRecord();
-
-        //        temp.actID = f.actID;
-        //        temp.actType = f.actType;
-
-        //        set.Add(temp);
-        //    }
-        //    List<AccountRecord> actList;
-        //    return actList = set.ToList();
-        //    //List<AccountRecord> accounts = await transactionIQ
-        //    //    .GroupBy(t => t.actID)
-        //    //    .Select(group => new AccountRecord
-        //    //    {
-        //    //        actID = group.Key, 
-        //    //        actType = group.
-        //    //    }).ToListAsync();
-
-        //    // List<string> actIDList = await transactionIQ.Select(x => x.actID).Distinct().ToListAsync();
-        //    // List<AccountRecord> actList2 = await transactionIQ
-        //    //     .Select(x => new AccountRecord { actID = x.actID, actType = x.actType}).ToListAsync();
-
-        //    // List<AccountRecord> actList = await transactionIQ
-        //    //     .Select(x => new AccountRecord { actID = x.actID, actType = x.actType })
-        //    //     .GroupBy(g => g.actID)
-        //    //     .Select(a => a.First())
-        //    //     .ToListAsync();
-        //}
     }
 }

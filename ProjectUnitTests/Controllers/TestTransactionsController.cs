@@ -187,6 +187,7 @@ namespace ProjectUnitTests
             }
         }
 
+
         [Fact]
         public async void TestCreatePOSTWithValidModelState()
         {
@@ -207,7 +208,7 @@ namespace ProjectUnitTests
 
                 controller = new TransactionsController(context);
 
-                var result = await controller.Create(transaction: testTransaction);
+                var result = await controller.Create("222222222","CR", 978.04m, "Description", "Phone");
                 Assert.IsType<RedirectToActionResult>(result);
 
                 var viewRes = result as RedirectToActionResult;
