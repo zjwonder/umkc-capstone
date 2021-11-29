@@ -81,7 +81,7 @@ namespace CommerceBankProject.Controllers
             }
             if (!string.IsNullOrEmpty(descFilter))
             {
-                transactionIQ = transactionIQ.Where(t => t.description == actFilter);
+                transactionIQ = transactionIQ.Where(t => t.description.Contains(descFilter));
             }
 
             List<Transaction> tList = await transactionIQ.AsNoTracking().ToListAsync();

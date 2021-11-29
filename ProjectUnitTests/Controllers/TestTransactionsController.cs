@@ -88,8 +88,6 @@ namespace ProjectUnitTests
                     context.Transaction.Add(t);
                 }
 
-
-
                 ApplicationUser savedUser = new ApplicationUser();
                 savedUser.customerID = "111111111";
 
@@ -104,6 +102,11 @@ namespace ProjectUnitTests
                 controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
                 var result = await controller.Index();
                 Assert.IsType<ViewResult>(result);
+                var viewResult = result as ViewResult;
+                var tIndexView = viewResult.Model as TIndexViewModel;
+                Assert.Equal(transactions[1].description, tIndexView.tList.FirstOrDefault().description);
+                Assert.NotEqual(transactions[0].description, tIndexView.tList.FirstOrDefault().description);
+                Assert.Single(tIndexView.tList);
             }
             //var result = await controller.Index() as ViewResult;
             //Assert.IsType<ViewResult>(result);
@@ -124,14 +127,23 @@ namespace ProjectUnitTests
                 var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
                     {new Claim(ClaimTypes.NameIdentifier, savedUser.Id)}, "TestAuthentication"));
 
+                savedUser.customerID = "111111111";
+
                 context.Users.Add(savedUser);
                 context.SaveChanges();
 
                 controller = new TransactionsController(context);
 
                 controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
-                var result = await controller.FilterIndex("all", "test", "2006-1-1", "2021-1-1", "20");
+                var result = await controller.FilterIndex("all", "second", "2006-1-1", "2021-10-1", "20");
+                result = result as ViewResult;
+                
                 Assert.IsType<ViewResult>(result);
+                var viewResult = result as ViewResult;
+                var tIndexView = viewResult.Model as TIndexViewModel;
+                Assert.Equal(transactions[1].description, tIndexView.tList.FirstOrDefault().description);
+                Assert.NotEqual(transactions[0].description, tIndexView.tList.FirstOrDefault().description);
+                Assert.Single(tIndexView.tList);
             }
         }
 
