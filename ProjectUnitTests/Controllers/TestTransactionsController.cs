@@ -197,7 +197,7 @@ namespace ProjectUnitTests
                 {
                     ID = 789456123,
                     customerID = "111111111",
-                    actID = "222222222",
+                    actID = "789456123",
                     actType = "Customer",
                     onDate = new DateTime(2021, 7, 2),
                     balance = 978.04m,
@@ -206,9 +206,25 @@ namespace ProjectUnitTests
                     userEntered = false
                 };
 
+                ApplicationUser savedUser = new ApplicationUser();
+
+                var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {new Claim(ClaimTypes.NameIdentifier, savedUser.Id)}, "TestAuthentication"));
+
+                savedUser.customerID = "789456123";
+
+                context.Users.Add(savedUser);
+                context.Add(testTransaction);
+
+                context.SaveChanges();
+
+
                 controller = new TransactionsController(context);
 
-                var result = await controller.Create("222222222","CR", 978.04m, "Description", "Phone");
+                controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
+
+
+                var result = await controller.Create("789456123", "test2", 192.35m, "test description2", "test category2");
                 Assert.IsType<RedirectToActionResult>(result);
 
                 var viewRes = result as RedirectToActionResult;

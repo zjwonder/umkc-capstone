@@ -64,7 +64,7 @@ namespace CommerceBankProject.View_Components
 			DateTime fromDate = record.onDate;
 			record = await _context.Date.FromSqlRaw(dateQuery + " desc", user.customerID).FirstOrDefaultAsync();
 			DateTime toDate = record.onDate;
-			TIndexViewModel vmod = new TIndexViewModel(tList, actList, fromDate, toDate);
+			TIndexViewModel vmod = new TIndexViewModel(tList, fromDate, toDate, actList);
 
 			return View(vmod);
 		}
