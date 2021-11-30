@@ -115,6 +115,7 @@ namespace CommerceBankProject.Controllers
             Transaction trans = new Transaction();
             t.userAccounts = actListSetup;
             t.transaction = trans;
+            //trans.transType = "CR";
             return View("Create", t);
 
         }
@@ -134,14 +135,13 @@ namespace CommerceBankProject.Controllers
                 string userID = claim.Value;
                 var user = await _context.Users.Where(u => u.Id == userID).FirstOrDefaultAsync();
                 Transaction t = new Transaction();
-
                 t.customerID = user.customerID;
                 t.actID = tranActFilter;
                 t.transType = transType;
                 t.amount = amount;
                 t.description = description;
                 t.userEntered = true;
-                t.category = category;
+                //t.category = category;
                 t.onDate = DateTime.Now;
 
 
@@ -156,10 +156,12 @@ namespace CommerceBankProject.Controllers
                 
                 if (t.transType == "DR")
                 {
+                    t.category = category;
                     t.balance = userBalance - t.amount;
                 }
                 else
                 {
+                    t.category = "Income";
                     t.balance = userBalance + t.amount;
 
                 }
@@ -167,10 +169,11 @@ namespace CommerceBankProject.Controllers
 
                 _context.Add(t);
                 await _context.SaveChangesAsync();
-                //NotificationsController temp = new NotificationsController(_context);
-                //temp.GenerateOnInsertion(t);
-                return RedirectToAction(nameof(Index));
-            }
+            NotificationsController temp = new NotificationsController(_context);
+            await temp.GenerateOnInsertion(user.customerID);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
             
         
 
