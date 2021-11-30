@@ -34,7 +34,6 @@ namespace CommerceBankProject.Controllers
                                                     select t;
 
             List<Transaction> transactionList = await transactionIQ.AsNoTracking().ToListAsync();
-            //List<AccountRecord> actList = PopulateActList(transactionList);
 
             List<AccountRecord> actList = transactionList
                 .GroupBy(p => p.actID)
@@ -74,7 +73,6 @@ namespace CommerceBankProject.Controllers
                 && t.onDate >= fDate
                 && t.onDate <= tDate)
                                                     select t;
-            //List<AccountRecord> actList = PopulateActList(await transactionIQ.AsNoTracking().ToListAsync());
             List<AccountRecord> actList = transactionIQ.AsNoTracking().ToList()
                 .GroupBy(p => p.actID)
                 .Select(g => g.First())
@@ -144,7 +142,6 @@ namespace CommerceBankProject.Controllers
             return View("Create", t);
 
         }
-        
 
         // POST: Transactions/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -170,11 +167,6 @@ namespace CommerceBankProject.Controllers
             t.category = category;
             t.onDate = DateTime.Now;
 
-
-            string actBalance = "Select top 1 * from [Transaction] where customerID = {0} and actID = {1} order by onDate desc";
-
-            //Transaction prevTopTransaction = await _context.Transaction.FromSqlRaw(actBalance, user.customerID,t.actID).FirstOrDefaultAsync();
-
             Transaction prevTopTransaction = _context.Transaction.Where(t => t.actID == tranActFilter).FirstOrDefault();
 
             decimal userBalance = prevTopTransaction.balance;
@@ -192,7 +184,6 @@ namespace CommerceBankProject.Controllers
 
             }
 
-
             _context.Add(t);
             await _context.SaveChangesAsync();
             //NotificationsController temp = new NotificationsController(_context);
@@ -200,8 +191,6 @@ namespace CommerceBankProject.Controllers
             return RedirectToAction(nameof(Index));
         }
             
-        
-
         // GET: Transactions/Delete/5
         [Authorize]
         public async Task<IActionResult> Delete(int? id)

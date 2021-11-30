@@ -108,8 +108,6 @@ namespace ProjectUnitTests
                 Assert.NotEqual(transactions[0].description, tIndexView.tList.FirstOrDefault().description);
                 Assert.Single(tIndexView.tList);
             }
-            //var result = await controller.Index() as ViewResult;
-            //Assert.IsType<ViewResult>(result);
         }
 
         [Fact]
