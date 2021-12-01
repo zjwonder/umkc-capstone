@@ -1,5 +1,4 @@
-﻿using CommerceBankProject.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -20,19 +19,16 @@ namespace CommerceBankProject.Models
 
         public int pageSize { get; set; } = 10;
 
-        
-
-       
-
-        public TIndexViewModel(List<Transaction> transactions, List<AccountRecord> accounts, DateTime start, DateTime end, string desc="", int PageNumber = 1, string acct = "all")
+        public TIndexViewModel(List<Transaction> transactions, DateTime start, DateTime end, List<AccountRecord> accounts = null, string desc = "", int page = 1, string acct = "all")
         {
             tList = transactions;
             actList = accounts;
             descSearch = desc;
             fromDate = start;
             toDate = end;
-            pageNumber = PageNumber;
+            pageNumber = page;
             account = acct;
+
         }
     }
 }
