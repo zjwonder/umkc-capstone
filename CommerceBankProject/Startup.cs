@@ -41,7 +41,6 @@ namespace CommerceBankProject
                     options.UseSqlServer(
                         //Configuration.GetConnectionString("CommerceBankDbContextConnection")));
                         Environment.GetEnvironmentVariable("AZURE_CONN_STRING")));
-                        //Environment.GetEnvironmentVariable("AZURE_CONN_STRING")));
             services.AddDefaultIdentity<ApplicationUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = true;
