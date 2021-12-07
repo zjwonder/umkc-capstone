@@ -50,87 +50,100 @@ namespace ProjectUnitTests
             }
         };
 
-        //[Fact]
-        //public async void TestIndex()
-        //{
-        //    List<Transaction> transactions = new List<Transaction>
-        //    {
-        //        new Transaction()
-        //        {
-        //            ID = 789456123,
-        //            customerID = "123789456",
-        //            actID = "456123789",
-        //            actType = "Customer",
-        //            onDate = new DateTime(2008, 6, 1),
-        //            balance = 1000.04m,
-        //            transType = "Fun",
-        //            description = "test desc",
-        //            userEntered = false
-        //        },
-        //        new Transaction()
-        //        {
-        //            ID = 456789123,
-        //            customerID = "111111111",
-        //            actID = "222222222",
-        //            actType = "Customer",
-        //            onDate = new DateTime(2021, 7, 2),
-        //            balance = 978.04m,
-        //            transType = "Gas",
-        //            description = "second description",
-        //            userEntered = false
-        //        }
-        //    };
+        [Fact]
+        public async void TestIndex()
+        {
+            List<Transaction> transactions = new List<Transaction>
+            {
+                new Transaction()
+                {
+                    ID = 789456123,
+                    customerID = "123789456",
+                    actID = "456123789",
+                    actType = "Customer",
+                    onDate = new DateTime(2008, 6, 1),
+                    balance = 1000.04m,
+                    transType = "Fun",
+                    description = "test desc",
+                    userEntered = false
+                },
+                new Transaction()
+                {
+                    ID = 456789123,
+                    customerID = "111111111",
+                    actID = "222222222",
+                    actType = "Customer",
+                    onDate = new DateTime(2021, 7, 2),
+                    balance = 978.04m,
+                    transType = "Gas",
+                    description = "second description",
+                    userEntered = false
+                }
+            };
 
-        //    using (var context = new CommerceBankDbContext(TestDbContextOptions()))
-        //    {
-        //        foreach (Transaction t in transactions)
-        //        {
-        //            context.Transaction.Add(t);
-        //        }
+            using (var context = new CommerceBankDbContext(TestDbContextOptions()))
+            {
+                foreach (Transaction t in transactions)
+                {
+                    context.Transaction.Add(t);
+                }
 
-        //        ApplicationUser savedUser = new ApplicationUser();
+                ApplicationUser savedUser = new ApplicationUser();
+                savedUser.customerID = "111111111";
 
-        //        var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-        //            {new Claim(ClaimTypes.NameIdentifier, savedUser.Id)}, "TestAuthentication"));
+                var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {new Claim(ClaimTypes.NameIdentifier, savedUser.Id)}, "TestAuthentication"));
 
 
-        //        context.Users.Add(savedUser);
-        //        context.SaveChanges();
-        //        controller = new TransactionsController(context);
+                context.Users.Add(savedUser);
+                context.SaveChanges();
+                controller = new TransactionsController(context);
 
-        //        controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
-        //        var result = await controller.Index();
-        //        Assert.IsType<ViewResult>(result);
-        //    }
-        //    //var result = await controller.Index() as ViewResult;
-        //    //Assert.IsType<ViewResult>(result);
-        //}
+                controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
+                var result = await controller.Index();
+                Assert.IsType<ViewResult>(result);
+                var viewResult = result as ViewResult;
+                var tIndexView = viewResult.Model as TIndexViewModel;
+                Assert.Equal(transactions[1].description, tIndexView.tList.FirstOrDefault().description);
+                Assert.NotEqual(transactions[0].description, tIndexView.tList.FirstOrDefault().description);
+                Assert.Single(tIndexView.tList);
+            }
+        }
 
-        //[Fact]
-        //public async void TestFilterIndex()
-        //{
-        //    using (var context = new CommerceBankDbContext(TestDbContextOptions()))
-        //    {
-        //        foreach (Transaction t in transactions)
-        //        {
-        //            context.Transaction.Add(t);
-        //        }
+        [Fact]
+        public async void TestFilterIndex()
+        {
+            using (var context = new CommerceBankDbContext(TestDbContextOptions()))
+            {
+                foreach (Transaction t in transactions)
+                {
+                    context.Transaction.Add(t);
+                }
 
-        //        ApplicationUser savedUser = new ApplicationUser();
+                ApplicationUser savedUser = new ApplicationUser();
 
-        //        var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-        //            {new Claim(ClaimTypes.NameIdentifier, savedUser.Id)}, "TestAuthentication"));
+                var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {new Claim(ClaimTypes.NameIdentifier, savedUser.Id)}, "TestAuthentication"));
 
-        //        context.Users.Add(savedUser);
-        //        context.SaveChanges();
+                savedUser.customerID = "111111111";
 
-        //        controller = new TransactionsController(context);
+                context.Users.Add(savedUser);
+                context.SaveChanges();
 
-        //        controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
-        //        var result = await controller.FilterIndex("all", "test", "2006-1-1", "2021-1-1", "20");
-        //        Assert.IsType<ViewResult>(result);
-        //    }
-        //}
+                controller = new TransactionsController(context);
+
+                controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
+                var result = await controller.FilterIndex("all", "second", "2006-1-1", "2021-10-1", "20");
+                result = result as ViewResult;
+                
+                Assert.IsType<ViewResult>(result);
+                var viewResult = result as ViewResult;
+                var tIndexView = viewResult.Model as TIndexViewModel;
+                Assert.Equal(transactions[1].description, tIndexView.tList.FirstOrDefault().description);
+                Assert.NotEqual(transactions[0].description, tIndexView.tList.FirstOrDefault().description);
+                Assert.Single(tIndexView.tList);
+            }
+        }
 
         [Fact]
         public async void TestGetDetailsView()
@@ -158,6 +171,9 @@ namespace ProjectUnitTests
 
                 controller = new TransactionsController(context);
 
+                var test = await context.Transaction.FirstOrDefaultAsync(m => m.ID == 789456123);
+                
+
                 var notFoundResult = await controller.Details(badID);
                 Assert.IsType<NotFoundResult>(notFoundResult);
 
@@ -179,7 +195,7 @@ namespace ProjectUnitTests
                 {
                     ID = 789456123,
                     customerID = "111111111",
-                    actID = "222222222",
+                    actID = "789456123",
                     actType = "Customer",
                     onDate = new DateTime(2021, 7, 2),
                     balance = 978.04m,
@@ -188,9 +204,25 @@ namespace ProjectUnitTests
                     userEntered = false
                 };
 
+                ApplicationUser savedUser = new ApplicationUser();
+
+                var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                    {new Claim(ClaimTypes.NameIdentifier, savedUser.Id)}, "TestAuthentication"));
+
+                savedUser.customerID = "789456123";
+
+                context.Users.Add(savedUser);
+                context.Add(testTransaction);
+
+                context.SaveChanges();
+
+
                 controller = new TransactionsController(context);
 
-                var result = await controller.Create("222222222","CR", 978.04m, "Description", "Phone");
+                controller.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
+
+
+                var result = await controller.Create("789456123", "test2", 192.35m, "test description2", "test category2");
                 Assert.IsType<RedirectToActionResult>(result);
 
                 var viewRes = result as RedirectToActionResult;

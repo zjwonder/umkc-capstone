@@ -1,14 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CommerceBankProject.Data;
 using CommerceBankProject.Areas.Identity.Data;
 using CommerceBankProject.Services;
@@ -39,8 +35,8 @@ namespace CommerceBankProject
             services.AddRazorPages();
             services.AddDbContext<CommerceBankDbContext>(options =>
                     options.UseSqlServer(
-                        //Configuration.GetConnectionString("CommerceBankDbContextConnection")));
-                        Environment.GetEnvironmentVariable("AZURE_CONN_STRING")));
+                        Environment.GetEnvironmentVariable("AZURE_CONN_STRING") 
+                        ?? Configuration.GetConnectionString("CommerceBankDbContextConnection")));
             services.AddDefaultIdentity<ApplicationUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = true;

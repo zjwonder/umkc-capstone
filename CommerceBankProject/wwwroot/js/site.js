@@ -60,6 +60,7 @@ function ShowHideDiv() {
         categoryDropDown.classList.remove("open");
 
     }
+
 }
 
 
