@@ -48,10 +48,18 @@ function toggleHidden(btn, displayName) {
 
 function ShowHideDiv() {
     var categoryLabel = document.getElementById("categoryLabel");
-    var categoryDropDown = document.getElementById("category");
+    var categoryDropDown = document.getElementById("optCategory");
     var transType = document.getElementById("transType");
-    categoryDropDown.style.display = transType.value == "DR" ? "block" : "none";
-    categoryLabel.style.display = transType.value == "DR" ? "block" : "none";
+    if (transType.value == "DR") {
+        categoryDropDown.classList.add("open");
+        categoryDropDown.classList.remove("closed");
+
+    }
+    else {
+        categoryDropDown.classList.add("closed");
+        categoryDropDown.classList.remove("open");
+
+    }
 }
 
 
