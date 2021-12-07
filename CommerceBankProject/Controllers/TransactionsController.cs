@@ -34,7 +34,7 @@ namespace CommerceBankProject.Controllers
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userID);
 
             IQueryable<Transaction> transactionIQ = from t in _context.Transaction.Where(
-                t => t.customerID == user.customerID)
+                t => t.customerID == user.customerID).OrderByDescending(d => d.onDate)
                                                     select t;
 
             List<Transaction> transactionList = await transactionIQ.AsNoTracking().ToListAsync();
@@ -47,8 +47,8 @@ namespace CommerceBankProject.Controllers
 
             TIndexViewModel vmod = new TIndexViewModel(
                 transactions: transactionList,
-                start: transactionList.FirstOrDefault().onDate,
-                end: transactionList.LastOrDefault().onDate,
+                start: transactionList.LastOrDefault().onDate,
+                end: transactionList.FirstOrDefault().onDate,
                 accounts: actList);
 
             return View(vmod);
@@ -78,7 +78,7 @@ namespace CommerceBankProject.Controllers
             IQueryable<Transaction> transactionIQ = from t in _context.Transaction.Where(
                 t => t.customerID == user.customerID
                 && t.onDate >= fDate
-                && t.onDate <= tDate)
+                && t.onDate <= tDate).OrderByDescending(d => d.onDate)
                                                     select t;
             List<AccountRecord> actList = transactionIQ.AsNoTracking().ToList()
                 .GroupBy(p => p.actID)
