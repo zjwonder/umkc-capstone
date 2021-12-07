@@ -184,7 +184,6 @@ namespace CommerceBankProject.Controllers
 
             t.actType = prevTopTransaction.actType;
 
-
             if (t.transType == "DR")
             {
                 t.balance = userBalance - t.amount;
