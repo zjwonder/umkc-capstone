@@ -220,16 +220,42 @@ label {
     display: none;
 }
 
+#filterFormParent {
+    max-width: 100%;
+}
+
+#filterBtn {
+    border: none !important;
+    margin: 0px 0px 5px 0px;
+}
+
+.firstFilterCol {
+    max-width: 240px;
+}
+
+#createCol {
+    min-width: stretch;
+}
+
+#downloadCol {
+    width: fit-content;
+}
+
 #filterForm select,
 #filterForm input {
     margin: 5px 20px 5px 0px;
 }
 
-#filterSubmit {
+.defaultBtn {
     background-color: #4FA800 !important;
     -webkit-box-shadow: none !important;
     border: none;
     margin: 5px 0px 5px 10px;
+}
+
+#pageRow {
+    margin-top: 3%;
+    margin-bottom: 3%;
 }
 
 #pageChanged label {
