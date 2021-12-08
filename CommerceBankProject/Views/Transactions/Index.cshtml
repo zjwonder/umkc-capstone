@@ -65,16 +65,16 @@
                     </div>
                     <div class="row">
                         <div class="col-md-5 firstFilterCol">
-                            <input type="date" name="toDate" id="toDate"
-                                   value=@string.Format("{0:yyyy-MM-dd}", Model.toDate)
-                                   min=@string.Format("{0:yyyy-MM-dd}", Model.fromDate)
-                                   onchange="changeMaxFrom(this)" />
-                        </div>
-                        <div class="col-md-5">
                             <input type="date" name="fromDate" id="fromDate"
                                    value=@string.Format("{0:yyyy-MM-dd}", Model.fromDate)
                                    max=@string.Format("{0:yyyy-MM-dd}", Model.toDate)
                                    onchange="changeMinTo(this)" />
+                        </div>
+                        <div class="col-md-5">
+                            <input type="date" name="toDate" id="toDate"
+                                   value=@string.Format("{0:yyyy-MM-dd}", Model.toDate)
+                                   min=@string.Format("{0:yyyy-MM-dd}", Model.fromDate)
+                                   onchange="changeMaxFrom(this)" />
                         </div>
                     </div>
                     <div class="row firstFilterCol">

@@ -34,7 +34,7 @@ namespace CommerceBankProject.Controllers
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userID);
 
             IQueryable<Transaction> transactionIQ = from t in _context.Transaction.Where(
-                t => t.customerID == user.customerID)
+                t => t.customerID == user.customerID).OrderByDescending(d => d.onDate)
                                                     select t;
 
             List<Transaction> transactionList = await transactionIQ.AsNoTracking().ToListAsync();
@@ -47,8 +47,8 @@ namespace CommerceBankProject.Controllers
 
             TIndexViewModel vmod = new TIndexViewModel(
                 transactions: transactionList,
-                start: transactionList.FirstOrDefault().onDate,
-                end: transactionList.LastOrDefault().onDate,
+                start: transactionList.LastOrDefault().onDate,
+                end: transactionList.FirstOrDefault().onDate,
                 accounts: actList);
 
             return View(vmod);
@@ -78,7 +78,7 @@ namespace CommerceBankProject.Controllers
             IQueryable<Transaction> transactionIQ = from t in _context.Transaction.Where(
                 t => t.customerID == user.customerID
                 && t.onDate >= fDate
-                && t.onDate <= tDate)
+                && t.onDate <= tDate).OrderByDescending(d => d.onDate)
                                                     select t;
             List<AccountRecord> actList = transactionIQ.AsNoTracking().ToList()
                 .GroupBy(p => p.actID)
@@ -147,6 +147,7 @@ namespace CommerceBankProject.Controllers
             Transaction trans = new Transaction();
             t.userAccounts = actListSetup;
             t.transaction = trans;
+            //trans.transType = "CR";
             return View("Create", t);
 
         }
@@ -159,8 +160,6 @@ namespace CommerceBankProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(string tranActFilter, string transType, decimal amount, string description, string category)
         {
-
-
             var claim = User.FindFirst(ClaimTypes.NameIdentifier);
             string userID = claim.Value;
             var user = await _context.Users.Where(u => u.Id == userID).FirstOrDefaultAsync();
@@ -180,27 +179,31 @@ namespace CommerceBankProject.Controllers
 
             Transaction prevTopTransaction = await _context.Transaction.FromSqlRaw(actBalance, user.customerID, t.actID).FirstOrDefaultAsync();
 
-            decimal userBalance = prevTopTransaction.balance;
 
+            decimal userBalance = prevTopTransaction.balance;
             t.actType = prevTopTransaction.actType;
 
             if (t.transType == "DR")
             {
+                t.category = category;
                 t.balance = userBalance - t.amount;
             }
             else
             {
+                t.category = "Income";
                 t.balance = userBalance + t.amount;
-
             }
 
-
-            _context.Add(t);
-            await _context.SaveChangesAsync();
-            //NotificationsController temp = new NotificationsController(_context);
-            //temp.GenerateOnInsertion(t);
-            return RedirectToAction(nameof(Index));
+                _context.Add(t);
+                await _context.SaveChangesAsync();
+                NotificationsController temp = new NotificationsController(_context);
+                await temp.GenerateOnInsertion(user.customerID);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            
         }
+            
+        
 
 
         // GET: Transactions/Delete/5
